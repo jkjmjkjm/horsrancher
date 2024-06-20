@@ -7,10 +7,10 @@ import helpers.database
 from helpers.social import getcenterphone, getcenterphoneform
 from flask import session
 #from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import *
-import sendgrid
+#from sendgrid.helpers.mail import *
+#import sendgrid
 
-sendgrid_client = sendgrid.SendGridAPIClient("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")
+#sendgrid_client = sendgrid.SendGridAPIClient("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")
 
 available_res_codes = ['2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
@@ -75,7 +75,7 @@ def process_reservation(centerID, levelID, instructorID, horseID, day, month, ye
     centerID, levelID, horseID, instructorID, form_time, center_offering['classes_length'], int(day), int(month), int(year), res_code, contact_info['email'], contact_info['name'], contact_info['phone'])
     #10. Unfreeze database
     db.execute('COMMIT')
-    #11. Send mail
+    '''#11. Send mail
     message = Mail(
         from_email='reservations@horsrancher.com',
         to_emails=[contact_info['email']])
@@ -104,7 +104,7 @@ def process_reservation(centerID, levelID, instructorID, horseID, day, month, ye
     try:
         response = sendgrid_client.send(message)
     except Exception as e:
-        print("Error: {0}".format(e))
+        print("Error: {0}".format(e))'''
     #return str(response.status_code)
     return 'Success', True
 

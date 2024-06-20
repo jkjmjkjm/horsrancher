@@ -25,11 +25,11 @@ app.jinja_env.filters['hours'] = helpers.converttohours
 app.jinja_env.filters['mins'] = helpers.converttominswithouthours
 
 
-@app.before_request
-def before_request():
-    if not (request.path.startswith('/static') or request.path.endswith('favicon.ico') or request.path.endswith('favicon.ico/')):
-        if request.host == 'm.horsrancher.com': return render_template('mobile-placeholder.html')
-        elif request.host != 'horsrancher.com': return '403 Forbidden', 403
+#@app.before_request
+#def before_request():
+    #if not (request.path.startswith('/static') or request.path.endswith('favicon.ico') or request.path.endswith('favicon.ico/')):
+        #if request.host == 'm.horsrancher.com': return render_template('mobile-placeholder.html')
+        #elif request.host != 'horsrancher.com': return '403 Forbidden', 403
 
 @app.after_request
 def after_request(response):
