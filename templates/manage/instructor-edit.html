@@ -1,0 +1,37 @@
+{% extends 'manage.html' %}
+
+{% block title %}Editar {{ instructor['Name'] }}{% endblock %}
+
+{% block head %}
+<script type="text/javascript" src="/static/scripts/instructor-edit.js"></script>
+<div hidden id='center_id'>{{ center_id }}</div>
+{% endblock %}
+
+
+{% block content %}
+<div style='padding: 20px; padding-top: 50px;'>
+    <form method='POST'>
+    <h1 style='width: 100%; text-align: center'>
+        <input required name='name' id='nameSelect' style='border-top:0; border-left:0; border-right:0; width: min-content; text-align: center; width: 50%;' type='text' placeholder='Nombre (obligatorio)' value="{{ instructor['Name'] }}">
+    </h1>
+    <div id='pictureDisplay' style='background-size: cover; border-radius: 50%; width: 375px; height: 375px; margin-top: 30px; margin-left: calc(50% - 187.5px); background-image:url(/static/center-assets/{{ center_id }}/instructors/{{ instructor['pictureURL'] }})'></div>
+    <select name='pictureURL' id='pictureSelect' oninput="refreshPicture()" class='form-select' style='margin-top:25px; width: 375px; margin-left: calc(50% - 187.5px)'>
+        <option {% if  instructor['pictureURL'] == '../../../assets/etc/missing-profile.png' %} {% endif %} value="{{ instructor['pictureURL'] }}" selected>{% if not instructor['pictureURL'] == '../../../assets/etc/missing-profile.png' %}{{ instructor['pictureURL'] }}{% else %}Sin seleccionar{% endif %}</option>
+        {% for image in images %}
+        <option value="{{ image }}">{{ image }}</option>
+        {% endfor %}
+    </select>
+    <p style='margin-top:15px; width: 375px; margin-left: calc(50% - 187.5px); text-align: center;'><a href='/manage/assets/'>Gestiona las imágenes aquí</a></p>
+    <select name='levelID' id='levelSelect'class='form-select' style='margin-top:25px; width: 375px; margin-left: calc(50% - 187.5px)'>
+        {% if new %}
+        <option disabled selected value="">Selecciona</option>
+        {% endif %}
+        {% for level in levels %}
+        <option value="{{ level['ID'] }}" {% if level['ID'] == instructor['levelID'] %} selected {% endif %}>{{ level['levelName'] }}</option>
+        {% endfor %}
+    </select>
+    <p style='margin-top:15px; width: 375px; margin-left: calc(50% - 187.5px); text-align: center;'><a href='/manage/levels/'>Gestiona los niveles aquí</a></p>
+    <button type='submit' style="margin-top:25px; width: 375px; margin-left: calc(50% - 187.5px)" onclick='return checkFirst();' class='btn btn-primary btn-lg'>Guardar</button>
+    </form>
+</div>
+{% endblock %}

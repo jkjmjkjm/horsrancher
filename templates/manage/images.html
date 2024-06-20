@@ -1,0 +1,43 @@
+{% extends 'manage.html' %}
+
+{% block title %}Imágenes{% endblock %}
+
+{% block content %}
+<div style='padding: 20px; padding-top: 50px;'>
+    <h1 style='text-align: center; width: 100vw'>Imágenes</h1>
+    <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col">Foto</th>
+            <th scope="col">Archivo</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for image in images %}
+          <tr>
+            <td>
+                <img src="{{ image['url'] }}" style="height: 85px;"></img>
+            </td>
+            <th scope="row">{{ image['file'] }}</th>
+            <td>{{ image['type'] }}</td>
+            <td>
+                <a href='/manage/images/{{ image['typeR'] }}/{{ image['file'] }}/delete/'>
+                    Eliminar
+                </a>
+            </td>
+          </tr>
+          {% endfor %}
+          
+          <tr onclick="window.location.href='/manage/images/+'">
+            <td>
+                <div style='font-size: 50px; height: 46px; width: 46px; line-height: 0.7; text-align: center'>+</div>
+            </td>
+            <th scope="row">Nuevo</th>
+            <td></td><td></td>
+          </tr>
+          </tbody>
+        </table>
+</div>
+{% endblock %}

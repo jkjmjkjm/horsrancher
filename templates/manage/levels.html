@@ -1,0 +1,38 @@
+{% extends 'manage.html' %}
+
+{% block title %}Niveles{% endblock %}
+
+{% block content %}
+<div style='padding: 20px; padding-top: 50px;'>
+    <h1 style='text-align: center; width: 100vw'>Niveles</h1>
+    <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope='col'>EUR por sesión</th>
+            <th scope="col">Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for level in levels %}
+          <tr onclick="window.location.href='/manage/levels/{{ level['ID'] }}/edit'">
+            <th scope="row">{{ level['levelName'] }}</th>
+            <td>{{ level['EUR_hour'] }}</td>
+            <td>
+                <a href='/manage/levels/{{ level['ID'] }}/edit/'>
+                    Editar
+                </a>
+                <a style='margin-left:6px;' href='/manage/levels/{{ level['ID'] }}/delete/'>
+                    Eliminar
+                </a>
+            </td>
+          </tr>
+          {% endfor %}
+          <tr onclick="window.location.href='/manage/levels/+/edit'">
+            <th scope="row">+ Nuevo</th>
+            <td></td><td></td>
+          </tr>
+          </tbody>
+        </table>
+</div>
+{% endblock %}

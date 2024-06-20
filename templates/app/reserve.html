@@ -1,0 +1,106 @@
+{% extends 'app.html' %}
+{% block bodytags %}onload='onLoad();' {% endblock %}
+{% block head %}<script type="text/javascript" src="/static/scripts/reserve.js"></script>{% endblock %}
+{% block title %} Reserva en {{ center_name }} {% endblock %}
+
+{% block content %}
+<div id='loading-content'>
+    <div class="spinner-border text-light" role="status" style="margin-top: calc(50vh - 1em);margin-left: calc(50vw - 1em);">
+          <span class="visually-hidden">Loading...</span>
+    </div>
+    <div style='text-align: center; margin-top: 10px; color: white; padding-left: 40px; padding-right: 40px;' id='js-text-warning'>
+    <p>JavaScript is required to use HorsRancher. Please, turn it on and refresh the page. If you have JavaScript enabled, this message may be due to a very slow internet connection. Please be patient or check your internet connection.</p>
+    <p>JavaScript es necesario para usar HorsRancher. Por favor, enciéndelo y vuelve a cargar la página. Si tienes JavaScript activado, este mensaje puede deberse a una conexión a internet muy lenta. Por favor, tenga un poco de paciencia o revise su conexión a internet.</p>
+    </div>
+    <script type="text/javascript">
+        document.getElementById('js-text-warning').innerHTML = '';
+        document.getElementById('js-text-warning').hidden = true;
+    </script>
+</div>
+<div hidden id='center-id'>{{ center_id }}</div>
+<div hidden id='start_month'>{{ today['m'] }}</div>
+<div hidden id='start_year'>{{ today['y'] }}</div>
+
+<div class="position-relative overflow-hidden text-center center-banner" style='background-image: url(/static/center-assets/{{ center_id }}/{{ main_photo }}); height: 155px; padding-top: 65px'>
+    <h2>Reserva en {{ center_name }}</h2>
+    <p>Las clases en {{ center_name }} duran {{ time }} minutos.</p>
+</div>
+<div id ='content-block-bottom' style='padding-top: 40px; padding-left: 80px; padding-right: 80px; padding-bottom: 25px;'>
+    <h1 id='step1-header'>1. Selecciona una fecha y una hora</h1>
+    <small>Hora de España Peninsula. (GMT +2)</small>
+    <div id='step1-block'>
+        <div class='row'>
+            <div  id='cal-wrap'style='width: 24%; min-width: 40px; position: relative;'>
+                <div id='cal'> 
+                    <h6 style='margin-top: 30px; text-align: center'>
+                        <a style='text-decoration:none; margin-right:10px;' href='#' onclick='return false;'>&lt;</a>
+                        Cargando...
+                        <a style='text-decoration:none; margin-left:10px' href='#' onclick='return false;'>&gt;</a>
+                    </h6>
+                    Cargando...
+                </div>
+                <div class='month-selector' id='month-selector' hidden style='left: 0px; top: 0px;'>
+                    <a href='#' onclick='stopChooseMonth(); return false;' style='margin-left: calc(100% - 20px)'>X</a>
+                    <select id='month-dropdown' class="form-select" style='width: 60%; position: relative; left: 20%; margin-top: 20px'>
+                        <option selected disabled>Mes</option>
+                        <option value="1">Enero</option>
+                        <option value="2">Febrero</option>
+                        <option value="3">Marzo</option>
+                        <option value="4">Abril</option>
+                        <option value="5">Mayo</option>
+                        <option value="6">Junio</option>
+                        <option value="7">Julio</option>
+                        <option value="8">Agosto</option>
+                        <option value="9">Septiembre</option>
+                        <option value="10">Octubre</option>
+                        <option value="11">Noviembre</option>
+                        <option value="12">Diciembre</option>
+                     </select>
+                     <select id='year-dropdown' class="form-select" style='width: 60%; position: relative; left: 20%; margin-top: 20px'>
+                        <option selected disabled>Año</option>
+                        {% for i in range(2018, 2099) %}
+                        <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+                     </select>
+                     <button class='btn btn-primary' style='margin-top: 40px; width: 60%; position: relative; left: 20%' onclick='submitMonthDropdowns();'>Ir</button>
+                </div>
+            </div>
+            <div style='width: 70%; min-width: 60px; padding-bottom: 70px;' class='col-6'>
+                <h6 id='datemarker' style='margin-top: 30px; text-align: center'>Selecciona un día en el calendario</h6>
+                <ul style='list-inline' id='time-list'>
+                    Aquí verás tus opciones de horas
+                </ul>
+            </div>
+        </div>
+    </div>
+    <h1 id='step2-header'>2. Selecciona un nivel</h1>
+    <div id='step2-block'>
+        Selecciona una fecha y una hora para continuar
+    </div>
+    <h1 id='step3-header'>3. Selecciona un profesor y un caballo</h1>
+    <div id='step3-block'>
+        Selecciona un nivel para continuar
+    </div>
+</div>
+<!-- <div id='bottom-bar' style='float: right;' hidden>
+        <div style='float: right; padding-right:20px; padding-left:20px; padding-top: 10px; padding-bottom: 10px;'>
+            <ul class='list-inline'>
+                <li class='list-inline-item'>
+                    <h6 id='bottominfo'>
+                        Selecciona un día y una hora para continuar
+                    </h6>
+                </li>
+                <li class='list-inline-item'>
+                    <button id='continuebutton' class='btn btn-primary' disabled onclick='nextButtonClicked();'>
+                        Continuar a seleccionar nivel, profesor y caballo
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div> !-->
+<div id='oops' hidden style='width: 100vw; height: 100vh; z-index: 20000; position: fixed; bottom: 0; right: 0; top: 0; left: 0; background-color: #ffffffe0; text-align: center; padding-top: 30px;'>
+    <p>Something's gone wrong. Please, check your internet connection and reload to try again. If the problem persists, please report it to HorsRancher</p>
+    <p>Algo ha ido mal. Por favor, revisa tu conexión a internet y recarga la página para volver a intentarlo. Si el problema persiste, por favor informa a HorsRancher</p>
+    <p id='err_code'></p>
+</div>
+{% endblock %}

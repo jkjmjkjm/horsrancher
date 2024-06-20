@@ -1,0 +1,25 @@
+{% extends 'manage.html' %}
+
+{% block title %}¿Eliminar {{ instructor['Name'] }}?{% endblock %}
+
+{% block head %}
+<script type="text/javascript" src="/static/scripts/instructor-edit.js"></script>
+<div hidden id='center_id'>{{ center_id }}</div>
+{% endblock %}
+
+
+{% block content %}
+<div style='padding: 20px; padding-top: 50px;'>
+    <form method='POST'>
+    <h1 style='width: 100%; text-align: center'>
+        {{ instructor['Name'] }}
+    </h1>
+    <div id='pictureDisplay' style='background-size: cover; border-radius: 50%; width: 375px; height: 375px; margin-top: 30px; margin-left: calc(50% - 187.5px); background-image:url(/static/center-assets/{{ center_id }}/instructors/{{ instructor['pictureURL'] }})'></div>
+    <p style='margin-top:15px; width: 375px; margin-left: calc(50% - 187.5px); text-align: center;'>¿Quieres eliminar {{ instructor['Name'] }}?</p>
+    <ul style="margin-top:25px; margin-left: calc(50% - 187.5px)" class='list-inline'
+        <li class='list-inline-item'><button style='width: 187px;' onclick='history.back(); return false;' class='btn btn-outline btn-lg'>Atrás</button></li>
+        <li class='list-inline-item'><button style='width: 187px;' type='submit' class='btn btn-danger btn-lg'>Eliminar</button></li>
+    </ul>
+    </form>
+</div>
+{% endblock %}

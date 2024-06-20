@@ -1,0 +1,24 @@
+{% extends 'manage.html' %}
+
+{% block title %}¿Eliminar {{ picture_name }}?{% endblock %}
+
+{% block head %}
+<div hidden id='center_id'></div>
+{% endblock %}
+
+
+{% block content %}
+<div style='padding: 20px; padding-top: 50px;'>
+    <form method='POST'>
+    <h1 style='width: 100%; text-align: center'>
+        {{ picture_name }}
+    </h1>
+    <img src='{{ picture_url }}' id='pictureDisplay' style='width: 575px; margin-top: 30px; margin-left: calc(50% - 287.5px)'></img>
+    <p style='margin-top:15px; width: 575px; margin-left: calc(50% - 287.5px); text-align: center;'>¿Quieres eliminar {{ picture_name }}?</p>
+    <ul style="margin-top:25px; margin-left: calc(50% - 287.5px)" class='list-inline'
+        <li class='list-inline-item'><button style='width: 287px;' onclick='history.back(); return false;' class='btn btn-outline btn-lg'>Atrás</button></li>
+        <li class='list-inline-item'><button style='width: 287px; margin-left: 1px;' type='submit' class='btn btn-danger btn-lg'>Eliminar</button></li>
+    </ul>
+    </form>
+</div>
+{% endblock %}

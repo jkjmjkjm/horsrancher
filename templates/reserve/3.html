@@ -1,0 +1,50 @@
+<h5>Profesores</h5>
+<ul class='list-inline'>
+    {% for instructor in instructors %}
+        <li class='list-inline-item'>
+            {% if instructor['available'] >= 1 %}<a style='text-decoration:none;' href='javascript:void' onclick="clickedInstructor({{ instructor['id'] }}); return false;">{% endif %}
+                <div id="instructor-{{ instructor['id'] }}"  class='card {% if instructor['available'] >= 1 %}instructor-card{% endif %}' style='min-height: 60px; min-width: 180px; max-width: 80vw; text-align:center; padding: 15px; text-align: center; margin-bottom: 10px;'>
+                    <ul class='list-inline'>
+                        <li class='list-inline-item'>
+                            <div class='instructor-profile-pic' style='background-image: url(/static/center-assets/{{ center_id }}/instructors/{{ instructor['photo'] }}'></div>
+                        </li>
+                        <li class='list-inline-item'>        
+                            <h3>{{ instructor['name'] }}</h3>
+                            {% if instructor['available'] != 1 %}
+                            <small>{{ instructor['available'] }} plazas disponibles</small>
+                            {% else %}
+                            <small>1 plaza disponible</small>
+                            {% endif%}
+                        </li>
+                    </ul>
+                </div>
+            {% if instructor['available'] >= 1 %}</a>{% endif %}
+        </li>
+    {% endfor %}
+</ul>
+<h5>Caballos</h5>
+<ul class='list-inline'>
+    {% for horse in horses %}
+        <li class='list-inline-item'>
+            {% if horse['available'] >= 1 %}<a style='text-decoration:none;' href='javascript:void' onclick="clickedHorse({{ horse['id'] }}); return false;">{% endif %}
+                <div id="horse-{{ horse['id'] }}" class='card {% if horse['available'] >= 1 %}horse-card{% endif %}' style='min-height: 60px; min-width: 150px; text-align:center; padding: 15px; text-align: center; margin-bottom: 10px;'>
+                    <ul class='list-inline'>
+                        <li class='list-inline-item'>
+                            <div class='horse-profile-pic' style='background-image: url(/static/center-assets/{{ center_id }}/horses/{{ horse['photo'] }}'></div>
+                        </li>
+                        <li class='list-inline-item'>
+                            <h3>{{ horse['name'] }}</h3>
+                            {% if horse['available'] >= 1 %}
+                            <small>Disponible</small>
+                            {% else %}
+                            <small>No disponible</small>
+                            {% endif%}
+                        </li>
+                    </ul>
+                </div>
+            {% if horse['available'] >= 1 %}</a>{% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+<button class='btn btn-primary btn-lg' id='finish_button' onclick='finish_button()' disabled>Continuar</button>

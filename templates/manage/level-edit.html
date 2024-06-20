@@ -1,0 +1,20 @@
+{% extends 'manage.html' %}
+
+{% block title %}Editar {{ level['levelName'] }}{% endblock %}
+
+{% block head %}
+<div hidden id='center_id'>{{ center_id }}</div>
+{% endblock %}
+
+
+{% block content %}
+<div style='padding: 20px; padding-top: 50px;'>
+    <form method='POST'>
+    <h1 style='width: 100%; text-align: center'>
+        <input required name='name' id='nameSelect' style='border-top:0; border-left:0; border-right:0; width: min-content; text-align: center; width: 50%;' type='text' placeholder='Nombre (obligatorio)' value="{{ level['levelName'] }}">
+    </h1>
+    <input type='number' min=0 step="0.01" name='euros' id='eurosSelect' class='form-control' style='margin-top:25px; width: 375px; margin-left: calc(50% - 187.5px)'>
+    <button type='submit' style="margin-top:25px; width: 375px; margin-left: calc(50% - 187.5px)" onclick='return checkFirst();' class='btn btn-primary btn-lg'>Guardar</button>
+    </form>
+</div>
+{% endblock %}

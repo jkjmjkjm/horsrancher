@@ -1,0 +1,46 @@
+{% extends 'manage.html' %}
+
+{% block title %}Profesores{% endblock %}
+
+{% block content %}
+<div style='padding: 20px; padding-top: 50px;'>
+    <h1 style='text-align: center; width: 100vw'>Profesores</h1>
+    <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col">Foto</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Nivel</th>
+            <th scope="col">Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for instructor in instructors %}
+          <tr onclick="window.location.href='/manage/instructors/{{ instructor['ID'] }}/edit'">
+            <td>
+                <div style='background-image: URL(/static/center-assets/{{ center_id }}/instructors/{{ instructor['pictureURL'] }}); height: 46px; width: 46px; border-radius: 50%;' class='profile-pic'></div>
+            </td>
+            <th scope="row">{{ instructor['Name'] }}</th>
+            <td>{{ instructor['levelName'] }}</td>
+            <td>
+                <a href='/manage/instructors/{{ instructor['ID'] }}/edit/'>
+                    Editar
+                </a>
+                <a style='margin-left:6px;' href='/manage/instructors/{{ instructor['ID'] }}/delete/'>
+                    Eliminar
+                </a>
+            </td>
+          </tr>
+          {% endfor %}
+          
+          <tr onclick="window.location.href='/manage/instructors/+/edit'">
+            <td>
+                <div style='font-size: 50px; height: 46px; width: 46px; line-height: 0.7; text-align: center'>+</div>
+            </td>
+            <th scope="row">Nuevo</th>
+            <td></td><td></td>
+          </tr>
+          </tbody>
+        </table>
+</div>
+{% endblock %}

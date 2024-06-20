@@ -1,0 +1,30 @@
+{% extends 'manage.html' %}
+
+{% block title %}Nueva imagen{% endblock %}
+
+{% block head %}
+<script type="text/javascript" src="/static/scripts/image-new.js"></script>
+<div hidden id='center_id'></div>
+{% endblock %}
+
+
+{% block content %}
+<div style='padding: 20px; padding-top: 50px;'>
+    
+    <h1 style='width: 100%; text-align: center'>
+        Nueva imagen
+    </h1>
+    <img src='' id='pictureDisplay' style='width: 575px; margin-top: 30px; margin-left: calc(50% - 287.5px)'></img>
+    <form method=post enctype=multipart/form-data>
+              <input  class='form-control' style='margin-top:25px; width: 375px; margin-left: calc(50% - 187.5px)' type=file name=file>
+              <select name='type' class='form-select' style='margin-top:25px; width: 375px; margin-left: calc(50% - 187.5px)'>
+                <option disabled selected value="">Selecciona</option>
+                <option value="main">Principal</option>
+                <option value="instructors">Profesor</option>
+                <option value="horses">Caballo</option>
+              </select>
+              <input class='btn btn-primary btn-lg' style="margin-top:25px; width: 375px; margin-left: calc(50% - 187.5px)" type=submit value=Guardar>
+              
+            </form>
+</div>
+{% endblock %}

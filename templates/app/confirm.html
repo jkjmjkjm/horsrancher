@@ -1,0 +1,73 @@
+{% extends 'app.html' %}
+
+{% block title %}Confirma tu reserva en {{ center_name }}{% endblock %}
+
+{% block content %}
+<div id ='content-block-bottom' style='padding-top: 70px; padding-left: 80px; padding-right: 80px; padding-bottom: 25px;'>
+    <div class="alert alert-primary" role="alert">
+          <h4 class="alert-heading" style='width: 100%; text-align: center; padding: 8px;'>Información de tu reserva</h4>
+          <div class='row'>
+                <div style="width: 25%">
+                    <img style='width: 100%;' src="/static/center-assets/{{ center_id }}/{{ main_photo }}"></img>
+                </div>
+                <div style='width: 43%'>
+                    <h4>Tu reserva en</h4>
+                    <h2>{{ center_name }}</h2>
+                    <h5>{{ center_description_short }}</h5>
+                    <p>{{ center_description_long }}</p>
+                </div>
+                <div style='width: 30%'>
+                    <h4>Tus opciones seleccionadas</h4>
+                    {% for item in meta_booking %}
+                        <div class='alert alert-primary' style='width: 100%; padding: 5px;'>
+                            <ul class='list-inline' style='margin-bottom:0;'>
+                              <li class='list-inline-item'>
+                                <div class='profile-pic {% if item['circle'] %}profile-pic-circle{% endif %}' style='background-image: url({{ item['image'] }})'></div>
+                              </li>
+                              <li class='list-inline-item'>
+                                <h7>{{ item['top'] }}</h7>
+                                <h5>{{ item['big'] }}</h5>
+                              </li>
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+              </li>
+          </div>
+    </div>
+    <div class='row'>
+        <div style='width: 79%'>
+            <form action='/process-reservation/' method='POST'>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Tu nombre</label>
+                    <input required type="text" class="form-control" id="name" name='name'>
+                </div>
+                <div class='mb-3'>
+                    <label for="email" class="form-label">Tu correo electronico</label>
+                    <input required type="email" class="form-control" id="email" name='email'>
+                </div>
+                <div class='mb-3'>
+                    <label for="phone" class="form-label">Tu teléfono de contacto</label>
+                    <input required type="phone" class="form-control" id="phone" name='phone'>
+                </div>
+                <p>Podrás modificar y cancelar tu reserva hasta 2 horas antes de empezar. Asegurate de que tu email es correcto, lo necesitarás para modificar la reserva. El pago se realizará en {{ center_name }} antes de montar.</p>
+                <input hidden value='{{ request_args['m'] }}' name='m'>
+                <input hidden value='{{ request_args['d'] }}' name='d'>
+                <input hidden value='{{ request_args['y'] }}' name='y'>
+                <input hidden value='{{ request_args['hour'] }}' name='hour'>
+                <input hidden value='{{ request_args['mins'] }}' name='mins'>
+                <input hidden value='{{ request_args['horse'] }}' name='horse'>
+                <input hidden value='{{ request_args['instructor'] }}' name='instructor'>
+                <input hidden value='{{ request_args['level'] }}' name='level'>
+                <input hidden value='{{ center_id }}' name='center'>
+                <button type='submit' style='width: 100%' class='btn btn-lg btn-primary'>Finalizar Reserva</button>
+            </form>
+        </div>
+        <div class='card' style='width: 20%; text-align: center; padding-top: 120px;'>
+            <h5>A pagar</h5>
+            <h1>€{{ cost_eur }}</h1>
+            Incluyendo impuestos
+        </div>
+    </div>
+</div>
+{% endblock %}

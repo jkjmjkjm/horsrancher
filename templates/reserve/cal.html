@@ -1,0 +1,29 @@
+<h5 style='margin-top: 30px; text-align: center'>
+    <a style='text-decoration:none; margin-right:10px;' href='javascript:void' onclick='backCal(); return false;'>&lt;</a>
+    <a style='text-decoration:none; margin-right:0px;' href='javascript:void' onclick='chooseMonth(); return false;'>{{ cal_meta['mt'] }} {{ cal_meta['y'] }}</a>
+    <a style='text-decoration:none; margin-left:10px' href='javascript:void' onclick='nextCal(); return false;'>&gt;</a>
+</h6>
+<table class='table'>
+    <thead>
+        <tr>
+            <td scope='col'>L</td><td scope='col'>M</td><td scope='col'>X</td><td scope='col'>J</td><td scope='col'>V</td><td scope='col'>S</td><td scope='col'>D</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in calendar %}
+        <tr>
+            {% for cell in row %}
+            <td id='{{ cell['d'] }}-{{ cell['m'] }}-{{ cell['y'] }}-cell' {% if cell['t'] %}class='today-cell' style='font-weight: bold; text-decoration: underline; background-color: #F0F0F0'{% elif cell['sm'] == False %} class='date-cell' style='font-weight: 200;'{% else %} class='date-cell' style='text-decoration:none'{% endif %}>
+                {% if cell['m'] >= today['m']  and cell['d'] >= today['d']  or cell['m'] > today ['m'] or cell['y'] > today['y'] %}
+                <a href='javascript:void' onclick="clickedDate({{ cell['d'] }}, {{ cell['m'] }}, {{ cell['y'] }}); return false;">
+                    {{ cell['d'] }}
+                </a>
+                {% else %}
+                {{ cell['d'] }}
+                {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

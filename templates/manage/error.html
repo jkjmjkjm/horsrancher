@@ -1,0 +1,14 @@
+{% extends 'manage.html' %}
+
+{% block title %}Error {{ err_code }}{% endblock %}
+
+{% block content %}
+
+<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 vh-100 text-center center-banner">
+<h1 class='display-6 fw-normal'>Ha habido un errror.</h1>
+<h1 class='display-4 fw-normal'>Error {{ err_code }}</h1>
+<button class="w-100 btn btn-lg"onclick='history.back()'>Volver atrás</button>
+</div>
+
+
+{% endblock %}

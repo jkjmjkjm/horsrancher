@@ -1,0 +1,17 @@
+<ul class='list-inline'>
+    {% for level in av_info %}
+        <li class='list-inline-item'>
+            {% if level['available'] >= 1 %}<a style='text-decoration:none;' href='javascript:void' onclick="clickedLevel({{ level['level'] }}); return false;">{% endif %}
+                <div id="level-{{ level['level'] }}" class='card level-card' style='min-height: 60px; min-width: 150px; max-width: 80vw; text-align:center; padding: 15px; text-align: center; margin-bottom: 10px;'>
+                    <h3>{{ level['levelName'] }}</h3>
+                    {% if level['available'] != 1 %}
+                    <small>{{ level['available'] }} plazas disponibles</small>
+                    {% else %}
+                    <small>1 plaza disponible</small>
+                    {% endif%}
+                    <h5>€{{ level['cost'] }}/{{ time }} min.</h5>
+                </div>
+            {% if level['available'] >= 1 %}</a>{% endif %}
+        </li>
+    {% endfor %}
+</ul>
