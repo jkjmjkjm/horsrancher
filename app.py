@@ -55,6 +55,10 @@ def favicon_simple():
 def temp_redir():
     return helpers.template_gen("app/index.html")
 
+@app.route('/centers/')
+def centerList():
+    return helpers.template_gen("app/centers.html", centerlist=helpers.database.execute_without_freezing('SELECT logoLoc, ID, short_description, displayName FROM center'))
+
 @app.route('/center/<int:centreID>/')
 def centerDisplay(centreID):
     center_info = helpers.database.execute_without_freezing('SELECT * FROM center WHERE id = ?', centreID)
@@ -280,7 +284,7 @@ def manage_edit_instructor(instructor_id):
         instructor = helpers.database.execute_without_freezing("SELECT * FROM instructor WHERE id = ?", instructor_id)
         if len(instructor) < 1:
             return helpers.template_gen('manage/error.html', err_code=404), 404
-        available_pics = os.listdir('/root/static/center-assets/'+str(session['center_id_auth'])+'/instructors/')
+        available_pics = os.listdir('static/center-assets/'+str(session['center_id_auth'])+'/instructors/')
         if instructor[0]['pictureURL'] in available_pics:
             available_pics.remove(instructor[0]['pictureURL'])
         available_level = helpers.database.execute_without_freezing("SELECT * FROM level WHERE centerID = ?", session['center_id_auth'])
@@ -309,7 +313,7 @@ def manage_new_instructor():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
     if request.method == 'GET':
-        available_pics = os.listdir('/root/static/center-assets/'+str(session['center_id_auth'])+'/instructors/')
+        available_pics = os.listdir('static/center-assets/'+str(session['center_id_auth'])+'/instructors/')
         available_level = helpers.database.execute_without_freezing("SELECT * FROM level WHERE centerID = ?", session['center_id_auth'])
         return helpers.template_gen('manage/instructor-edit.html', instructor={'Name':'','pictureURL':'../../../assets/etc/missing-profile.png',}, center_id=session['center_id_auth'], images=available_pics, levels=available_level, new=True)
     else:
@@ -333,7 +337,7 @@ def manage_edit_horse(horse_id):
         horse = helpers.database.execute_without_freezing("SELECT * FROM horse WHERE id = ?", horse_id)
         if len(horse) < 1:
             return helpers.template_gen('manage/error.html', err_code=404), 404
-        available_pics = os.listdir('/root/static/center-assets/'+str(session['center_id_auth'])+'/horses/')
+        available_pics = os.listdir('static/center-assets/'+str(session['center_id_auth'])+'/horses/')
         if horse[0]['pictureURL'] in available_pics:
             available_pics.remove(horse[0]['pictureURL'])
         available_level = helpers.database.execute_without_freezing("SELECT * FROM level WHERE centerID = ?", session['center_id_auth'])
@@ -362,7 +366,7 @@ def manage_new_horse():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
     if request.method == 'GET':
-        available_pics = os.listdir('/root/static/center-assets/'+str(session['center_id_auth'])+'/horses/')
+        available_pics = os.listdir('static/center-assets/'+str(session['center_id_auth'])+'/horses/')
         available_level = helpers.database.execute_without_freezing("SELECT * FROM level WHERE centerID = ?", session['center_id_auth'])
         return helpers.template_gen('manage/horse-edit.html', horse={'Name':'','pictureURL':'../../../assets/etc/missing-profile.png',}, center_id=session['center_id_auth'], images=available_pics, levels=available_level, new=True)
     else:
@@ -424,16 +428,16 @@ def manage_images():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
     images = []
-    maa_images = os.listdir('/root/static/center-assets/'+str(session['center_id_auth']))
+    maa_images = os.listdir('static/center-assets/'+str(session['center_id_auth']))
     for maa_image in maa_images:
-        if os.path.isfile('/root/static/center-assets/'+str(session['center_id_auth'])+'/'+maa_image):
+        if os.path.isfile('static/center-assets/'+str(session['center_id_auth'])+'/'+maa_image):
             images.append({
                 'url':'/static/center-assets/'+str(session['center_id_auth'])+'/'+maa_image,
                 'file':maa_image,
                 'type':'Principal',
                 'typeR':'main'
             })
-    instructor_images = os.listdir('/root/static/center-assets/'+str(session['center_id_auth'])+'/instructors')
+    instructor_images = os.listdir('static/center-assets/'+str(session['center_id_auth'])+'/instructors')
     for instructor_image in instructor_images:
         images.append({
             'url':'/static/center-assets/'+str(session['center_id_auth'])+'/instructors/'+instructor_image,
@@ -441,7 +445,7 @@ def manage_images():
             'type':'Profesor',
             'typeR':'instructor'
         })
-    horse_images = os.listdir('/root/static/center-assets/'+str(session['center_id_auth'])+'/horses')
+    horse_images = os.listdir('static/center-assets/'+str(session['center_id_auth'])+'/horses')
     for horse_image in horse_images:
         images.append({
             'url':'/static/center-assets/'+str(session['center_id_auth'])+'/horses/'+horse_image,
@@ -461,9 +465,9 @@ def delete_image(Itype, image):
         else: return helpers.template_gen('manage/error.hmtl', err_code=404), 404
         return helpers.template_gen('manage/image-delete.html', picture_url=image_url, picture_name=image)
     else:
-        if Itype == 'main': image_url = '/root/static/center-assets/'+str(session['center_id_auth'])+'/'+image
-        elif Itype == 'instructor': image_url = '/root/static/center-assets/'+str(session['center_id_auth'])+'/instructors/'+image
-        elif Itype == 'horse': image_url = '/root/static/center-assets/'+str(session['center_id_auth'])+'/horses/'+image
+        if Itype == 'main': image_url = 'static/center-assets/'+str(session['center_id_auth'])+'/'+image
+        elif Itype == 'instructor': image_url = 'static/center-assets/'+str(session['center_id_auth'])+'/instructors/'+image
+        elif Itype == 'horse': image_url = 'static/center-assets/'+str(session['center_id_auth'])+'/horses/'+image
         if os.path.exists(image_url):
             os.remove(image_url)
             return redirect('/manage/images')
@@ -487,13 +491,15 @@ def new_image():
             return 'No selected file'
         if file and helpers.allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            if request.form.get('type') == 'main': image_url = '/root/static/center-assets/'+str(session['center_id_auth'])+'/'
-            elif request.form.get('type') == 'instructors': image_url = '/root/static/center-assets/'+str(session['center_id_auth'])+'/instructors/'
-            elif request.form.get('type') == 'horses': image_url = '/root/static/center-assets/'+str(session['center_id_auth'])+'/horses/'
+            if request.form.get('type') == 'main': image_url = 'static/center-assets/'+str(session['center_id_auth'])+'/'
+            elif request.form.get('type') == 'instructors': image_url = 'static/center-assets/'+str(session['center_id_auth'])+'/instructors/'
+            elif request.form.get('type') == 'horses': image_url = 'static/center-assets/'+str(session['center_id_auth'])+'/horses/'
             else: return helpers.template_gen('manage/error.html', err_code=400),400
             file.save(os.path.join(image_url, filename))
             return redirect('/manage/images')
 
+
+#TODO All of this
 @app.route('/manage/info/')
 def manage_center_info():
     if session.get('center_id_auth') == None:

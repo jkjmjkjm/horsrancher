@@ -1,0 +1,20 @@
+{% extends 'app.html' %}
+{% block title %}
+    Centros
+{% endblock %}
+{% block content %}
+<h1 style="margin-top: 35px; padding: 30px;">
+    Encuentra centros con HorsRancher
+</h1>
+{% for center in centerlist %}
+<a href="/center/{{ center['ID'] }}/" style="color: black; text-decoration: none;">
+    <div class="card" style="margin: 25px; display: flex; flex-direction: row; align-items: center;">
+        <img style="display: inline;" height=120 width=120 src="/static/center-assets/{{ center['ID'] }}/{{ center ['logoLoc'] }}">
+        <div style="padding-left: 30px;">
+            <h3>{{ center['displayName'] }}</h3>
+            <p>{{ center['short_description'] }}</p>
+        </div>
+    </div>
+</a>
+{% endfor %}
+{% endblock %}
