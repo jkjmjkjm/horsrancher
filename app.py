@@ -53,7 +53,7 @@ def favicon_simple():
 
 @app.route('/')
 def temp_redir():
-    return redirect('/center/1')
+    return helpers.template_gen("app/index.html")
 
 @app.route('/center/<int:centreID>/')
 def centerDisplay(centreID):

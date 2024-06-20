@@ -1,1 +1,97 @@
 {% extends 'app.html' %}
+{% block title %}Inicio{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/stylesheets/index.css">
+{% endblock %}
+{% block content %}
+<div id="topCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#topCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#topCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Empieza a montar</h1>
+            <p>Utiliza HorsRancher para reservar tus clases de montar a caballo de forma fácil y rápida.</p>
+            <p><a class="btn btn-lg btn-primary" href="#">Encuentra tu centro</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Centros</h1>
+            <p>Regístrate como centro, atrae clientes y libera tu tiempo</p>
+            <p><a class="btn btn-lg btn-primary" href="#">Más información</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#topCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#topCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <div style="height: 60px;"></div>
+  <div class="container marketing">
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+      <h1>¿Por qué reservar una clase con HorsRancher?</h1>
+      <div class="col-lg-4">
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+
+        <h2>Rápido y fácil</h2>
+        <p>Reserva tu clase en menos de 3 minutos, con unos pocos clicks.</p>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4">
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+
+        <h2>Todos los detalles</h2>
+        <p>Te mostramos el nombre y la foto de tu caballo y de tu profesor, junto con todos los detalles necesarios para que contactes y llegues a tu centro.</p>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4">
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+
+        <h2>Soporte</h2>
+        <p>El pago se hace en el centro ecuestre, y si hay algún problema, estamos aquí para ayudar. </p>
+      </div><!-- /.col-lg-4 -->
+    </div><!-- /.row -->
+  </div>
+  <div style="height: 60px;"></div>
+  <div class="container marketing">
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+      <h1>¿Por qué ser un centro en HorsRancher?</h1>
+      <div class="col-lg-4">
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+
+        <h2>Fácil de mantener</h2>
+        <p>No te preocupes más por perder clientes al no poder atenderles. HorsRancher presenta toda la información de tu centro a tus clientes para que tu
+          tengas tiempo en hacer en lo que haces mejor.</p>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4">
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+
+        <h2>Plataforma todo-en-uno</h2>
+        <p>Tenemos una plataforma que se adapta a tus necesidades con toda la información de tus clientes a mano, para que puedas
+          hacer un seguimiento de todas las reservas que tienes, hasta las que no han sido procesadas por HorsRancher.
+        </p>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4">
+        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+
+        <h2>Personalizable con tu marca</h2>
+        <p>Haz que brille la marca de tu centro con nuestras opciones de personalización. Desde logos, colores y fotos a redes sociales y blogs simples</p>
+      </div><!-- /.col-lg-4 -->
+    </div><!-- /.row -->
+
+  </div>
+{% endblock %}
