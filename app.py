@@ -13,6 +13,8 @@ import json
 from time import sleep
 import urllib
 
+import helpers.database
+
 #Preparation
 app = Flask(__name__)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -262,19 +264,23 @@ def processReservationHTML():
 @app.route('/manage/')
 def manage_home():
     if session.get('center_id_auth') == None:
-        session['center_id_auth'] = 1
+        session['center_id_auth'] = 2
         to = request.args.get('to')
-        to = request.args.get('to').replace(' ','+')
-        return redirect(to.replace('%20','+')) #helpers.template_gen('manage.html')
+        if not to == None:
+            to = to.replace(' ','+')
+            to = to.replace('%20', '+')
+        else:
+            to = "/manage/"
+        return redirect(to) #helpers.template_gen('manage.html')
     else:
-        return helpers.template_gen('manage/home.html')
+        return helpers.template_gen('manage/home.html', center = helpers.database.execute_without_freezing("SELECT * FROM center WHERE ID = ?", session.get('center_id_auth'))[0])
 
 @app.route('/manage/instructors/')
 def manage_instructors():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
     instructors = helpers.database.execute_without_freezing('SELECT instructor.*, level.levelName FROM instructor INNER JOIN level ON instructor.levelID = level.ID WHERE instructor.centerID = ?', session['center_id_auth'])
-    return helpers.template_gen('manage/instructors.html', instructors=instructors, center_id=1)
+    return helpers.template_gen('manage/instructors.html', instructors=instructors, center_id=session.get('center_id_auth'))
 @app.route('/manage/instructors/<int:instructor_id>/edit/', methods=['GET','POST'])
 def manage_edit_instructor(instructor_id):
     if session.get('center_id_auth') == None:
@@ -327,7 +333,7 @@ def manage_horses():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
     horses = helpers.database.execute_without_freezing('SELECT horse.*, level.levelName FROM horse INNER JOIN level ON horse.levelID = level.ID WHERE horse.centerID = ?', session['center_id_auth'])
-    return helpers.template_gen('manage/horses.html', horses=horses, center_id=1)
+    return helpers.template_gen('manage/horses.html', horses=horses, center_id=session.get('center_id_auth'))
 @app.route('/manage/horses/<int:horse_id>/edit/', methods=['GET','POST'])
 def manage_edit_horse(horse_id):
     if session.get('center_id_auth') == None:
@@ -380,7 +386,7 @@ def manage_levels():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
     levels = helpers.database.execute_without_freezing('SELECT * FROM level WHERE centerID = ?', session['center_id_auth'])
-    return helpers.template_gen('manage/levels.html', levels=levels, center_id=1)
+    return helpers.template_gen('manage/levels.html', levels=levels, center_id=session.get('center_id_auth'))
 @app.route('/manage/levels/<int:level_id>/edit/', methods=['GET','POST'])
 def manage_edit_level(level_id):
     if session.get('center_id_auth') == None:
@@ -453,7 +459,7 @@ def manage_images():
             'type':'Caballo',
             'typeR':'horse'
         })
-    return helpers.template_gen('manage/images.html', images=images, center_id=1)
+    return helpers.template_gen('manage/images.html', images=images, center_id=session.get('center_id_auth'))
 @app.route('/manage/images/<Itype>/<image>/delete/', methods=['GET', 'POST'])
 def delete_image(Itype, image):
     if session.get('center_id_auth') == None:
