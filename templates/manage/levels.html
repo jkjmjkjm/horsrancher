@@ -15,7 +15,7 @@
           </thead>
           <tbody>
           {% for level in levels %}
-          <tr onclick="window.location.href='/manage/levels/{{ level['ID'] }}/edit'">
+          <tr onclick="window.location.href='/manage/levels/{{ level['ID'] }}/edit/'">
             <th scope="row">{{ level['levelName'] }}</th>
             <td>{{ level['EUR_hour'] }}</td>
             <td>
@@ -28,7 +28,7 @@
             </td>
           </tr>
           {% endfor %}
-          <tr onclick="window.location.href='/manage/levels/+/edit'">
+          <tr onclick="window.location.href='/manage/levels/+/edit/'">
             <th scope="row">+ Nuevo</th>
             <td></td><td></td>
           </tr>

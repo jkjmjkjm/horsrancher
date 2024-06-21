@@ -83,6 +83,10 @@ def centerDisplay(centreID):
     center_description_long=center_info['long_description'], center_registration=center_info['date_created'],
     center_instructors=instructors_info, center_horses=horses_info, center_levels=levels_info, center_social=social_info, calendar=cal_table, today=cal_meta)
 
+@app.route('/reserve/')
+def centerRedirect():
+    return redirect('/centers/')
+
 @app.route('/reserve/<int:centreID>/')
 def centerReserve(centreID):
     center_info = helpers.database.execute_without_freezing('SELECT * FROM center WHERE id = ?', centreID)
@@ -314,7 +318,7 @@ def manage_delete_instructor(instructor_id):
         if process_obj == False:
             return helpers.template_gen('manage/error.html', err_code=400), 400
         return redirect('/manage/instructors/')
-@app.route('/manage/instructors/+/edit', methods=['GET','POST'])
+@app.route('/manage/instructors/+/edit/', methods=['GET','POST'])
 def manage_new_instructor():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
@@ -367,7 +371,7 @@ def manage_delete_horse(horse_id):
         if process_obj == False:
             return helpers.template_gen('manage/error.html', err_code=400), 400
         return redirect('/manage/horses/')
-@app.route('/manage/horses/+/edit', methods=['GET','POST'])
+@app.route('/manage/horses/+/edit/', methods=['GET','POST'])
 def manage_new_horse():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
@@ -416,7 +420,7 @@ def manage_delete_level(level_id):
         if process_obj == False:
             return helpers.template_gen('manage/error.html', err_code=400), 400
         return redirect('/manage/levels/')
-@app.route('/manage/levels/+/edit', methods=['GET','POST'])
+@app.route('/manage/levels/+/edit/', methods=['GET','POST'])
 def manage_new_level():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
@@ -521,15 +525,9 @@ def manage_center_info():
     else:
         return 'Boo'
 
-
-@app.route('/phone_api/get_reservations_under_phone_number/', methods=['POST'])
-def phoneRApi():
-    if not request.json['phone_api_id'] == "SSE^*DdjdQZw33N&g2S5m$MKUG&WkoUEH#rmSCAuL*!xXru#hHKtYBm*jD#!PaB%jxCziwXiRa9C*m4tMzd88egU*XEeuN#8p5@g!4Esb%N5w8Jp%%JqMZ4e3YbXvaS9":
-        return '502', 502
-    rrsss = helpers.database.execute_without_freezing("SELECT * FROM reservation INNER JOIN center ON center.ID = reservation.center_id WHERE phone = ?", helpers.social.phonenumbercountry(request.json['phone nmb']))
-    if len(rrsss) < 1:
-        return '404', 404
-    return 'en '+rrsss[0]['displayName'] + ' a las ' + str(int(rrsss[0]['start_time'])//60) + ':' + str(int(rrsss[0]['start_time'])%60) + ' el ' + str(rrsss[0]['day']) + ' de ' + helpers.calendar.getmo(rrsss[0]['month']) + ' de ' + str(rrsss[0]['year'])
+@app.route('/about/center/')
+def about_center():
+    return helpers.template_gen("manage/about.html")
 
 
 

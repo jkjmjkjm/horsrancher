@@ -110,7 +110,7 @@ def process_reservation(centerID, levelID, instructorID, horseID, day, month, ye
 
 def update_instructor(instructor_id, name, picture, levelID):
     prev_info = helpers.database.execute_without_freezing('SELECT * FROM instructor WHERE ID = ? AND centerID = ?', instructor_id, session.get('center_id_auth'))
-    if picture not in os.listdir('/root/static/center-assets/'+str(session['center_id_auth'])+'/instructors/') and picture != "../../../assets/etc/missing-profile.png":
+    if picture not in os.listdir('static/center-assets/'+str(session['center_id_auth'])+'/instructors/') and picture != "../../../assets/etc/missing-profile.png":
         return False
     if len(helpers.database.execute_without_freezing('SELECT * FROM level WHERE ID = ? AND centerID = ?', levelID, session['center_id_auth'])) != 1:
         return False
@@ -131,7 +131,7 @@ def delete_instructor(instructor_id):
 
 def update_horse(horse_id, name, picture, levelID):
     prev_info = helpers.database.execute_without_freezing('SELECT * FROM horse WHERE ID = ? AND centerID = ?', horse_id, session.get('center_id_auth'))
-    if picture not in os.listdir('/root/static/center-assets/'+str(session['center_id_auth'])+'/horses/') and picture != "../../../assets/etc/missing-profile.png":
+    if picture not in os.listdir('static/center-assets/'+str(session['center_id_auth'])+'/horses/') and picture != "../../../assets/etc/missing-profile.png":
         return False
     if len(helpers.database.execute_without_freezing('SELECT * FROM level WHERE ID = ? AND centerID = ?', levelID, session['center_id_auth'])) != 1:
         return False

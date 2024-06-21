@@ -16,9 +16,9 @@
           </thead>
           <tbody>
           {% for instructor in instructors %}
-          <tr onclick="window.location.href='/manage/instructors/{{ instructor['ID'] }}/edit'">
+          <tr onclick="window.location.href='/manage/instructors/{{ instructor['ID'] }}/edit/'">
             <td>
-                <div style='background-image: URL(/static/center-assets/{{ center_id }}/instructors/{{ instructor['pictureURL'] }}); height: 46px; width: 46px; border-radius: 50%;' class='profile-pic'></div>
+                <div style='background-image: URL(/static/center-assets/{{ center_id }}/instructors/{{ instructor['pictureURL'] }}/); height: 46px; width: 46px; border-radius: 50%;' class='profile-pic'></div>
             </td>
             <th scope="row">{{ instructor['Name'] }}</th>
             <td>{{ instructor['levelName'] }}</td>
@@ -33,7 +33,7 @@
           </tr>
           {% endfor %}
           
-          <tr onclick="window.location.href='/manage/instructors/+/edit'">
+          <tr onclick="window.location.href='/manage/instructors/+/edit/'">
             <td>
                 <div style='font-size: 50px; height: 46px; width: 46px; line-height: 0.7; text-align: center'>+</div>
             </td>
