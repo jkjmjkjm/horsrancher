@@ -261,7 +261,7 @@ def processReservationHTML():
     outcome, done = helpers.reservation_processing.process_reservation(request.form.get('center', 0), request.form.get('level', 0), request.form.get('instructor', 0), request.form.get('horse', 0),
     request.form.get('d', 0), request.form.get('m', 0), request.form.get('y', 0), request.form.get('hour', 0), request.form.get('mins', 0), contact_info)
     if done:
-        return 'Hooray'
+        return redirect("/app/done/?code="+outcome)
     else:
         return outcome, 400
 
@@ -437,7 +437,13 @@ def manage_new_level():
 def manage_reservations():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
-    return helpers.template_gen('manage/reservations.html', reservations = helpers.database.execute_without_freezing("SELECT reservation.name, email, phone, start_time, day, month, year, instructor.Name as instructor, horse.Name as horse, level.levelName as level FROM reservation JOIN instructor ON reservation.instructor_id = instructor.ID JOIN horse ON reservation.horse_id = horse.ID JOIN level ON reservation.level_id = level.ID WHERE reservation.center_id = ?", session['center_id_auth']))
+    return helpers.template_gen('manage/reservations.html', dafaultToday = True, 
+                                reservations = helpers.database.execute_without_freezing("""SELECT reservation_code, reservation.name, email, phone, start_time, day, month, year, 
+                                                                                         instructor.Name as instructor, horse.Name as horse, level.levelName as level 
+                                                                                         FROM reservation JOIN instructor ON reservation.instructor_id = instructor.ID 
+                                                                                         JOIN horse ON reservation.horse_id = horse.ID JOIN level ON reservation.level_id = level.ID 
+                                                                                         WHERE reservation.center_id = ?
+																						 ORDER BY year ASC, month ASC, year ASC, start_time ASC""", session['center_id_auth']))
 
 @app.route('/manage/images/')
 def manage_images():

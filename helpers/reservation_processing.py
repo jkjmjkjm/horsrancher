@@ -106,7 +106,7 @@ def process_reservation(centerID, levelID, instructorID, horseID, day, month, ye
     except Exception as e:
         print("Error: {0}".format(e))'''
     #return str(response.status_code)
-    return 'Success', True
+    return res_code, True
 
 def update_instructor(instructor_id, name, picture, levelID):
     prev_info = helpers.database.execute_without_freezing('SELECT * FROM instructor WHERE ID = ? AND centerID = ?', instructor_id, session.get('center_id_auth'))

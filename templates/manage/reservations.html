@@ -3,48 +3,95 @@
 {% block title %}Reservas{% endblock %}
 
 {% block head %}
-<style>
-
-</style>
+<script src="/static/scripts/manage/reservations.js/"></script>
 {% endblock %}
 
 {% block content %}
 <div style="height: 55px;"></div>
 
 <div class="container">
-    <h4>Listado de Reservas</h4>
+  
+  <h1 style='text-align: center; width: 100%'>Listado de Reservas</h1>
+
+  {% if dafaultToday %}
+  <h4 style="width: 100%; text-align: center;">
+    Sólo se muestran las reservas de hoy
+  </h4>
+  {% endif %}
     <table class="table table-hover">
         <thead>
         <tr>
-          <th scope="col">Cliente</th>
-          <th scope='col'>Fecha</th>
-          <th scope="col">Hora</th>
-          <th scope="col">Profesor</th>
-          <th scope="col">Nível</th>
-          <th scope="col">Caballo</th>
-
+          <th scope="col">
+            Código de Reserva
+            <input id="searchCode" type="search" style="display: block;" placeholder="Buscar...">
+          </th>
+          <th scope="col">
+            Cliente
+            <input id="searchClient" type="search" style="display: block;" placeholder="Buscar...">
+          </th>
+          <th scope='col'>
+            Fecha
+            <select style="display: block;" id="selectDate">
+              <option>
+                La semana pasada
+              </option>
+              <option>
+                Ayer
+              </option>
+              <option selected>
+                Hoy
+              </option>
+              <option>
+                Mañana
+              </option>
+              <option>
+                La semana que viene
+              </option>
+              <option>
+                Seleccionar fecha...
+              </option>
+            </select>
+          </th>
+          <th scope="col">
+            Hora
+          </th>
+          <th scope="col">
+            Profesor
+            <input id="searchInstructor" type="search" style="display: block;" placeholder="Buscar...">
+          </th>
+          <th scope="col">
+            Nível
+            <input id="searchLevel" type="search" style="display: block;" placeholder="Buscar...">
+          </th>
+          <th scope="col">
+            Caballo
+            <input id="searchHorse" type="search" style="display: block;" placeholder="Buscar...">
+          </th>
         </tr>
         </thead>
         <tbody>
         {% for reservation in reservations %}
-        <tr onclick="window.location.href='/manage/reservations/{{ reservation['ID'] }}/edit/'">
-            <th scope="row">
-                {{ reservation['name'] }}
-                <p>
-                    <a href="mailto:{{ reservation['email'] }}">
-                        {{ reservation['email'] }}
+        <tr onclick="window.location.href='/manage/reservations/{{ reservation['reservation_code'] }}/edit/'">
+          <td>
+            <a href="/manage/reservations/{{ reservation['reservation_code'] }}/edit/">
+              {{ reservation['reservation_code'] }}
+            </a>
+          </td>
+          <th scope="row">
+              {{ reservation['name'] }}
+              <p>
+                  <a href="mailto:{{ reservation['email'] }}">
+                      {{ reservation['email'] }}
                     </a>
-                    |
                     <a href="tel:{{ reservation['phone'] }}">
-                        {{ reservation['phone'] }}
+                      {{ reservation['phone'] }}
                     </a>
                 </p>
-            </th>
           <td>
             {{ reservation['day'] }}/{{ reservation['month'] }}/{{ reservation['year'] }}
           </td>
           <td>
-            {{ reservation['start_time'] }}
+            {{ reservation['start_time'] | timeformat }}
           </td>
           <td>
             {{ reservation['instructor'] }}
