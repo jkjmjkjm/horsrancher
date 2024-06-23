@@ -1,0 +1,66 @@
+{% extends 'manage.html' %}
+
+{% block title %}Reservas{% endblock %}
+
+{% block head %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="height: 55px;"></div>
+
+<div class="container">
+    <h4>Listado de Reservas</h4>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+          <th scope="col">Cliente</th>
+          <th scope='col'>Fecha</th>
+          <th scope="col">Hora</th>
+          <th scope="col">Profesor</th>
+          <th scope="col">Nível</th>
+          <th scope="col">Caballo</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+        <tr onclick="window.location.href='/manage/reservations/{{ reservation['ID'] }}/edit/'">
+            <th scope="row">
+                {{ reservation['name'] }}
+                <p>
+                    <a href="mailto:{{ reservation['email'] }}">
+                        {{ reservation['email'] }}
+                    </a>
+                    |
+                    <a href="tel:{{ reservation['phone'] }}">
+                        {{ reservation['phone'] }}
+                    </a>
+                </p>
+            </th>
+          <td>
+            {{ reservation['day'] }}/{{ reservation['month'] }}/{{ reservation['year'] }}
+          </td>
+          <td>
+            {{ reservation['start_time'] }}
+          </td>
+          <td>
+            {{ reservation['instructor'] }}
+          </td>
+          <td>
+            {{ reservation['level'] }}
+          </td>
+          <td>
+            {{ reservation['horse'] }}
+          </td>
+        </tr>
+        {% endfor %}
+        <tr onclick="window.location.href='/manage/reservations/+/edit/'">
+          <th scope="row" colspan="6">+ Nuevo</th>
+        </tr>
+        </tbody>
+      </table>
+</div>
+{% endblock %}

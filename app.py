@@ -433,6 +433,12 @@ def manage_new_level():
             return helpers.template_gen('manage/error.html', err_code=400), 400
         return redirect('/manage/levels/')
 
+@app.route('/manage/reservations/')
+def manage_reservations():
+    if session.get('center_id_auth') == None:
+        return redirect('/manage/?to='+request.path)
+    return helpers.template_gen('manage/reservations.html', reservations = helpers.database.execute_without_freezing("SELECT reservation.name, email, phone, start_time, day, month, year, instructor.Name as instructor, horse.Name as horse, level.levelName as level FROM reservation JOIN instructor ON reservation.instructor_id = instructor.ID JOIN horse ON reservation.horse_id = horse.ID JOIN level ON reservation.level_id = level.ID WHERE reservation.center_id = ?", session['center_id_auth']))
+
 @app.route('/manage/images/')
 def manage_images():
     if session.get('center_id_auth') == None:
