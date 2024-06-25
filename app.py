@@ -3,6 +3,7 @@
 #Imports required
 from flask import Flask, request, redirect, g, url_for, session, send_file, render_template
 import helpers
+import datetime
 from tempfile import mkdtemp
 from flask_session import Session
 from werkzeug.exceptions import default_exceptions
@@ -437,13 +438,29 @@ def manage_new_level():
 def manage_reservations():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
-    return helpers.template_gen('manage/reservations.html', dafaultToday = True, 
+    current_date = datetime.datetime.now()
+    return helpers.template_gen('manage/reservations.html', 
                                 reservations = helpers.database.execute_without_freezing("""SELECT reservation_code, reservation.name, email, phone, start_time, day, month, year, 
                                                                                          instructor.Name as instructor, horse.Name as horse, level.levelName as level 
                                                                                          FROM reservation JOIN instructor ON reservation.instructor_id = instructor.ID 
                                                                                          JOIN horse ON reservation.horse_id = horse.ID JOIN level ON reservation.level_id = level.ID 
-                                                                                         WHERE reservation.center_id = ?
-																						 ORDER BY year ASC, month ASC, year ASC, start_time ASC""", session['center_id_auth']))
+                                                                                         WHERE reservation.center_id = ? AND reservation.day = ? AND reservation.month = ? AND reservation.year = ?
+																						 ORDER BY year ASC, month ASC, year ASC, start_time ASC""", session['center_id_auth'],
+                                                                                         current_date.day, current_date.month, current_date.year))
+
+@app.route('/manage-raw/reservations-raw/')
+def reservationListCustom():
+    if request.args.get("defOptns") == "yes":
+        current_date = datetime.datetime.now()
+        start_date = current_date + datetime.timedelta(days = int(request.args.get("sdayo")))
+        start_day = start_date.day
+        start_month = start_date.month
+        start_year = start_date.year
+        end_date = current_date + datetime.timedelta(days = int(request.args.get("edayo")))
+        start_day = end_date.day
+        start_month = end_date.month
+        start_year = end_date.year
+    return None, 400        
 
 @app.route('/manage/images/')
 def manage_images():
