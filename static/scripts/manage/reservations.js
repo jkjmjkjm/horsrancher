@@ -1,3 +1,5 @@
+var dateSelected = '[0, 0]';
+
 function applyFilters() {
     //just hides for now, but later will iterate and check all conditions 
     let DOMarray = document.querySelectorAll('tbody tr')
@@ -37,19 +39,27 @@ HTTP ` + xmlHttp.status);
 
 
 function changeDateRange() {
-    //showLoadingScreen();
     if (document.getElementById("selectDate").value == "manual") {
-        alert("TODO WIP");
+        document.getElementById('selectDate').value = dateSelected;
+        document.getElementById("dateModalLauncher").click();
     }
     else {
         showLoadingScreen();
+        dateSelected = document.getElementById('selectDate').value;
         let OffsetDict = JSON.parse(document.getElementById("selectDate").value);
         httpGetAsync("/manage-raw/reservations-raw/?defOptns=yes&sdayo="+OffsetDict[0]+"&edayo="+OffsetDict[1], (response) => {
         document.getElementById("table-content").innerHTML = response.responseText;
-        hideLoadingScreen();
         applyFilters();
+        document.getElementById("todayindicator").hidden = !(dateSelected == '[0, 0]');
+        hideLoadingScreen();
         });
     }
+}
+
+function submitcustomdate() {
+    startdate = document.getElementById("startdate").value;
+    enddate = document.getElementById("enddate").value;
+    alert("TODO: start at "+startdate+" and end at "+enddate);
 }
 
 window.addEventListener("load", (event) => {
