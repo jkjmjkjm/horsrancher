@@ -36,16 +36,18 @@ HTTP ` + xmlHttp.status);
 }
 
 
-function changeDateRangeNormal() {
+function changeDateRange() {
     //showLoadingScreen();
     if (document.getElementById("selectDate").value == "manual") {
         alert("TODO WIP");
     }
     else {
         showLoadingScreen();
-        let OffsetDict = document.getElementById("selectDate");
-        httpGetAsync("/manage-raw/reservations-raw/", (response) => {
-
+        let OffsetDict = JSON.parse(document.getElementById("selectDate").value);
+        httpGetAsync("/manage-raw/reservations-raw/?defOptns=yes&sdayo="+OffsetDict[0]+"&edayo="+OffsetDict[1], (response) => {
+        document.getElementById("table-content").innerHTML = response.responseText;
+        hideLoadingScreen();
+        applyFilters();
         });
     }
 }
@@ -56,7 +58,12 @@ window.addEventListener("load", (event) => {
     document.getElementById("searchInstructor").addEventListener("keyup", applyFilters);
     document.getElementById("searchLevel").addEventListener("keyup", applyFilters);
     document.getElementById("searchHorse").addEventListener("keyup", applyFilters);
-    document.getElementById("selectDate").addEventListener("change", changeDateRangeNormal);
+    document.getElementById("searchCode").addEventListener("click", applyFilters);
+    document.getElementById("searchClient").addEventListener("click", applyFilters);
+    document.getElementById("searchInstructor").addEventListener("click", applyFilters);
+    document.getElementById("searchLevel").addEventListener("click", applyFilters);
+    document.getElementById("searchHorse").addEventListener("click", applyFilters);
+    document.getElementById("selectDate").addEventListener("change", changeDateRange);
     hideLoadingScreen();
 });
 

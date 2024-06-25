@@ -57,7 +57,7 @@
               <option value="[1, 1]">
                 Mañana
               </option>
-              <option valu="[0, 7]">
+              <option value="[0, 7]">
                 La semana que viene
               </option>
               <option value="manual">
@@ -82,8 +82,7 @@
           </th>
         </tr>
         </thead>
-        <tbody>
-        <span id="table-content">
+        <tbody id="table-content">
           {% for reservation in reservations %}
             <tr onclick="window.location.href='/manage/reservations/{{ reservation['reservation_code'] }}/edit/'">
               <td>
@@ -119,7 +118,6 @@
               </td>
             </tr>
           {% endfor %}
-        </span>
         <tr onclick="window.location.href='/manage/reservations/+/edit/'">
           <th scope="row" colspan="7">
             <a href="/manage/reservations/+/edit/" style="text-decoration: none; color: black;">+ Nuevo</a>
