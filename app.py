@@ -464,7 +464,24 @@ def reservationListCustom():
                                                                                          BETWEEN ? AND ?
 																						 ORDER BY year ASC, month ASC, year ASC, start_time ASC;""", session['center_id_auth'],
                                                                                          start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
-    return "None", 400        
+    elif request.args.get("defOptns") == "no":
+        start_date = datetime.datetime.strptime(request.args.get("start"), "%Y-%m-%d")
+        end_date = datetime.datetime.strptime(request.args.get("end"), "%Y-%m-%d")
+        if start_date > end_date:
+            return "INVALID DATES"
+        else:
+            return helpers.template_gen("/manage/raw-reservations.html",
+                                        reservations = helpers.database.execute_without_freezing("""SELECT reservation_code, reservation.name, email, phone, start_time, day, month, year, 
+                                                                                         instructor.Name as instructor, horse.Name as horse, level.levelName as level 
+                                                                                         FROM reservation JOIN instructor ON reservation.instructor_id = instructor.ID 
+                                                                                         JOIN horse ON reservation.horse_id = horse.ID JOIN level ON reservation.level_id = level.ID 
+                                                                                         WHERE reservation.center_id = ?
+                                                                                         AND date(year || '-' || printf('%02d', month) || '-' || printf('%02d', day))
+                                                                                         BETWEEN ? AND ?
+																						 ORDER BY year ASC, month ASC, year ASC, start_time ASC;""", session['center_id_auth'],
+                                                                                         start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
+    else:
+        return "MALFORMED REQUEST", 400
 
 @app.route('/manage/images/')
 def manage_images():

@@ -40,11 +40,18 @@ HTTP ` + xmlHttp.status);
 
 function changeDateRange() {
     if (document.getElementById("selectDate").value == "manual") {
-        document.getElementById('selectDate').value = dateSelected;
+        let optionToRemove = Array.from(document.getElementById("selectDate").options).find(option => option.textContent === "Fechas seleccionadas"); 
+        if (optionToRemove) {
+            document.getElementById('selectDate').value = "Fechas seleccionadas"
+        }
+        else {
+            document.getElementById('selectDate').value = dateSelected;
+        }
         document.getElementById("dateModalLauncher").click();
     }
     else {
         showLoadingScreen();
+        let optionToRemove = Array.from(document.getElementById("selectDate").options).find(option => option.textContent === "Fechas seleccionadas"); if (optionToRemove) optionToRemove.remove();
         dateSelected = document.getElementById('selectDate').value;
         let OffsetDict = JSON.parse(document.getElementById("selectDate").value);
         httpGetAsync("/manage-raw/reservations-raw/?defOptns=yes&sdayo="+OffsetDict[0]+"&edayo="+OffsetDict[1], (response) => {
@@ -57,9 +64,23 @@ function changeDateRange() {
 }
 
 function submitcustomdate() {
+    showLoadingScreen();
     startdate = document.getElementById("startdate").value;
     enddate = document.getElementById("enddate").value;
-    alert("TODO: start at "+startdate+" and end at "+enddate);
+    httpGetAsync("/manage-raw/reservations-raw/?defOptns=no&start="+startdate+"&end="+enddate, (response) => {
+        if (response.responseText == "INVALID DATES") {
+            alert("Fechas invalidas");
+            hideLoadingScreen();
+        }
+        else {
+            document.getElementById("table-content").innerHTML = response.responseText;
+            document.getElementById("todayindicator").hidden = true;
+            let optionToRemove = Array.from(document.getElementById("selectDate").options).find(option => option.textContent === "Fechas seleccionadas"); if (optionToRemove) optionToRemove.remove();
+            document.getElementById("selectDate").appendChild(Object.assign(document.createElement("option"), {disabled: true, selected: true, textContent: "Fechas seleccionadas"}));
+            document.getElementById("modal-closebutton").click();
+            hideLoadingScreen();
+        }
+    });
 }
 
 window.addEventListener("load", (event) => {
