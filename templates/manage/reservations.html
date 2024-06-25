@@ -4,9 +4,24 @@
 
 {% block head %}
 <script src="/static/scripts/manage/reservations.js/"></script>
+<link rel="stylesheet" href="/static/stylesheets/manage/reservations.css">
 {% endblock %}
 
 {% block content %}
+<div id='loading-content'>
+  <div class="spinner-border text-light" role="status" style="margin-top: calc(50vh - 1em);margin-left: calc(50vw - 1em);">
+        <span class="visually-hidden">Loading...</span>
+  </div>
+  <div style='text-align: center; margin-top: 10px; color: white; padding-left: 40px; padding-right: 40px;' id='js-text-warning'>
+  <p>JavaScript is required to use HorsRancher. Please, turn it on and refresh the page. If you have JavaScript enabled, this message may be due to a very slow internet connection. Please be patient or check your internet connection.</p>
+  <p>JavaScript es necesario para usar HorsRancher. Por favor, enciéndelo y vuelve a cargar la página. Si tienes JavaScript activado, este mensaje puede deberse a una conexión a internet muy lenta. Por favor, tenga un poco de paciencia o revise su conexión a internet.</p>
+  </div>
+  <script type="text/javascript">
+      document.getElementById('js-text-warning').innerHTML = '';
+      document.getElementById('js-text-warning').hidden = true;
+  </script>
+</div>
+
 <div style="height: 55px;"></div>
 
 <div class="container">
@@ -30,22 +45,22 @@
           <th scope='col'>
             Fecha
             <select style="display: block;" id="selectDate">
-              <option>
+              <option value="[-7, 0]">
                 La semana pasada
               </option>
-              <option>
+              <option value="[-1, -1]">
                 Ayer
               </option>
-              <option selected>
+              <option value="[0, 0]" selected>
                 Hoy
               </option>
-              <option>
+              <option value="[1, 1]">
                 Mañana
               </option>
-              <option>
+              <option valu="[0, 7]">
                 La semana que viene
               </option>
-              <option>
+              <option value="manual">
                 Seleccionar fecha...
               </option>
             </select>
@@ -68,47 +83,54 @@
         </tr>
         </thead>
         <tbody>
-        {% for reservation in reservations %}
-        <tr onclick="window.location.href='/manage/reservations/{{ reservation['reservation_code'] }}/edit/'">
-          <td>
-            <a href="/manage/reservations/{{ reservation['reservation_code'] }}/edit/">
-              {{ reservation['reservation_code'] }}
-            </a>
-          </td>
-          <td>
-            {{ reservation['name'] }}
-            <p>
-              <a href="mailto:{{ reservation['email'] }}">
-                  {{ reservation['email'] }}
+        <span id="table-content">
+          {% for reservation in reservations %}
+            <tr onclick="window.location.href='/manage/reservations/{{ reservation['reservation_code'] }}/edit/'">
+              <td>
+                <a href="/manage/reservations/{{ reservation['reservation_code'] }}/edit/">
+                  {{ reservation['reservation_code'] }}
                 </a>
-                <a href="tel:{{ reservation['phone'] }}">
-                  {{ reservation['phone'] }}
-                </a>
-            </p>
-          </td>
-          <td>
-            {{ reservation['day'] }}/{{ reservation['month'] }}/{{ reservation['year'] }}
-          </td>
-          <td>
-            {{ reservation['start_time'] | timeformat }}
-          </td>
-          <td>
-            {{ reservation['instructor'] }}
-          </td>
-          <td>
-            {{ reservation['level'] }}
-          </td>
-          <td>
-            {{ reservation['horse'] }}
-          </td>
-        </tr>
-        {% endfor %}
+              </td>
+              <td>
+                {{ reservation['name'] }}
+                <p>
+                  <a href="mailto:{{ reservation['email'] }}">
+                      {{ reservation['email'] }}
+                    </a>
+                    <a href="tel:{{ reservation['phone'] }}">
+                      {{ reservation['phone'] }}
+                    </a>
+                </p>
+              </td>
+              <td>
+                {{ reservation['day'] }}/{{ reservation['month'] }}/{{ reservation['year'] }}
+              </td>
+              <td>
+                {{ reservation['start_time'] | timeformat }}
+              </td>
+              <td>
+                {{ reservation['instructor'] }}
+              </td>
+              <td>
+                {{ reservation['level'] }}
+              </td>
+              <td>
+                {{ reservation['horse'] }}
+              </td>
+            </tr>
+          {% endfor %}
+        </span>
         <tr onclick="window.location.href='/manage/reservations/+/edit/'">
           <th scope="row" colspan="7">
             <a href="/manage/reservations/+/edit/" style="text-decoration: none; color: black;">+ Nuevo</a>
           </th>
         </tr>
-        </tbody>
-      </table>
+    </tbody>
+  </table>
+</div>
+<div id='oops' hidden style='width: 100vw; height: 100vh; z-index: 20000; position: fixed; bottom: 0; right: 0; top: 0; left: 0; background-color: #ffffffe0; text-align: center; padding-top: 30px;'>
+  <p>Something's gone wrong. Please, check your internet connection and reload to try again. If the problem persists, please report it to HorsRancher</p>
+  <p>Algo ha ido mal. Por favor, revisa tu conexión a internet y recarga la página para volver a intentarlo. Si el problema persiste, por favor informa a HorsRancher</p>
+  <p id='err_code'></p>
 </div>
 {% endblock %}

@@ -453,14 +453,18 @@ def reservationListCustom():
     if request.args.get("defOptns") == "yes":
         current_date = datetime.datetime.now()
         start_date = current_date + datetime.timedelta(days = int(request.args.get("sdayo")))
-        start_day = start_date.day
-        start_month = start_date.month
-        start_year = start_date.year
         end_date = current_date + datetime.timedelta(days = int(request.args.get("edayo")))
-        start_day = end_date.day
-        start_month = end_date.month
-        start_year = end_date.year
-    return None, 400        
+        return helpers.template_gen('manage/raw-reservations.html', 
+                                reservations = helpers.database.execute_without_freezing("""SELECT reservation_code, reservation.name, email, phone, start_time, day, month, year, 
+                                                                                         instructor.Name as instructor, horse.Name as horse, level.levelName as level 
+                                                                                         FROM reservation JOIN instructor ON reservation.instructor_id = instructor.ID 
+                                                                                         JOIN horse ON reservation.horse_id = horse.ID JOIN level ON reservation.level_id = level.ID 
+                                                                                         WHERE reservation.center_id = ?
+                                                                                         AND date(year || '-' || printf('%02d', month) || '-' || printf('%02d', day))
+                                                                                         BETWEEN ? AND ?
+																						 ORDER BY year ASC, month ASC, year ASC, start_time ASC;""", session['center_id_auth'],
+                                                                                         start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
+    return "None", 400        
 
 @app.route('/manage/images/')
 def manage_images():
