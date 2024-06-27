@@ -12,9 +12,49 @@
     <div class="position-relative overflow-hidden text-center center-banner" style='background-image: url(/static/center-assets/{{ center_id }}/{{ main_photo }}); height: 85vh; min-height: 500px'>
       <div class="col-md-5 p-lg-5 mx-auto my-5">
         <img src="/static/center-assets/{{ center_id }}/{{ center_logo }}/" class='logo-big' alt="logo">
-        <h1 class="display-4 fw-normal ghost-highlight"><input required name='name' id='nameSelect' type='text' placeholder='Nombre (obligatorio)' value="{{ center_name }}"></h1>
-        <p class="lead fw-normal ghost-highlight"><input name='description' id='descriptionSelect' type='text' placeholder='Subtitulo' value="{{ center_description_short }}"></p>
+        <h1 class="display-4 fw-normal ghost-highlight">
+          <input style="width: 100%; text-align: center;" required name='name' id='nameSelect' type='text' placeholder='Nombre (obligatorio)' value="{{ center_name }}">
+        </h1>
+        <p class="lead fw-normal ghost-highlight">
+          <input style="width: 100%; text-align: center;" name='description' id='descriptionSelect' type='text' placeholder='Lema o breve descripción' value="{{ center_description_short }}">
+        </p>
       </div>
     </div>
-</form>
+    <div class='m-3 p-1'>
+      <div class="row">
+        <div style="min-width: 500px; width: 73%; padding: 20px;">
+          <h4 style="margin-bottom: 0;">Sobre Alameda del Pardo (Test)</h4><small style="margin-top:0; margin-bottom: 16px;">Usuario de HorsRancher desde 19/07/2022</small>
+          <p>How about these long descriptions? Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc varius sem eget porttitor volutpat. Fusce elit augue, sodales eu tellus euismod, rhoncus maximus urna. Ut dapibus id arcu sit amet dapibus. Vestibulum vitae pulvinar libero, ac pretium augue. Etiam non vestibulum odio, vel sodales ipsum. Pellentesque ipsum purus, tristique mattis interdum sed, feugiat eget mauris. Nulla volutpat nulla id erat rhoncus laoreet. Integer erat ante, efficitur in euismod nec, efficitur rhoncus risus.
+    
+    Vivamus purus libero, eleifend vitae tellus a, euismod cursus purus. Maecenas in magna sapien. Donec eu libero aliquet, bibendum purus ac, dapibus dolor. Donec imperdiet lorem aliquam, facilisis mi varius, tincidunt mauris. Vivamus porttitor auctor massa elementum hendrerit. Nunc euismod dolor ut leo pellentesque dapibus. Donec nisl purus, posuere in elit id, ultricies ultricies massa. Aenean massa magna, volutpat id turpis vitae, interdum facilisis nibh.
+    
+    Pellentesque scelerisque orci nec rhoncus rhoncus. Phasellus efficitur tortor et suscipit pulvinar. Donec porta neque ac ex elementum accumsan. Ut consectetur a lacus eu eleifend. Sed malesuada diam ligula, ac pulvinar felis fringilla ac. Ut auctor ullamcorper tincidunt. Nulla consectetur lacus pellentesque molestie fringilla. Integer fermentum finibus odio a porta..</p>
+          <h4>Niveles que ofrece Alameda del Pardo (Test)</h4>
+          Aquí aparecen tus <a href="/manage/levels/">niveles</a>
+          <h4 style="padding-top: 30px;">Profesores en Alameda del Pardo (Test)</h4>
+          Aquí aparecen tus <a href="/manage/instructors/">profesores</a>
+          <h4 style="padding-top: 30px">Caballos en Alameda del Pardo (Test)</h4>
+          Aquí aparecen tus <a href="/manage/horses/">caballos</a>
+        </div>
+        <div style="width: 23%; min-width: 300px; padding: 20px;">
+        <h4 id="contact-optns" style="padding-top: 30px">Conecta con Alameda del Pardo (Test)</h4>
+        {% for account in center_social %}
+        <ul class='list-inline'>
+          <li class='list-inline-item'>
+            <a href='{{ account['url'] }}' class='connect-item' style='text-decoration: none'><img alt='{{ account['logo'] }} logo' class='social-media-small-icon' src="/static/assets/social/{{ account['logo'] }}/" alt="{{ account['logo'] }}"></a>
+          </li>
+          <li class='list-inline-item'>
+            <a href='{{ account['url'] }}' class='connect-item' style='text-decoration: none'>
+            <h6>{{ account['display'] }}</h6></a>
+          </li>
+        </ul>
+        {% endfor %}
+        <a href="/manage/socials/" class="btn btn-outline-primary">
+          Editar redes y formas de contacto
+        </a>
+        </div>
+      </div>
+    </div>
+  </form>
+
 {% endblock %}

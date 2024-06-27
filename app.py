@@ -448,6 +448,10 @@ def manage_reservations():
 																						 ORDER BY year ASC, month ASC, year ASC, start_time ASC""", session['center_id_auth'],
                                                                                          current_date.day, current_date.month, current_date.year))
 
+@app.route('/manage/socials/')
+def socialsRaw():
+    return helpers.template_gen("/manage/socials.html")
+
 @app.route('/manage-raw/reservations-raw/')
 def reservationListCustom():
     if request.args.get("defOptns") == "yes":
@@ -569,9 +573,10 @@ def manage_center_info():
         if len(center_info) == 0:
             return helpers.template_gen('app/error.html', err_code=404), 404
         center_info = center_info[0]
+        social_info = helpers.social.getSocial(session.get('center_id_auth'))
         return helpers.template_gen('manage/center-details.html', center_name=center_info['displayName'], center_id=session.get('center_id_auth'), center_logo=center_info['logoLoc'],
         main_photo=center_info['bannerLoc'], center_description_short=center_info['short_description'],
-        center_description_long=center_info['long_description'], center_registration=center_info['date_created'])
+        center_description_long=center_info['long_description'], center_registration=center_info['date_created'], center_social = social_info)
     else:
         return 'Boo'
 
