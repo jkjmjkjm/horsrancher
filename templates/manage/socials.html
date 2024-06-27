@@ -2,50 +2,100 @@
 
 {% block title %} Redes sociales {% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.1.0/build/css/intlTelInput.css">
+<script>
+  function matchWidth() {
+      const source = document.getElementById('youtube');
+      const targets = document.querySelectorAll('.phone');
+      targets.forEach((target) => {target.style.width = `${source.offsetWidth}px`;});
+  }
+
+  window.addEventListener('load', matchWidth);
+  window.addEventListener('resize', matchWidth);
+</script>
+<script src="/static/scripts/manage/socials.js"></script>
+{% endblock %}
+
 {% block content %}
 <div style="height: 55px;"></div>
   <div class="container">
     <h1 style='text-align: center; width: 100%'>Redes sociales y formas de contacto</h1>
     <form method="POST" action="/manage/socials/">
-      <div class="modal-body">
-        <h6>FaceBook</h6>
-        Aqui FB
-        <h6>Instagram</h6>
-        Aqui IG
-        <h6>Linkedin</h6>
-        Aquí LI
-        <h6>Teléfono</h6>
-        Aqui telefono
-        <h6>Pinterest</h6>
-        Aquí Pinterest
-        <h6>Reddit</h6>
-        Aquí Reddit
-        <h6>X (anteriormente Twitter)</h6>
-        Aqui X
+      <div class="mb-3">
+        <label for="facebook" class="form-label">Cuenta de Facebook</label>
+        <input type="url" placeholder="https://facebook.com/..." class="form-control" id="facebook" name="facebook" aria-describedby="facebookHelp">
+        <div id="facebookHelp" class="form-text">Debe ser un enlace válido a una página o cuenta de Facebook.</div>
+      </div>
+      <div class="mb-3">
+        <label for="instagram" class="form-label">Cuenta de Instagram</label>
+        <input type="url" placeholder="https://instagram.com/..." class="form-control" id="instagram" name="instagram" aria-describedby="instagramHelp">
+        <div id="instagramHelp" class="form-text">Debe ser un enlace válido a una cuenta de Instagram.</div>
+      </div>
+      <div class="mb-3">
+        <label for="linkedin" class="form-label">Cuenta de Linkedin</label>
+        <input type="url" placeholder="https://linkedin.com/in/..." class="form-control" id="linkedin" name="linkedin" aria-describedby="linkedinHelp">
+        <div id="linkedinHelp" class="form-text">Debe ser un enlace válido a una empresa o usuario de Linkedin.</div>
+      </div>
+      <div class="mb-3">
+        <label for="telephone" class="form-label">Número de Teléfono</label>
+        <input type="phone" class="form-control phone" id="telephone" aria-describedby="telephoneHelp">
+        <div id="telephoneHelp" class="form-text">Debe ser un número de teléfono válido.</div>
+      </div>
+      <div class="mb-3">
+        <label for="pinterest" class="form-label">Cuenta de Pinterest</label>
+        <input type="url" placeholder="https://pinterest.com/..." class="form-control" id="pinterest" name="pinterest" aria-describedby="pinterestHelp">
+        <div id="pinterestHelp" class="form-text">Debe ser un enlace válido a una cuenta de Pinterest.</div>
+      </div>
+      <div class="mb-3">  
+        <label for="reddit" class="form-label">Cuenta de Reddit</label>
+        <input type="url" placeholder="https://reddit.com/user/..." class="form-control" id="reddit" name="reddit" aria-describedby="redditHelp">
+        <div id="redditHelp" class="form-text">Debe ser un enlace válido a una cuenta de Reddit.</div>
+      </div>
+      <div class="mb-3">  
+        <label for="tiktok" class="form-label">Cuenta de TikTok</label>
+        <input type="url" placeholder="https://tiktok.com/@..." class="form-control" id="tiktok" name="tiktok" aria-describedby="tiktokHelp">
+        <div id="tiktokHelp" class="form-text">Debe ser un enlace válido a una cuenta de Tiktok.</div>
+      </div>
+      <div class="mb-3">
+        <label for="twitter" class="form-label">Cuenta de X (anteriormente Twitter)</label>
+        <input type="url" placeholder="https://twitter.com/..." class="form-control" id="twitter" name="twitter" aria-describedby="twitterHelp">
+        <div id="twitterHelp" class="form-text">Debe ser un enlace válido a una cuenta de X.</div>
+      </div>
+      <div class="mb-3">
         <label for="vimeo" class="form-label">Canal de Vimeo</label>
-        <input type="tel" class="form-control" id="vimeo" name="vimeo" describedby="vimeoHelp">
+        <input type="url" placeholder="https://vimeo.com/..." class="form-control" id="vimeo" name="vimeo" aria-describedby="vimeoHelp">
         <div id="vimeoHelp" class="form-text">Debe ser un enlace válido a un canal de Vimeo.</div>
-
+      </div>
+      <div class="mb-3">
         <label for="wa" class="form-label">Número Móvil con WhatsApp</label>
-        <input type="tel" class="form-control" id="wa" name="wa">
-
+        <input type="phone" class="form-control phone" id="wa" aria-describedby="waHelp">
+        <div id="waHelp" class="form-text">Debe ser un número de teléfono móvil válido de WhatsApp.</div>
+        <!-- TODO: placeholders for networks -->
+      </div>
+      <div class="mb-3">
         <label for="youtube" class="form-label">Canal de YouTube</label>
         <input type="url" class="form-control" id="youtube" name="youtube" aria-describedby="youtubeHelp">
         <div id="youtubeHelp" class="form-text">Debe ser un enlace válido a un canal de YouTube.</div>
-
-        <label for="email" class="form-label">Correo electronico</label>
-        <input type="email" class="form-control" id="email" name="email">
       </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo electronico</label>
+        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">Debe ser un correo electrónico válido.</div>
+      </div>
+      <button type="button" class="btn btn-outline-secondary" onclick="history.back();" style="width: calc(50% - 5px); margin-top: 10px;">Cancelar</button>
+      <button onclick="checkInputs()" type="button" class="btn btn-primary" style="width: calc(50% - 5px); margin-left: 5px; margin-top: 10px;">Guardar</button>
     </form>
   </div>
 </div>
-    
+<div style="height: 35px;"></div>
 {% endblock %}
 
 {% block extscript %}
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.1.0/build/js/intlTelInput.min.js"></script>
 <script>
-    const phoneInput = window.intlTelInput(document.querySelector("#wa"), {
+  document.querySelectorAll(".phone").forEach((phoneelement) => {
+    window.intlTelInput(phoneelement, {
       i18n: {
             af: "Afganistán",
             al: "Albania",
@@ -307,13 +357,14 @@
       initialCountry: "es",
       hiddenInput: function(telInputName) {
             return {
-            phone: "phone",
-            country: "country_code"
+            phone: phoneelement.id,
+            country: phoneelement.id + "country"
          }
         },
       utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.1.0/build/js/utils.js",
       formatAsYouType: true,
       strictMode: true,
     });
+  });
 </script>
 {% endblock %}
