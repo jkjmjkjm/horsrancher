@@ -97,7 +97,7 @@
                       {{ reservation['email'] }}
                     </a>
                     <a href="tel:{{ reservation['phone'] }}">
-                      {{ reservation['phone'] }}
+                      {{ reservation['phone'] | phonedisplay }}
                     </a>
                 </p>
               </td>

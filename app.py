@@ -26,7 +26,7 @@ Session(app)
 app.jinja_env.filters['timeformat'] = helpers.minstohhmm
 app.jinja_env.filters['hours'] = helpers.converttohours
 app.jinja_env.filters['mins'] = helpers.converttominswithouthours
-
+app.jinja_env.filters['phonedisplay'] = helpers.social.phonenumberdisplay
 
 #@app.before_request
 #def before_request():

@@ -51,6 +51,7 @@ function changeDateRange() {
     }
     else {
         showLoadingScreen();
+        window.history.replaceState(null, null, window.location.pathname + '?' + new URLSearchParams({...Object.fromEntries(new URLSearchParams(window.location.search)), daterange: document.getElementById("selectDate").value}).toString());
         let optionToRemove = Array.from(document.getElementById("selectDate").options).find(option => option.textContent === "Fechas seleccionadas"); if (optionToRemove) optionToRemove.remove();
         dateSelected = document.getElementById('selectDate').value;
         let OffsetDict = JSON.parse(document.getElementById("selectDate").value);
@@ -78,6 +79,7 @@ function submitcustomdate() {
             let optionToRemove = Array.from(document.getElementById("selectDate").options).find(option => option.textContent === "Fechas seleccionadas"); if (optionToRemove) optionToRemove.remove();
             document.getElementById("selectDate").appendChild(Object.assign(document.createElement("option"), {disabled: true, selected: true, textContent: "Fechas seleccionadas"}));
             document.getElementById("modal-closebutton").click();
+            window.history.replaceState(null, null, window.location.pathname + '?' + new URLSearchParams({...Object.fromEntries(new URLSearchParams(window.location.search)), daterange: "manual", start: startdate, end: enddate,}).toString());
             hideLoadingScreen();
         }
     });
@@ -95,7 +97,18 @@ window.addEventListener("load", (event) => {
     document.getElementById("searchLevel").addEventListener("click", applyFilters);
     document.getElementById("searchHorse").addEventListener("click", applyFilters);
     document.getElementById("selectDate").addEventListener("change", changeDateRange);
-    hideLoadingScreen();
+    if ((new URLSearchParams(window.location.search).get('daterange') != "manual") && new URLSearchParams(window.location.search).get('daterange')) {
+        document.getElementById("selectDate").value = new URLSearchParams(window.location.search).get('daterange');
+        changeDateRange();
+    }
+    else if (new URLSearchParams(window.location.search).get('daterange') == "manual") {
+        document.getElementById("startdate").value = new URLSearchParams(window.location.search).get('start');
+        document.getElementById("enddate").value = new URLSearchParams(window.location.search).get('end');
+        submitcustomdate();
+    }
+    else {
+        hideLoadingScreen();
+    }
 });
 
 function showLoadingScreen() {
