@@ -1,3 +1,9 @@
+function removeTrailingSlash(str) {
+    // Check if the string ends with a slash and remove it if it does
+    return str.endsWith('/') ? str.slice(0, -1) : str;
+}
+
+
 function checkInputs() {
     const urlPatterns = {
         facebook: /^https:\/\/(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]/,
@@ -39,7 +45,7 @@ function checkInputs() {
     let isValid = true;
     
     inputs.forEach(input => {
-        if (input.value && !input.pattern.test(input.value)) {
+        if (input.value && !input.pattern.test(input.value.removeTrailingSlash())) {
             alert(`${input.field} URL is invalid`);
             isValid = false;
         }

@@ -15,6 +15,7 @@ from time import sleep
 import urllib
 
 import helpers.database
+import helpers.social
 
 #Preparation
 app = Flask(__name__)
@@ -452,11 +453,11 @@ def manage_reservations():
 def socialsRaw():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
-    # TODO: Fill in previously given information
     if request.method == "GET":
-        return helpers.template_gen("/manage/socials.html")
+        return helpers.template_gen("/manage/socials.html", existing = helpers.social.getSocialToEdit(session.get('center_id_auth')))
     else:
         helpers.social.saveSocial(session.get('center_id_auth'), request.form)
+        #TODO Error 400??
         return redirect("/manage/info/")
 
 @app.route('/manage-raw/reservations-raw/')

@@ -24,17 +24,17 @@
     <form method="POST" action="/manage/socials/">
       <div class="mb-3">
         <label for="facebook" class="form-label">Cuenta de Facebook</label>
-        <input type="url" placeholder="https://facebook.com/..." class="form-control" id="facebook" name="facebook" aria-describedby="facebookHelp">
+        <input type="url" value="{{ existing['facebook'] }}" placeholder="https://facebook.com/..." class="form-control" id="facebook" name="facebook" aria-describedby="facebookHelp">
         <div id="facebookHelp" class="form-text">Debe ser un enlace válido a una página o cuenta de Facebook.</div>
       </div>
       <div class="mb-3">
         <label for="instagram" class="form-label">Cuenta de Instagram</label>
-        <input type="url" placeholder="https://instagram.com/..." class="form-control" id="instagram" name="instagram" aria-describedby="instagramHelp">
+        <input type="url" value="{{ existing['instagram'] }}" placeholder="https://instagram.com/..." class="form-control" id="instagram" name="instagram" aria-describedby="instagramHelp">
         <div id="instagramHelp" class="form-text">Debe ser un enlace válido a una cuenta de Instagram.</div>
       </div>
       <div class="mb-3">
         <label for="linkedin" class="form-label">Cuenta de Linkedin</label>
-        <input type="url" placeholder="https://linkedin.com/in/..." class="form-control" id="linkedin" name="linkedin" aria-describedby="linkedinHelp">
+        <input type="url" value="{{ existing['linkedin'] }}" placeholder="https://linkedin.com/in/..." class="form-control" id="linkedin" name="linkedin" aria-describedby="linkedinHelp">
         <div id="linkedinHelp" class="form-text">Debe ser un enlace válido a una empresa o usuario de Linkedin.</div>
       </div>
       <div class="mb-3">
@@ -44,27 +44,27 @@
       </div>
       <div class="mb-3">
         <label for="pinterest" class="form-label">Cuenta de Pinterest</label>
-        <input type="url" placeholder="https://pinterest.com/..." class="form-control" id="pinterest" name="pinterest" aria-describedby="pinterestHelp">
+        <input type="url" value="{{ existing['pinterest'] }}" placeholder="https://pinterest.com/..." class="form-control" id="pinterest" name="pinterest" aria-describedby="pinterestHelp">
         <div id="pinterestHelp" class="form-text">Debe ser un enlace válido a una cuenta de Pinterest.</div>
       </div>
       <div class="mb-3">  
         <label for="reddit" class="form-label">Cuenta de Reddit</label>
-        <input type="url" placeholder="https://reddit.com/user/..." class="form-control" id="reddit" name="reddit" aria-describedby="redditHelp">
+        <input type="url" value="{{ existing['reddit'] }}" placeholder="https://reddit.com/user/..." class="form-control" id="reddit" name="reddit" aria-describedby="redditHelp">
         <div id="redditHelp" class="form-text">Debe ser un enlace válido a una cuenta de Reddit.</div>
       </div>
       <div class="mb-3">  
         <label for="tiktok" class="form-label">Cuenta de TikTok</label>
-        <input type="url" placeholder="https://tiktok.com/@..." class="form-control" id="tiktok" name="tiktok" aria-describedby="tiktokHelp">
+        <input type="url" value="{{ existing['tiktok'] }}" placeholder="https://tiktok.com/@..." class="form-control" id="tiktok" name="tiktok" aria-describedby="tiktokHelp">
         <div id="tiktokHelp" class="form-text">Debe ser un enlace válido a una cuenta de Tiktok.</div>
       </div>
       <div class="mb-3">
         <label for="twitter" class="form-label">Cuenta de X (anteriormente Twitter)</label>
-        <input type="url" placeholder="https://twitter.com/..." class="form-control" id="twitter" name="twitter" aria-describedby="twitterHelp">
+        <input type="url" value="{{ existing['twitter'] }}" placeholder="https://twitter.com/..." class="form-control" id="twitter" name="twitter" aria-describedby="twitterHelp">
         <div id="twitterHelp" class="form-text">Debe ser un enlace válido a una cuenta de X.</div>
       </div>
       <div class="mb-3">
         <label for="vimeo" class="form-label">Canal de Vimeo</label>
-        <input type="url" placeholder="https://vimeo.com/..." class="form-control" id="vimeo" name="vimeo" aria-describedby="vimeoHelp">
+        <input type="url" value="{{ existing['vimeo'] }}" placeholder="https://vimeo.com/..." class="form-control" id="vimeo" name="vimeo" aria-describedby="vimeoHelp">
         <div id="vimeoHelp" class="form-text">Debe ser un enlace válido a un canal de Vimeo.</div>
       </div>
       <div class="mb-3">
@@ -75,7 +75,7 @@
       </div>
       <div class="mb-3">
         <label for="youtube" class="form-label">Canal de YouTube</label>
-        <input type="url" placeholder="https://youtube.com/channel/..." class="form-control" id="youtube" name="youtube" aria-describedby="youtubeHelp">
+        <input type="url" value="{{ existing['youtube'] }}" placeholder="https://youtube.com/channel/..." class="form-control" id="youtube" name="youtube" aria-describedby="youtubeHelp">
         <div id="youtubeHelp" class="form-text">Debe ser un enlace válido a un canal de YouTube.</div>
       </div>
       <div class="mb-3">
