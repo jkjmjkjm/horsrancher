@@ -75,16 +75,16 @@
       </div>
       <div class="mb-3">
         <label for="youtube" class="form-label">Canal de YouTube</label>
-        <input type="url" class="form-control" id="youtube" name="youtube" aria-describedby="youtubeHelp">
+        <input type="url" placeholder="https://youtube.com/channel/..." class="form-control" id="youtube" name="youtube" aria-describedby="youtubeHelp">
         <div id="youtubeHelp" class="form-text">Debe ser un enlace válido a un canal de YouTube.</div>
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">Correo electronico</label>
-        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+        <input type="email" placeholder="correo@electronico.com" class="form-control" id="email" name="email" aria-describedby="emailHelp">
         <div id="emailHelp" class="form-text">Debe ser un correo electrónico válido.</div>
       </div>
       <button type="button" class="btn btn-outline-secondary" onclick="history.back();" style="width: calc(50% - 5px); margin-top: 10px;">Cancelar</button>
-      <button onclick="checkInputs()" type="button" class="btn btn-primary" style="width: calc(50% - 5px); margin-left: 5px; margin-top: 10px;">Guardar</button>
+      <button onclick="checkInputs()" type="submit" class="btn btn-primary" style="width: calc(50% - 5px); margin-left: 5px; margin-top: 10px;">Guardar</button>
     </form>
   </div>
 </div>

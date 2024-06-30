@@ -448,9 +448,16 @@ def manage_reservations():
 																						 ORDER BY year ASC, month ASC, year ASC, start_time ASC""", session['center_id_auth'],
                                                                                          current_date.day, current_date.month, current_date.year))
 
-@app.route('/manage/socials/')
+@app.route('/manage/socials/', methods=["GET", "POST"])
 def socialsRaw():
-    return helpers.template_gen("/manage/socials.html")
+    if session.get('center_id_auth') == None:
+        return redirect('/manage/?to='+request.path)
+    # TODO: Fill in previously given information
+    if request.method == "GET":
+        return helpers.template_gen("/manage/socials.html")
+    else:
+        helpers.social.saveSocial(session.get('center_id_auth'), request.form)
+        return redirect("/manage/info/")
 
 @app.route('/manage-raw/reservations-raw/')
 def reservationListCustom():
