@@ -457,7 +457,6 @@ def socialsRaw():
         return helpers.template_gen("/manage/socials.html", existing = helpers.social.getSocialToEdit(session.get('center_id_auth')))
     else:
         helpers.social.saveSocial(session.get('center_id_auth'), request.form)
-        #TODO Error 400??
         return redirect("/manage/info/")
 
 @app.route('/manage-raw/reservations-raw/')

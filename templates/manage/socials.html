@@ -39,7 +39,7 @@
       </div>
       <div class="mb-3">
         <label for="telephone" class="form-label">Número de Teléfono</label>
-        <input type="phone" class="form-control phone" id="telephone" aria-describedby="telephoneHelp">
+        <input type="phone" value="{{ existing['telephone'] }}" class="form-control phone" id="telephone" aria-describedby="telephoneHelp">
         <div id="telephoneHelp" class="form-text">Debe ser un número de teléfono válido.</div>
       </div>
       <div class="mb-3">
@@ -69,7 +69,7 @@
       </div>
       <div class="mb-3">
         <label for="wa" class="form-label">Número Móvil con WhatsApp</label>
-        <input type="phone" class="form-control phone" id="wa" aria-describedby="waHelp">
+        <input type="phone" value="{{ existing['wa'] }}" class="form-control phone" id="wa" aria-describedby="waHelp">
         <div id="waHelp" class="form-text">Debe ser un número de teléfono móvil válido de WhatsApp.</div>
         <!-- TODO: placeholders for networks -->
       </div>
