@@ -25,3 +25,6 @@ def converttohours(mins):
 
 def converttominswithouthours(mins):
     return mins % 60
+
+def hhmmtomins(hhmmstring):
+    return int(hhmmstring.split(':')[0]) * 60 + int(hhmmstring.split(':')[1])

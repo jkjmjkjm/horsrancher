@@ -27,21 +27,21 @@
     <div class='m-3 p-1'>
       <div class="row">
         <div style="min-width: 500px; width: 73%; padding: 20px;">
-          <h4 style="margin-bottom: 0;">Sobre Alameda del Pardo (Test)</h4><small style="margin-top:0; margin-bottom: 16px;">Usuario de HorsRancher desde 19/07/2022</small>
+          <h4 style="margin-bottom: 0;">Sobre {{ center_name }}</h4><small style="margin-top:0; margin-bottom: 16px;">Usuario de HorsRancher desde {{ center_registration }}</small>
           <p>
             <textarea name="description_long" class="autoResize" style="width: 100%; resize: none;" placeholder="Puedes describir la ubicación de tu centro, o explicar tu historia. Escribe lo que quieras.">{{ center_description_long }}</textarea>
           </p>
           <button class="btn btn-primary" style="width: 100%" type="submit">Guardar cambios</button>
           <div style="height: 40px;"></div>
-          <h4>Niveles que ofrece Alameda del Pardo (Test)</h4>
+          <h4>Niveles que ofrece {{ center_name }}</h4>
           Aquí aparecen tus <a href="/manage/levels/">niveles</a>
-          <h4 style="padding-top: 30px;">Profesores en Alameda del Pardo (Test)</h4>
+          <h4 style="padding-top: 30px;">Profesores en {{ center_name }}</h4>
           Aquí aparecen tus <a href="/manage/instructors/">profesores</a>
-          <h4 style="padding-top: 30px">Caballos en Alameda del Pardo (Test)</h4>
+          <h4 style="padding-top: 30px">Caballos en {{ center_name }}</h4>
           Aquí aparecen tus <a href="/manage/horses/">caballos</a>
         </div>
         <div style="width: 23%; min-width: 300px; padding: 20px;">
-        <h4 id="contact-optns" style="padding-top: 30px">Conecta con Alameda del Pardo (Test)</h4>
+        <h4 id="contact-optns" style="padding-top: 30px">Conecta con {{ center_name }}</h4>
         {% for account in center_social %}
         <ul class='list-inline'>
           <li class='list-inline-item'>
@@ -74,11 +74,9 @@
   <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
     <div id="savedToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            Changes have been saved successfully!
-        </div>
+          <strong class="me-auto">Tus cambios se han guardado</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
     </div>
 </div>
 {% endblock %}
@@ -90,10 +88,10 @@
   document.addEventListener('DOMContentLoaded', function() {
       var urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('saved') === '1') {
-        alert("Saved!")
           var toastElement = document.getElementById('savedToast');
-          var toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+          var toast = new bootstrap.Toast(toastElement, { delay: 5000 });
           toast.show();
+          history.replaceState(null, null, "/manage/info/")
       }
   });
 </script>

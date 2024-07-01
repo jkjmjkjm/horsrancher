@@ -590,6 +590,33 @@ def manage_center_info():
                                                   request.form.get("description_long"), request.form.get("name"), session.get('center_id_auth'))
         return redirect("/manage/info/?saved=1")
 
+@app.route('/manage/timetable/', methods=['GET', 'POST'])
+def manage_timetable():
+    if session.get('center_id_auth') == None:
+        return redirect('/manage/?to='+request.path)
+    if request.method == 'GET':
+        return helpers.template_gen('/manage/timetable.html', 
+                                    timetable = helpers.database.execute_without_freezing("""SELECT * FROM center_offering
+                                                                                          WHERE center_id = ?""", session.get("center_id_auth"))[0])
+    else:
+        # TODO validate values
+        helpers.database.execute_without_freezing("""UPDATE center_offering SET center_opening = ?, center_closing = ?,
+                                                  center_starts_classes = ?, center_ends_classes = ?, classes_every = ?, 
+                                                  classes_length = ?, class_size = ? WHERE center_id = ?""", 
+                                                  helpers.hhmmtomins(request.form.get("openingTime")), helpers.hhmmtomins(request.form.get("closingTime")),
+                                                  helpers.hhmmtomins(request.form.get("classStartTime")), helpers.hhmmtomins(request.form.get("classEndTime")),
+                                                  request.form.get("classesEvery"), request.form.get("classDuration"), request.form.get("classSize"),
+                                                  session.get("center_id_auth"))
+        # TODO check future reservations
+        return redirect("/manage/info/")
+
+@app.route("/manage/main-images/", methods=['GET', 'POST'])
+def manage_main_images():
+    if session.get('center_id_auth') == None:
+        return redirect('/manage/?to='+request.path)
+    if request.method == 'GET':
+        return helpers.template_gen('/manage/main-images.html')
+
 @app.route('/about/center/')
 def about_center():
     return helpers.template_gen("manage/about.html")
