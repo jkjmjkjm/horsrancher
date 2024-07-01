@@ -1,7 +1,32 @@
-{% extends 'manage.hmtl' %}
+{% extends 'manage.html' %}
 
 {% block title %}Imágenes principales{% endblock %}
 
 {% block content %}
 
-Let's keep working! (TODO)
+<div style="height: 55px;"></div>
+
+<div class="container">
+    <h1 style="width: 100%; text-align: center;">Imágenes de logo y portada</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="logo" class="form-label">Imágen para el logo</label>
+            <select required class="form-select" id="logo" name="logo" aria-describedby="logoHelp">
+                <option selected disabled>
+                    Work in progress!
+                </option>
+            </select>
+            <div id="logoHelp" class="form-text">Este será el logotipo utilizado en todo HorsRancher para su centro</div>
+        </div>
+        <div class="mb-3">
+            <label for="logo" class="form-label">Imágen para el logo</label>
+            <select required class="form-select" id="logo" name="logo" aria-describedby="logoHelp">
+                <option selected disabled>
+                    Work in progress!
+                </option>
+            </select>
+            <div id="logoHelp" class="form-text">Esta será la imágen de portada utilizada en todo HorsRancher para su centro</div>
+        </div>
+    </form>
+</div>
+{% endblock %}

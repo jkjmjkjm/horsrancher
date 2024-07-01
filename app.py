@@ -44,9 +44,6 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-
-
-
 @app.route('/<path:url>/favicon.ico')
 def favicon_send(url):
     return send_file('static/assets/brand/favicon.ico')
@@ -287,6 +284,7 @@ def manage_instructors():
         return redirect('/manage/?to='+request.path)
     instructors = helpers.database.execute_without_freezing('SELECT instructor.*, level.levelName FROM instructor INNER JOIN level ON instructor.levelID = level.ID WHERE instructor.centerID = ?', session['center_id_auth'])
     return helpers.template_gen('manage/instructors.html', instructors=instructors, center_id=session.get('center_id_auth'))
+
 @app.route('/manage/instructors/<int:instructor_id>/edit/', methods=['GET','POST'])
 def manage_edit_instructor(instructor_id):
     if session.get('center_id_auth') == None:
@@ -306,6 +304,7 @@ def manage_edit_instructor(instructor_id):
         if process_obj == False:
             return helpers.template_gen('manage/error.html', err_code=400), 400
         return redirect('/manage/instructors/')
+
 @app.route('/manage/instructors/<int:instructor_id>/delete/', methods=['GET','POST'])
 def manage_delete_instructor(instructor_id):
     if session.get('center_id_auth') == None:
@@ -320,6 +319,7 @@ def manage_delete_instructor(instructor_id):
         if process_obj == False:
             return helpers.template_gen('manage/error.html', err_code=400), 400
         return redirect('/manage/instructors/')
+
 @app.route('/manage/instructors/+/edit/', methods=['GET','POST'])
 def manage_new_instructor():
     if session.get('center_id_auth') == None:
@@ -340,6 +340,7 @@ def manage_horses():
         return redirect('/manage/?to='+request.path)
     horses = helpers.database.execute_without_freezing('SELECT horse.*, level.levelName FROM horse INNER JOIN level ON horse.levelID = level.ID WHERE horse.centerID = ?', session['center_id_auth'])
     return helpers.template_gen('manage/horses.html', horses=horses, center_id=session.get('center_id_auth'))
+
 @app.route('/manage/horses/<int:horse_id>/edit/', methods=['GET','POST'])
 def manage_edit_horse(horse_id):
     if session.get('center_id_auth') == None:
@@ -359,6 +360,7 @@ def manage_edit_horse(horse_id):
         if process_obj == False:
             return helpers.template_gen('manage/error.html', err_code=400), 400
         return redirect('/manage/horses/')
+
 @app.route('/manage/horses/<int:horse_id>/delete/', methods=['GET','POST'])
 def manage_delete_horse(horse_id):
     if session.get('center_id_auth') == None:
@@ -373,6 +375,7 @@ def manage_delete_horse(horse_id):
         if process_obj == False:
             return helpers.template_gen('manage/error.html', err_code=400), 400
         return redirect('/manage/horses/')
+
 @app.route('/manage/horses/+/edit/', methods=['GET','POST'])
 def manage_new_horse():
     if session.get('center_id_auth') == None:
@@ -393,6 +396,7 @@ def manage_levels():
         return redirect('/manage/?to='+request.path)
     levels = helpers.database.execute_without_freezing('SELECT * FROM level WHERE centerID = ?', session['center_id_auth'])
     return helpers.template_gen('manage/levels.html', levels=levels, center_id=session.get('center_id_auth'))
+
 @app.route('/manage/levels/<int:level_id>/edit/', methods=['GET','POST'])
 def manage_edit_level(level_id):
     if session.get('center_id_auth') == None:
@@ -408,6 +412,7 @@ def manage_edit_level(level_id):
         if process_obj == False:
             return helpers.template_gen('manage/error.html', err_code=400), 400
         return redirect('/manage/levels/')
+
 @app.route('/manage/levels/<int:level_id>/delete/', methods=['GET','POST'])
 def manage_delete_level(level_id):
     if session.get('center_id_auth') == None:
@@ -422,6 +427,7 @@ def manage_delete_level(level_id):
         if process_obj == False:
             return helpers.template_gen('manage/error.html', err_code=400), 400
         return redirect('/manage/levels/')
+
 @app.route('/manage/levels/+/edit/', methods=['GET','POST'])
 def manage_new_level():
     if session.get('center_id_auth') == None:
@@ -525,6 +531,7 @@ def manage_images():
             'typeR':'horse'
         })
     return helpers.template_gen('manage/images.html', images=images, center_id=session.get('center_id_auth'))
+
 @app.route('/manage/images/<Itype>/<image>/delete/', methods=['GET', 'POST'])
 def delete_image(Itype, image):
     if session.get('center_id_auth') == None:
@@ -544,6 +551,7 @@ def delete_image(Itype, image):
             return redirect('/manage/images')
         else:
             return helpers.template_gen('manage/error.html', err_code=404), 404
+
 @app.route('/manage/images/+/', methods=['GET','POST'])
 def new_image():
     if session.get('center_id_auth') == None:
@@ -568,8 +576,6 @@ def new_image():
             else: return helpers.template_gen('manage/error.html', err_code=400),400
             file.save(os.path.join(image_url, filename))
             return redirect('/manage/images')
-
-
 
 @app.route('/manage/info/', methods=['GET', 'POST'])
 def manage_center_info():
