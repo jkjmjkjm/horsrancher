@@ -4,6 +4,7 @@
 
 {% block head %}
 <div hidden id='center_id'>{{ center_id }}</div>
+<script src="/static/scripts/manage/center-details.js"></script>
 {% endblock %}
 
 
@@ -16,19 +17,22 @@
           <input style="width: 100%; text-align: center;" required name='name' id='nameSelect' type='text' placeholder='Nombre (obligatorio)' value="{{ center_name }}">
         </h1>
         <p class="lead fw-normal ghost-highlight">
-          <input style="width: 100%; text-align: center;" name='description' id='descriptionSelect' type='text' placeholder='Lema o breve descripción' value="{{ center_description_short }}">
+          <input style="width: 100%; text-align: center;" name='description_short' id='descriptionSelect' type='text' placeholder='Breve descripción' value="{{ center_description_short }}">
         </p>
+        <a href="/manage/main-images/" class="btn btn-primary" style="margin-top: 55%; width: 100%">
+          Cambiar estas imágenes
+        </a>
       </div>
     </div>
     <div class='m-3 p-1'>
       <div class="row">
         <div style="min-width: 500px; width: 73%; padding: 20px;">
           <h4 style="margin-bottom: 0;">Sobre Alameda del Pardo (Test)</h4><small style="margin-top:0; margin-bottom: 16px;">Usuario de HorsRancher desde 19/07/2022</small>
-          <p>How about these long descriptions? Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc varius sem eget porttitor volutpat. Fusce elit augue, sodales eu tellus euismod, rhoncus maximus urna. Ut dapibus id arcu sit amet dapibus. Vestibulum vitae pulvinar libero, ac pretium augue. Etiam non vestibulum odio, vel sodales ipsum. Pellentesque ipsum purus, tristique mattis interdum sed, feugiat eget mauris. Nulla volutpat nulla id erat rhoncus laoreet. Integer erat ante, efficitur in euismod nec, efficitur rhoncus risus.
-    
-    Vivamus purus libero, eleifend vitae tellus a, euismod cursus purus. Maecenas in magna sapien. Donec eu libero aliquet, bibendum purus ac, dapibus dolor. Donec imperdiet lorem aliquam, facilisis mi varius, tincidunt mauris. Vivamus porttitor auctor massa elementum hendrerit. Nunc euismod dolor ut leo pellentesque dapibus. Donec nisl purus, posuere in elit id, ultricies ultricies massa. Aenean massa magna, volutpat id turpis vitae, interdum facilisis nibh.
-    
-    Pellentesque scelerisque orci nec rhoncus rhoncus. Phasellus efficitur tortor et suscipit pulvinar. Donec porta neque ac ex elementum accumsan. Ut consectetur a lacus eu eleifend. Sed malesuada diam ligula, ac pulvinar felis fringilla ac. Ut auctor ullamcorper tincidunt. Nulla consectetur lacus pellentesque molestie fringilla. Integer fermentum finibus odio a porta..</p>
+          <p>
+            <textarea name="description_long" class="autoResize" style="width: 100%; resize: none;" placeholder="Puedes describir la ubicación de tu centro, o explicar tu historia. Escribe lo que quieras.">{{ center_description_long }}</textarea>
+          </p>
+          <button class="btn btn-primary" style="width: 100%" type="submit">Guardar cambios</button>
+          <div style="height: 40px;"></div>
           <h4>Niveles que ofrece Alameda del Pardo (Test)</h4>
           Aquí aparecen tus <a href="/manage/levels/">niveles</a>
           <h4 style="padding-top: 30px;">Profesores en Alameda del Pardo (Test)</h4>
@@ -52,9 +56,46 @@
         <a href="/manage/socials/" class="btn btn-outline-primary">
           Editar redes y formas de contacto
         </a>
+        <h4 style="margin-top: 30px;">Opciones de Horario</h4>
+        <p>Horario de apertura: De {{ center_timetable['center_opening'] | timeformat }} a {{ center_timetable['center_closing'] | timeformat }}</p>
+        <p>Primera clase: {{ center_timetable['center_starts_classes'] | timeformat }}</p>
+        <p>Última clase: {{ center_timetable['center_ends_classes'] | timeformat }}</p>
+        <p>Clases cada {{ center_timetable['classes_every'] }} minutos</p>
+        <p>Duración de cada clase: {{ center_timetable['classes_length'] }} minutos</p>
+        <p>Alumnos por cada clase: {{ center_timetable['class_size'] }}</p>
+        <a href="/manage/timetable/" class="btn btn-outline-primary">
+          Editar opciones de horarios
+        </a>
         </div>
       </div>
     </div>
   </form>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
+    <div id="savedToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Changes have been saved successfully!
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extscript %}
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('saved') === '1') {
+        alert("Saved!")
+          var toastElement = document.getElementById('savedToast');
+          var toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+          toast.show();
+      }
+  });
+</script>
 
 {% endblock %}

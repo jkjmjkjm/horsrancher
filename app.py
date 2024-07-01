@@ -570,8 +570,8 @@ def new_image():
             return redirect('/manage/images')
 
 
-#TODO All of this
-@app.route('/manage/info/')
+
+@app.route('/manage/info/', methods=['GET', 'POST'])
 def manage_center_info():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
@@ -581,11 +581,14 @@ def manage_center_info():
             return helpers.template_gen('app/error.html', err_code=404), 404
         center_info = center_info[0]
         social_info = helpers.social.getSocial(session.get('center_id_auth'))
+        timetable_info = helpers.database.execute_without_freezing("SELECT * FROM center_offering WHERE center_id = ?", session.get("center_id_auth"))[0]
         return helpers.template_gen('manage/center-details.html', center_name=center_info['displayName'], center_id=session.get('center_id_auth'), center_logo=center_info['logoLoc'],
         main_photo=center_info['bannerLoc'], center_description_short=center_info['short_description'],
-        center_description_long=center_info['long_description'], center_registration=center_info['date_created'], center_social = social_info)
+        center_description_long=center_info['long_description'], center_registration=center_info['date_created'], center_social = social_info, center_timetable = timetable_info)
     else:
-        return 'Boo'
+        helpers.database.execute_without_freezing("""UPDATE center SET short_description = ?, long_description = ?, displayName = ? WHERE ID = ?""", request.form.get("description_short"),
+                                                  request.form.get("description_long"), request.form.get("name"), session.get('center_id_auth'))
+        return redirect("/manage/info/?saved=1")
 
 @app.route('/about/center/')
 def about_center():
