@@ -621,7 +621,15 @@ def manage_main_images():
     if session.get('center_id_auth') == None:
         return redirect('/manage/?to='+request.path)
     if request.method == 'GET':
-        return helpers.template_gen('/manage/main-images.html')
+
+        return helpers.template_gen('/manage/main-images.html',
+                                    images_available = list(set(os.listdir('static/center-assets/'+str(session['center_id_auth'])+'/')) - set(["instructors", "horses"])),
+                                    details = helpers.database.execute_without_freezing("SELECT logoLoc, bannerLoc FROM center WHERE ID = ?", session.get('center_id_auth'))[0], 
+                                    center_id = session.get('center_id_auth'))
+    else:
+        # TODO validate files
+        helpers.database.execute_without_freezing("UPDATE center SET logoLoc = ?, bannerLoc = ? WHERE ID = ?", request.form.get("logo"), request.form.get("banner"), session.get("center_id_auth"))
+        return redirect("/manage/info/")
 
 @app.route('/about/center/')
 def about_center():
