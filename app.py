@@ -14,6 +14,7 @@ import json
 from time import sleep
 import urllib
 
+import helpers.accounts
 import helpers.database
 import helpers.social
 
@@ -242,8 +243,24 @@ def signin():
     if request.method == 'GET':
         return helpers.template_gen('app/signin.html', next=request.args.get('next', '/'))
     else:
+        returned, error = helpers.accounts.sign_in(request.form.get("email"), request.form.get("pass"))
+        if returned != 0:
+            return helpers.template_gen('manage/error.html', err_code=error)
         return redirect(request.form.get('next'))
 
+@app.route('/signup/', methods=['GET','POST'])
+def signup():
+    if request.method == 'GET':
+        return helpers.template_gen('app/signup.html', next=request.args.get('next', '/'))
+    else:
+        if session.get("user_id") != None:
+            return redirect(request.form.get('next'))
+        if request.form.get("pass") == request.form.get("passconfirm"):
+            return helpers.template_gen('manage/error.html', err_code="Las contraseñas no coinciden")
+        returned, error = helpers.accounts.sign_up(request.form.get("email"), request.form.get("pass"))
+        if returned != 0:
+            return helpers.template_gen('manage/error.html', err_code=error)
+        return redirect(request.form.get('next'))
 
 @app.route('/cal_gen')
 def calGen():
