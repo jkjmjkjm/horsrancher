@@ -18,10 +18,13 @@ def template_gen(template_name, *args, **kwargs):
 def minstohhmm(mins):
     hours = mins // 60
     mins = mins % 60
-    return str(hours)+':'+"{:02d}".format(mins)
+    return "{:02d}".format(hours)+':'+"{:02d}".format(mins)
 
 def converttohours(mins):
     return mins // 60
 
 def converttominswithouthours(mins):
     return mins % 60
+
+def hhmmtomins(hhmmstring):
+    return int(hhmmstring.split(':')[0]) * 60 + int(hhmmstring.split(':')[1])

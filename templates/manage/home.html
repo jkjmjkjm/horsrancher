@@ -1,0 +1,99 @@
+{% extends 'manage.html' %}
+
+{% block title %}Panel de Control{% endblock %}
+
+{% block head %}
+<style>
+.optns .card {
+    margin: 5px;
+}
+.optns a {
+    color: black;
+    text-decoration: none;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="height: 58px;"></div>
+<div class="container">
+    <h2>
+        Bienvenid@ a tu panel de control, {{ center['displayName'] }}
+    </h2>
+    Desde aquí puede ver y editar sus profesores, caballos, reservas, imágenes y detalles.
+    <div class="optns" style="display: flex; flex-direction: row; flex-wrap: wrap; margin-top: 10px;">
+        <a href="/manage/instructors/">    
+            <div class="card" style="width: 22rem;">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        Profesores
+                    </h4>
+                    <p class="card-text">
+                        Visualiza, crea, edita y elimina tus perfiles de profesores.
+                    </p>
+                </div>
+            </div>
+        </a>
+        <a href="/manage/horses/">
+            <div class="card" style="width: 22rem;">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        Caballos
+                    </h4>
+                    <p class="card-text">
+                        Visualiza, crea, edita y elimina tu listado de caballos.
+                    </p>
+                </div>
+            </div>
+        </a>
+        <a href="/manage/levels/">
+            <div class="card" style="width: 22rem;">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        Niveles
+                    </h4>
+                    <p class="card-text">
+                        Visualiza, crea, edita y elimina tu listado de niveles.
+                    </p>
+                </div>
+            </div>
+        </a>
+        <a href="/manage/reservations/">
+            <div class="card" style="width: 22rem;">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        Reservas
+                    </h4>
+                    <p class="card-text">
+                        Visualiza, crea, edita y elimina las reservas de tus clientes.
+                    </p>
+                </div>
+            </div>
+        </a>
+        <a href="/manage/images/">
+            <div class="card" style="width: 22rem;">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        Imágenes
+                    </h4>
+                    <p class="card-text">
+                        Sube y elimina imágenes para usar en toda tu página.
+                    </p>
+                </div>
+            </div>
+        </a>
+        <a href="/manage/info/">
+            <div class="card" style="width: 22rem;">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        Detalles
+                    </h4>
+                    <p class="card-text">
+                        Edita los detalles de tu centro
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}

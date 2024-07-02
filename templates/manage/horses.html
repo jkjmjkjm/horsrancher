@@ -3,8 +3,9 @@
 {% block title %}Caballos{% endblock %}
 
 {% block content %}
-<div style='padding: 20px; padding-top: 50px;'>
-    <h1 style='text-align: center; width: 100vw'>Caballos</h1>
+<div style="height: 55px;"></div>
+<div class="container">
+    <h1 style='text-align: center; width: 100%'>Caballos</h1>
     <table class="table table-hover">
           <thead>
           <tr>
@@ -16,9 +17,9 @@
           </thead>
           <tbody>
           {% for horse in horses %}
-          <tr onclick="window.location.href='/manage/horses/{{ horse['ID'] }}/edit'">
+          <tr onclick="window.location.href='/manage/horses/{{ horse['ID'] }}/edit/'">
             <td>
-                <div style='background-image: URL(/static/center-assets/{{ center_id }}/horses/{{ horse['pictureURL'] }}); height: 46px; width: 46px; border-radius: 50%;' class='profile-pic'></div>
+                <div style='background-image: URL(/static/center-assets/{{ center_id }}/horses/{{ horse['pictureURL'] }}/); height: 46px; width: 46px; border-radius: 50%;' class='profile-pic'></div>
             </td>
             <th scope="row">{{ horse['Name'] }}</th>
             <td>{{ horse['levelName'] }}</td>
@@ -33,7 +34,7 @@
           </tr>
           {% endfor %}
           
-          <tr onclick="window.location.href='/manage/horses/+/edit'">
+          <tr onclick="window.location.href='/manage/horses/+/edit/'">
             <td>
                 <div style='font-size: 50px; height: 46px; width: 46px; line-height: 0.7; text-align: center'>+</div>
             </td>

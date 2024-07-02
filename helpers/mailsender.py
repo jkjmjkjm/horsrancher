@@ -1,9 +1,9 @@
 import os
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import *
+#from sendgrid import SendGridAPIClient
+#from sendgrid.helpers.mail import *
 
 def trans_email(email_to, tx_id, name_to, email_from, name_from):
-    message = Mail()
+    '''message = Mail()
     
     message.to = [
         To(
@@ -83,4 +83,4 @@ def trans_email(email_to, tx_id, name_to, email_from, name_from):
     
     print(response.status_code)
     print(response.body)
-    print(response.headers)
+    print(response.headers)'''

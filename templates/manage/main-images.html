@@ -1,0 +1,46 @@
+{% extends 'manage.html' %}
+
+{% block title %}Imágenes principales{% endblock %}
+
+{% block head %}<script src="/static/scripts/manage/main-images.js"></script>{% endblock %}
+
+{% block content %}
+
+<div hidden id="center_id">{{ center_id }}</div>
+
+<div style="height: 55px;"></div>
+
+<div class="container">
+    <h1 style="width: 100%; text-align: center;">Imágenes de logo y portada</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="logo" class="form-label">Imágen para el logo</label>
+            <select required class="form-select" id="logo" name="logo" aria-describedby="logoHelp">
+                {% for image in images_available %}
+                <option {% if details['logoLoc'] == image %} selected {% endif %}>
+                    {{ image }}
+                </option>
+                {% endfor %}
+            </select>
+            <div id="logoHelp" class="form-text">Este será el logotipo utilizado en todo HorsRancher para su centro</div>
+        </div>
+        <div class="mb-3">
+            <label for="banner" class="form-label">Imágen para la portada</label>
+            <select required class="form-select" id="banner" name="banner" aria-describedby="bannerHelp">
+                {% for image in images_available %}
+                <option {% if details['bannerLoc'] == image %} selected {% endif %}>
+                    {{ image }}
+                </option>
+                {% endfor %}
+            </select>
+            <div id="bannerHelp" class="form-text">Esta será la imágen de portada utilizada en todo HorsRancher para su centro</div>
+        </div>
+        <div class="mb-3"><div class="form-text"><a href="/manage/images/">Aquí</a> puede subir y eliminar las imágenes de su centro</div></div>
+        <label class="form-label">Vista previa</label>
+        <div id="bannerDiv" style="margin-top: 10px; display: flex; align-content: center; justify-content: center; margin-bottom: 40px; background-image: url('/static/center-assets/{{ center_id }}/{{ details['bannerLoc'] }}/'); background-size: cover; height: 600px;">
+            <img id="logoImg" style="width: 200px; height: 200px; border-radius: 12%; align-self: center;" alt="Logo seleccionado" src="/static/center-assets/{{ center_id }}/{{ details['logoLoc'] }}/">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Guardar</button>
+    </form>
+</div>
+{% endblock %}

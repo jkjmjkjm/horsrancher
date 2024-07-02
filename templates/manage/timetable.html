@@ -1,0 +1,58 @@
+{% extends 'manage.html' %}
+
+{% block title %}Horario{% endblock %}
+
+{% block content %}
+<div style="height: 55px;"></div>
+<div class="container">
+    <h1 style='text-align: center; width: 100%'>Opciones del Horario de clases</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="openingTime" class="form-label">Hora de apertura</label>
+            <input required type="time" value="{{ timetable['center_opening'] | timeformat }}" class="form-control" id="openingTime" name="openingTime" aria-describedby="openingTimeHelp">
+            <div id="openingTimeHelp" class="form-text">La hora a la que se puede empezar a entrar en sus instalaciones.</div>
+        </div>
+        <div class="mb-3">
+            <label for="closingTime" class="form-label">Hora de cierre</label>
+            <input required type="time" value="{{ timetable['center_closing'] | timeformat }}" class="form-control" id="closingTime" name="closingTime" aria-describedby="closingTimeHelp">
+            <div id="closingTimeHelp" class="form-text">La hora a la que se deja de poder entrar en sus instalaciones.</div>
+        </div>
+        <div class="mb-3">
+            <label for="classStartTime" class="form-label">Primera clase</label>
+            <input required type="time" value="{{ timetable['center_starts_classes'] | timeformat }}" class="form-control" id="classStartTime" name="classStartTime" aria-describedby="classStartTimeHelp">
+            <div id="classStartTimeHelp" class="form-text">La hora a la que comienza su primera clase del dia.</div>
+        </div>
+        <div class="mb-3">
+            <label for="classEndTime" class="form-label">Última clase</label>
+            <input required type="time" value="{{ timetable['center_ends_classes'] | timeformat }}" class="form-control" id="classEndTime" name="classEndTime" aria-describedby="classEndTimeHelp">
+            <div id="classEndTimeHelp" class="form-text">La hora a la que comienza su última clase del dia.</div>
+        </div>
+        <div class="mb-3">
+            <label for="classesEvery" class="form-label">Frecuencia de clases</label>
+            <div class="input-group">
+                <input required min="1" step="1" type="number" value="{{ timetable['classes_every'] }}" class="form-control" id="classesEvery" name="classesEvery" aria-describedby="minAddon1">
+                <span id="minAddon1" class="input-group-text">minutos</span>
+            </div>
+            <div id="classesEveryHelp" class="form-text">Cada cuantos minutos hay una clase en su centro.</div>
+        </div>
+        <div class="mb-3">
+            <label for="classDuration" class="form-label">Duración de clases</label>
+            <div class="input-group">
+                <input required min="1" step="1" type="number" value="{{ timetable['classes_length'] }}" class="form-control" id="classDuration" name="classDuration" aria-describedby="minAddon2">
+                <span id="minAddon2" class="input-group-text">minutos</span>
+            </div>
+            <div id="classDurationHelp" class="form-text">Cada cuantos minutos hay una clase en su centro.</div>
+        </div>
+        <div class="mb-3">
+            <label for="class" class="form-label">Alumnos por clase</label>
+            <div class="input-group">
+                <input required min="1" step="1" type="number" value="{{ timetable['class_size'] }}" class="form-control" id="classSize" name="classSize" aria-describedby="minAddon1">
+            </div>
+            <div id="classSizeHelp" class="form-text">Cuantos alumnos pueden registrarse a la vez con cada profesor y cada alumno.</div>
+        </div>
+        <button style="width: 100%;" type="submit" class="btn btn-primary">
+            Guardar
+        </button>
+    </form>
+</div>
+{% endblock %}

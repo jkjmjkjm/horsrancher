@@ -1,0 +1,35 @@
+{% for reservation in reservations %}
+<tr onclick="window.location.href='/manage/reservations/{{ reservation['reservation_code'] }}/edit/'">
+    <td>
+    <a href="/manage/reservations/{{ reservation['reservation_code'] }}/edit/">
+        {{ reservation['reservation_code'] }}
+    </a>
+    </td>
+    <td>
+    {{ reservation['name'] }}
+    <p>
+        <a href="mailto:{{ reservation['email'] }}">
+            {{ reservation['email'] }}
+        </a>
+        <a href="tel:{{ reservation['phone'] }}">
+            {{ reservation['phone'] | phonedisplay }}
+        </a>
+    </p>
+    </td>
+    <td>
+    {{ reservation['day'] }}/{{ reservation['month'] }}/{{ reservation['year'] }}
+    </td>
+    <td>
+    {{ reservation['start_time'] | timeformat }}
+    </td>
+    <td>
+    {{ reservation['instructor'] }}
+    </td>
+    <td>
+    {{ reservation['level'] }}
+    </td>
+    <td>
+    {{ reservation['horse'] }}
+    </td>
+</tr>
+{% endfor %}

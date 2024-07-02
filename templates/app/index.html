@@ -1,1 +1,193 @@
 {% extends 'app.html' %}
+{% block title %}Inicio{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/stylesheets/index.css">
+{% endblock %}
+{% block content %}
+<div id="topCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#topCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#topCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Empieza a montar</h1>
+            <p>Utiliza HorsRancher para reservar tus clases de montar a caballo de forma fácil y rápida.</p>
+            <p><a class="btn btn-lg btn-primary" href="/centers/">Encuentra tu centro</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Centros</h1>
+            <p>Regístrate como centro, atrae clientes y libera tu tiempo</p>
+            <p><a class="btn btn-lg btn-primary" href="/about/center/">Más información</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#topCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#topCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <div style="height: 60px;"></div>
+  <div class="container marketing">
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+      <h2>¿Por qué reservar una clase con HorsRancher?</h2><p></p>
+      <div class="col-lg-4">
+        <svg height=140 width=140 viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+          <g transform="matrix(1.7711479663848877, 0, 0, 1.7711479663848877, -193.28565979003906, -192.9342041015625)" style="">
+            <ellipse style="fill: rgb(196, 218, 255);" cx="250" cy="250" rx="137.807" ry="137.807"/>
+            <path d="M 194.939 200.944 C 193.982 191.009 201.788 182.414 211.757 182.414 L 238.735 182.414 C 241.855 182.414 244.367 184.926 244.367 188.046 L 244.367 192.349 C 244.367 200.189 238.769 205.664 234.545 208.896 C 234.049 209.257 233.61 209.707 233.249 210.226 L 233.114 210.507 L 233.103 210.575 L 233.103 210.609 L 233.137 210.721 C 233.182 210.834 233.317 211.025 233.542 211.318 C 234.421 212.219 235.446 212.963 236.584 213.504 C 239.749 215.081 244.48 216.207 250 216.207 C 255.542 216.207 260.273 215.081 263.404 213.504 C 264.553 212.963 265.589 212.231 266.457 211.318 C 266.648 211.104 266.795 210.868 266.896 210.609 L 266.896 210.507 L 266.761 210.226 C 266.412 209.707 265.972 209.257 265.465 208.896 C 261.241 205.664 255.643 200.189 255.643 192.349 L 255.643 188.046 C 255.643 184.937 258.166 182.414 261.264 182.414 L 288.242 182.414 C 298.222 182.414 306.028 191.009 305.06 200.944 L 302.322 233.104 L 304.992 233.104 C 307.189 233.104 309.723 231.448 312.595 227.697 C 314.961 224.61 318.543 221.839 323.218 221.839 C 329.616 221.839 333.885 226.874 336.217 231.549 C 338.729 236.562 340.114 243.095 340.114 250 C 340.114 256.905 338.729 263.438 336.217 268.451 C 333.885 273.126 329.616 278.161 323.218 278.161 C 318.543 278.161 314.961 275.39 312.595 272.303 C 309.723 268.552 307.189 266.897 304.992 266.897 L 302.322 266.897 L 305.06 299.056 C 306.028 308.98 298.222 317.586 288.242 317.586 L 261.264 317.586 C 258.155 317.586 255.632 315.063 255.632 311.954 L 255.632 307.651 C 255.632 299.811 261.23 294.336 265.454 291.104 C 265.961 290.732 266.4 290.281 266.75 289.774 L 266.885 289.493 L 266.896 289.425 L 266.896 289.391 C 266.806 289.121 266.648 288.873 266.457 288.67 C 265.589 287.758 264.564 287.026 263.415 286.496 C 260.25 284.919 255.519 283.793 250 283.793 C 244.48 283.793 239.726 284.919 236.595 286.496 C 235.457 287.026 234.421 287.769 233.542 288.682 C 233.362 288.885 233.204 289.121 233.103 289.391 L 233.103 289.425 L 233.114 289.493 L 233.249 289.774 C 233.43 290.079 233.813 290.54 234.545 291.104 C 238.769 294.336 244.367 299.811 244.367 307.651 L 244.367 311.954 C 244.367 315.063 241.855 317.586 238.735 317.586 L 211.757 317.586 C 201.788 317.586 193.982 308.98 194.939 299.056 L 197.688 266.897 L 195.007 266.897 C 192.81 266.897 190.276 268.552 187.404 272.303 C 185.038 275.39 181.456 278.161 176.781 278.161 C 170.383 278.161 166.114 273.126 163.782 268.451 C 161.27 263.438 159.885 256.905 159.885 250 C 159.885 243.095 161.27 236.562 163.782 231.549 C 166.114 226.874 170.383 221.839 176.781 221.839 C 181.456 221.839 185.038 224.61 187.404 227.697 C 190.276 231.448 192.81 233.104 195.007 233.104 L 197.688 233.104 L 194.939 200.944 Z M 211.757 193.678 C 208.423 193.667 205.821 196.551 206.147 199.874 L 206.159 199.953 L 209.425 238.251 C 209.718 241.54 207.116 244.357 203.816 244.368 L 195.007 244.368 C 187.167 244.368 181.693 238.769 178.46 234.545 C 178.099 234.038 177.649 233.599 177.131 233.25 L 176.849 233.115 L 176.781 233.104 L 176.748 233.104 C 176.488 233.194 176.241 233.351 176.027 233.543 C 175.125 234.41 174.382 235.435 173.853 236.584 C 172.276 239.749 171.149 244.48 171.149 250 C 171.149 255.52 172.276 260.273 173.853 263.405 C 174.641 264.982 175.43 265.939 176.038 266.457 C 176.252 266.637 176.488 266.795 176.748 266.897 L 176.781 266.897 L 176.849 266.885 L 177.131 266.75 C 177.649 266.39 178.099 265.95 178.46 265.455 C 181.693 261.231 187.167 255.632 195.007 255.632 L 203.816 255.632 C 207.116 255.632 209.707 258.448 209.425 261.737 L 206.159 300.126 C 205.832 303.438 208.434 306.31 211.757 306.322 L 232.912 306.322 C 232.371 304.452 230.715 302.357 227.696 300.047 C 224.61 297.682 221.839 294.1 221.839 289.425 C 221.839 283.027 226.874 278.758 231.549 276.426 C 236.561 273.914 243.094 272.529 250 272.529 C 256.905 272.529 263.438 273.914 268.45 276.426 C 273.125 278.758 278.16 283.027 278.16 289.425 C 278.16 294.1 275.389 297.682 272.303 300.047 C 269.284 302.357 267.628 304.441 267.088 306.322 L 288.242 306.322 C 291.576 306.322 294.189 303.438 293.852 300.126 L 293.84 300.047 L 290.574 261.749 C 290.292 258.46 292.883 255.632 296.183 255.632 L 304.992 255.632 C 312.832 255.632 318.306 261.231 321.539 265.455 C 322.103 266.187 322.564 266.57 322.868 266.75 L 323.15 266.885 L 323.218 266.897 L 323.251 266.897 C 323.522 266.795 323.77 266.637 323.972 266.457 C 324.885 265.579 325.617 264.554 326.146 263.416 C 327.723 260.262 328.85 255.531 328.85 250 C 328.85 244.469 327.723 239.727 326.146 236.595 C 325.617 235.446 324.874 234.41 323.961 233.543 C 323.758 233.351 323.522 233.205 323.251 233.104 L 323.218 233.104 L 323.15 233.115 L 322.868 233.25 C 322.362 233.599 321.911 234.038 321.539 234.545 C 318.306 238.769 312.832 244.368 304.992 244.368 L 296.183 244.368 C 292.883 244.357 290.292 241.54 290.574 238.251 L 293.84 199.874 C 294.178 196.551 291.576 193.678 288.242 193.678 L 267.088 193.678 C 267.628 195.548 269.284 197.643 272.303 199.953 C 275.389 202.318 278.16 205.9 278.16 210.575 C 278.16 216.973 273.125 221.242 268.45 223.574 C 263.438 226.086 256.905 227.471 250 227.471 C 243.094 227.471 236.561 226.086 231.549 223.574 C 226.874 221.242 221.839 216.973 221.839 210.575 C 221.839 205.9 224.61 202.318 227.696 199.953 C 230.715 197.643 232.371 195.559 232.912 193.678 L 211.757 193.678 Z" style=""/>
+          </g>
+        </svg>
+
+        <h3>Rápido y fácil</h3>
+        <p>Reserva tu clase en menos de 3 minutos, con unos pocos clicks.</p>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4">
+        <svg width=140 height=140 viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+          <ellipse style="fill: rgb(190, 223, 183);" cx="250" cy="250" rx="244.077" ry="244.077"/>
+          <g style="" transform="matrix(17.527549743652344, 0, 0, 17.527549743652344, -6162.64697265625, -3134.166748046875)">
+            <path d="M 372.361 188.077 C 372.637 188.077 372.861 188.301 372.861 188.577 L 372.861 197.577 C 372.861 197.853 372.637 198.077 372.361 198.077 L 359.361 198.077 C 359.085 198.077 358.861 197.853 358.861 197.577 L 358.861 188.577 C 358.861 188.301 359.085 188.077 359.361 188.077 L 372.361 188.077 Z M 359.361 187.077 C 358.532 187.077 357.861 187.749 357.861 188.577 L 357.861 197.577 C 357.861 198.406 358.532 199.077 359.361 199.077 L 372.361 199.077 C 373.189 199.077 373.861 198.406 373.861 197.577 L 373.861 188.577 C 373.861 187.749 373.189 187.077 372.361 187.077 L 359.361 187.077 Z"/>
+            <g>
+              <path d="M 364.861 190.577 C 364.861 190.301 365.085 190.077 365.361 190.077 L 370.361 190.077 C 370.746 190.077 370.986 190.494 370.794 190.827 C 370.704 190.982 370.539 191.077 370.361 191.077 L 365.361 191.077 C 365.085 191.077 364.861 190.853 364.861 190.577 M 363.365 189.723 C 363.561 189.918 363.561 190.236 363.365 190.431 L 361.865 191.931 C 361.669 192.127 361.352 192.127 361.157 191.931 L 360.657 191.431 C 360.384 191.159 360.509 190.693 360.881 190.594 C 361.054 190.547 361.238 190.597 361.365 190.723 L 361.511 190.87 L 362.657 189.723 C 362.852 189.527 363.169 189.527 363.365 189.723 M 364.861 194.577 C 364.861 194.301 365.085 194.077 365.361 194.077 L 370.361 194.077 C 370.746 194.077 370.986 194.494 370.794 194.827 C 370.704 194.982 370.539 195.077 370.361 195.077 L 365.361 195.077 C 365.085 195.077 364.861 194.853 364.861 194.577 M 363.365 193.723 C 363.561 193.918 363.561 194.236 363.365 194.431 L 361.865 195.931 C 361.669 196.127 361.352 196.127 361.157 195.931 L 360.657 195.431 C 360.384 195.159 360.509 194.693 360.881 194.594 C 361.054 194.547 361.238 194.597 361.365 194.723 L 361.511 194.87 L 362.657 193.723 C 362.852 193.527 363.169 193.527 363.365 193.723"/>
+            </g>
+          </g>
+        </svg>
+        <h3>Todos los detalles</h3>
+        <p>Te mostramos el nombre y la foto de tu caballo y de tu profesor, junto con todos los detalles necesarios para que contactes y llegues a tu centro.</p>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4">
+        <?xml version="1.0" encoding="utf-8"?>
+        <svg viewBox="5.923 5.923 488.154 488.154" width="140" height="140" xmlns="http://www.w3.org/2000/svg">
+          <ellipse style="fill: rgb(244, 153, 153);" cx="250" cy="250" rx="244.077" ry="244.077"/>
+          <g style="" transform="matrix(18.783889770507812, 0, 0, 18.783889770507812, -6986.34326171875, -3344.368408203125)">
+            <path d="M 383.492 189.561 L 383.492 198.604 C 383.492 199.181 384.117 199.542 384.617 199.253 C 384.849 199.12 384.992 198.872 384.992 198.604 L 384.992 193.854 C 384.992 193.469 385.409 193.229 385.742 193.421 C 385.897 193.51 385.992 193.675 385.992 193.854 L 385.992 198.604 C 385.992 199.181 386.617 199.542 387.117 199.253 C 387.349 199.12 387.492 198.872 387.492 198.604 L 387.492 190.104 C 387.492 189.912 387.701 189.791 387.867 189.887 C 387.945 189.932 387.992 190.015 387.992 190.104 L 387.992 192.604 C 387.992 193.181 388.617 193.542 389.117 193.253 C 389.349 193.12 389.492 192.872 389.492 192.604 L 389.492 189.854 C 389.492 188.197 388.149 186.854 386.492 186.854 L 383.728 186.854 C 383.573 186.854 383.42 186.818 383.281 186.748 L 382.951 186.583 C 382.67 186.443 382.493 186.156 382.492 185.842 L 382.492 184.104 C 382.492 183.527 381.867 183.166 381.367 183.454 C 381.135 183.588 380.992 183.836 380.992 184.104 L 380.992 186.187 C 380.992 186.902 381.396 187.557 382.036 187.876 L 382.992 188.354 C 383.312 188.674 383.492 189.108 383.492 189.561"/>
+            <path d="M 385.492 186.354 C 386.647 186.354 387.369 185.104 386.791 184.104 C 386.523 183.64 386.028 183.354 385.492 183.354 C 384.338 183.354 383.616 184.604 384.193 185.604 C 384.461 186.068 384.956 186.354 385.492 186.354"/>
+          </g>
+        </svg>
+        <h3>Soporte</h3>
+        <p>El pago se hace en el centro ecuestre, y si ocurre algún problema, estamos aquí para ayudar. </p>
+      </div><!-- /.col-lg-4 -->
+    </div><!-- /.row -->
+  </div>
+  <div style="height: 60px;"></div>
+  <div class="container marketing">
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+      <h2>¿Por qué ser un centro en HorsRancher?</h2><p></p>
+      <div class="col-lg-4">
+        <svg height=140 width=140 viewBox="5.923 5.923 488.154 488.154" xmlns="http://www.w3.org/2000/svg">
+          <ellipse style="fill: rgb(234, 241, 172); fill-rule: nonzero;" cx="250" cy="250" rx="244.077" ry="244.077"/>
+          <g style="" transform="matrix(20.49444580078125, 0, 0, 20.49444580078125, -6476.2529296875, -2951.2099609375)">
+            <path d="M 328.538 153.345 C 328.538 152.96 328.121 152.719 327.788 152.912 C 327.633 153.001 327.538 153.166 327.538 153.345 L 327.538 156.245 L 324.538 156.245 C 324.153 156.245 323.913 156.661 324.105 156.995 C 324.194 157.15 324.359 157.245 324.538 157.245 L 328.038 157.245 C 328.314 157.245 328.538 157.021 328.538 156.745 L 328.538 153.345 Z"/>
+            <path d="M 326.538 148.745 C 326.538 148.469 326.762 148.245 327.038 148.245 L 329.038 148.245 C 329.423 148.245 329.663 148.661 329.471 148.995 C 329.382 149.15 329.217 149.245 329.038 149.245 L 329.038 149.815 C 330.398 150.011 331.632 150.595 332.622 151.455 L 332.634 151.442 L 332.988 151.088 L 332.634 150.735 C 332.362 150.463 332.486 149.998 332.858 149.898 C 333.03 149.851 333.215 149.901 333.341 150.027 L 334.755 151.442 C 335.032 151.709 334.915 152.176 334.545 152.282 C 334.368 152.333 334.176 152.282 334.048 152.149 L 333.695 151.795 L 333.341 152.149 L 333.328 152.161 C 336.856 156.234 334.652 162.599 329.361 163.618 C 324.07 164.637 319.659 159.546 321.422 154.454 C 322.279 151.979 324.446 150.19 327.038 149.816 L 327.038 149.245 C 326.762 149.245 326.538 149.021 326.538 148.745 M 328.038 150.745 C 323.419 150.745 320.533 155.745 322.843 159.745 C 323.915 161.602 325.895 162.745 328.039 162.745 C 332.658 162.744 335.544 157.744 333.234 153.744 C 332.163 151.888 330.182 150.745 328.038 150.745"/>
+          </g>
+        </svg>
+        <h3>Fácil de mantener</h3>
+        <p>No te preocupes más por perder clientes al no poder atenderles. HorsRancher presenta toda la información de tu centro a tus clientes para que tu
+          tengas tiempo en hacer en lo que haces mejor.</p>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4">
+        <svg width=140 height=140 viewBox="5.923 5.923 488.154 488.154" xmlns="http://www.w3.org/2000/svg">
+          <ellipse style="fill-rule: nonzero; fill: rgb(196, 246, 248);" cx="250" cy="250" rx="244.077" ry="244.077"/>
+          <g style="" transform="matrix(18.455732345581055, 0, 0, 18.455732345581055, -3637.699951171875, -4027.208251953125)">
+            <path d="M 202.65 225.755 C 202.65 225.203 203.097 224.755 203.65 224.755 L 217.65 224.755 C 218.202 224.755 218.65 225.203 218.65 225.755 L 218.65 227.755 C 218.65 228.307 218.202 228.755 217.65 228.755 L 217.65 236.255 C 217.65 237.636 216.53 238.755 215.15 238.755 L 206.15 238.755 C 204.769 238.755 203.65 237.636 203.65 236.255 L 203.65 228.755 C 203.097 228.755 202.65 228.307 202.65 227.755 L 202.65 225.755 Z M 204.65 228.755 L 204.65 236.255 C 204.65 237.084 205.321 237.755 206.15 237.755 L 215.15 237.755 C 215.978 237.755 216.65 237.084 216.65 236.255 L 216.65 228.755 L 204.65 228.755 Z M 217.65 225.755 L 203.65 225.755 L 203.65 227.755 L 217.65 227.755 L 217.65 225.755 Z M 207.65 231.255 C 207.65 230.979 207.874 230.755 208.15 230.755 L 213.15 230.755 C 213.535 230.755 213.775 231.172 213.583 231.505 C 213.493 231.66 213.328 231.755 213.15 231.755 L 208.15 231.755 C 207.874 231.755 207.65 231.531 207.65 231.255"/>
+          </g>
+        </svg>
+        <h3>Plataforma todo-en-uno</h3>
+        <p>Tenemos una plataforma que se adapta a tus necesidades con toda la información de tus clientes a mano, para que puedas
+          hacer un seguimiento de todas las reservas que tienes, hasta las que no han sido procesadas por HorsRancher.
+        </p>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4">
+        <svg height=140 width=140 viewBox="5.923 5.923 488.154 488.154" xmlns="http://www.w3.org/2000/svg">
+          <ellipse style="fill-rule: nonzero; fill: rgb(206, 199, 237);" cx="250" cy="250" rx="244.077" ry="244.077"/>
+          <g style="" transform="matrix(16.63469886779785, 0, 0, 16.63469886779785, -3614.16796875, -2580.350341796875)">
+            <path d="M 239.984 162.414 C 240.153 162.558 240.207 162.796 240.116 162.998 C 238.586 166.428 235.373 171.168 233.021 173.638 C 232.361 174.328 231.549 174.853 230.648 175.172 C 230.63 175.399 230.588 175.71 230.488 176.04 C 230.287 176.699 229.821 177.519 228.78 177.78 C 227.772 178.02 226.727 178.065 225.702 177.912 C 225.512 177.881 225.324 177.835 225.14 177.777 C 224.971 177.725 224.813 177.641 224.674 177.53 C 224.583 177.453 224.513 177.354 224.47 177.242 C 224.417 177.099 224.419 176.941 224.474 176.799 C 224.569 176.554 224.79 176.419 224.935 176.347 C 225.329 176.15 225.56 175.894 225.802 175.521 C 225.897 175.377 225.986 175.224 226.089 175.049 L 226.206 174.851 C 226.357 174.596 226.532 174.311 226.752 174.003 C 227.28 173.264 227.953 173.078 228.498 173.107 C 228.625 173.115 228.741 173.131 228.846 173.155 C 228.908 172.983 228.988 172.775 229.084 172.547 C 229.345 171.928 229.742 171.128 230.271 170.478 C 232.447 167.808 236.451 164.272 239.388 162.374 C 239.574 162.254 239.816 162.27 239.984 162.414 M 228.864 174.206 C 228.732 174.148 228.59 174.114 228.445 174.106 C 228.199 174.093 227.872 174.156 227.566 174.585 C 227.369 174.86 227.211 175.117 227.066 175.362 L 226.961 175.539 C 226.855 175.72 226.748 175.901 226.641 176.067 C 226.439 176.395 226.182 176.686 225.881 176.928 C 226.571 177.04 227.617 177.039 228.538 176.808 C 229.097 176.669 229.381 176.239 229.531 175.748 C 229.605 175.504 229.647 175.252 229.657 174.998 L 228.864 174.206 Z M 230.304 174.232 C 230.424 174.192 230.581 174.132 230.762 174.049 C 231.338 173.781 231.859 173.408 232.297 172.949 C 234.197 170.953 236.709 167.379 238.349 164.318 C 235.759 166.245 232.783 168.978 231.047 171.11 C 230.605 171.653 230.252 172.353 230.005 172.936 C 229.884 173.224 229.791 173.476 229.73 173.656 L 229.73 173.657 L 230.305 174.232 L 230.304 174.232 Z M 225.331 177.272 L 225.338 177.267 L 225.331 177.272 Z M 228.913 174.229 L 228.915 174.23 L 228.913 174.23 L 228.913 174.229 Z"/>
+          </g>
+        </svg>
+        <h3>Personalizable con tu marca</h3>
+        <p>Haz que brille la marca de tu centro con nuestras opciones de personalización. Desde logos, colores y fotos a redes sociales y blogs simples</p>
+      </div><!-- /.col-lg-4 -->
+    </div><!-- /.row -->
+
+  </div>
+  <div class="container marketing">
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading">Interfaz simple e intuitiva</h2>
+        <p class="lead">Sin anuncios, sin <i>cookies</i> sin tonterías. Tú (y tus clientes), llegan, hacen lo que quieran, y se van. Así de fácil.</p>
+      </div>
+      <div class="col-md-5">
+        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">GIF here</text></svg>
+
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading">Muchas opciones <span class="text-muted">para los centros</span></h2>
+        <p class="lead">
+          <ul>
+            <li>
+              Añadir manualmente reservas telefónicas
+            </li>
+            <li>
+              Aplicación individual para los profesores con su horario y sus alumnos, con la que pueden pasar lista, viendo los caballos que tienen que ir sacando, y más
+            </li>
+            <li>
+              Crea bonos QR, con caducidad y/o condiciones, que se puedan redimir también en la web, para que no los tengas que comprobar
+            </li>
+            <li>
+              Un lugar para emitir facturas, enviarlas a los clientes y exportar datos de forma automática 
+            </li>
+            <li>
+              Editar tu perfil, incluir todas tus redes, tu página web, e incluso crear un blog sencillo para difundir avisos o noticias, que también llegará a aquellos clientes que lo deseen.
+            </li>
+          </ul>
+          Todo desde un solo lugar.
+        </p>
+      </div>
+      <div class="col-md-5 order-md-1">
+        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading">Ayuda, <span class="text-muted">cuando la necesitas</span></h2>
+        <p class="lead">
+          No procesamos tus pagos, tú pagas cuando llegas, ves y cumples. No hace falta que los centros integren más métodos de pago en sus operaciones, ni que saques tu tarjeta para teclear los números y buscar esa confirmación que no llega.
+          Si pasa algo con tu reserva, o necesitas ayuda, estamos aquí para ayudar. Si no consigues publicar los últimos cambios a tu horario, también estamos aquí para ayudar.
+        </p>
+      </div>
+      <div class="col-md-5">
+        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+  </div>
+{% endblock %}

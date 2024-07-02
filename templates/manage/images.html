@@ -3,8 +3,9 @@
 {% block title %}Imágenes{% endblock %}
 
 {% block content %}
-<div style='padding: 20px; padding-top: 50px;'>
-    <h1 style='text-align: center; width: 100vw'>Imágenes</h1>
+<div style="height: 55px;"></div>
+<div class="container">
+    <h1 style='text-align: center; width: 100%'>Imágenes</h1>
     <table class="table table-hover">
           <thead>
           <tr>
@@ -30,7 +31,7 @@
           </tr>
           {% endfor %}
           
-          <tr onclick="window.location.href='/manage/images/+'">
+          <tr onclick="window.location.href='/manage/images/+/'">
             <td>
                 <div style='font-size: 50px; height: 46px; width: 46px; line-height: 0.7; text-align: center'>+</div>
             </td>

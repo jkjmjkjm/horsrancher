@@ -1,2 +1,7 @@
 # HorsRancher
 A website (now), app (later hopefully) and fully functioning platform (sometime in the future possibly) to view availability of, reserve and pay for horse-riding lessons in Spain. Created out of the frustration with current solutions (i.e. none) and as a final project for Harvard's CS50 and expand(ing) and finish(ing) for Hack Club. 
+
+## Background
+This was the final project I submitted to Harvard's CS50 course about 2 years ago. It was functional, but had little options for centers, all of whose data was fixed. There was only one center (a test one) in the whole system, and it was basically an MVP--. I also didn't use git, and instead opted to keep all of my files on an AWS Lightsail server, which I accessed through AWS Cloud9 IDE. When I was done, I simply downloaded everything and kept it in a .zip archive in my Google Drive. I wouldn't recommend this to anyone now.
+
+When I was looking for project ideas for the Hack Club Arcade, I remembered this project and knew I just had to finish it. So, I downloaded the files from Google Drive and uploaded them to this repo with the intention of making this a functioning platform. When I do, I might dabble in Swift and create companion apps, as is detailed in the Home page (templates/app/index.html). Anyway, I'm still working on it (check out the dev branch), but I'll hopefully get there soon.

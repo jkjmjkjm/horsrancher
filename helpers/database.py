@@ -1,5 +1,7 @@
 #Helper for database. Ensures all database data is sent through one point and locks the data
 
+#TODO find another sql library
+
 from cs50 import SQL
 db = SQL("sqlite:///hr-db.db")
 

@@ -4,17 +4,99 @@
 
 {% block head %}
 <div hidden id='center_id'>{{ center_id }}</div>
+<script src="/static/scripts/manage/center-details.js"></script>
 {% endblock %}
 
 
 {% block content %}
 <form method='POST'>
-    <div class="position-relative overflow-hidden text-center center-banner" style='background-image: url(/static/center-assets/{{ center_id }}/{{ main_photo }}); height: 85vh; min-height: 500px'>
+    <div class="position-relative overflow-hidden text-center center-banner" style='background-image: url(/static/center-assets/{{ center_id }}/{{ main_photo }}); background-size: cover; height: 85vh; min-height: 500px'>
       <div class="col-md-5 p-lg-5 mx-auto my-5">
         <img src="/static/center-assets/{{ center_id }}/{{ center_logo }}/" class='logo-big' alt="logo">
-        <h1 class="display-4 fw-normal ghost-highlight"><input required name='name' id='nameSelect' type='text' placeholder='Nombre (obligatorio)' value="{{ center_name }}"></h1>
-        <p class="lead fw-normal ghost-highlight"><input name='description' id='descriptionSelect' type='text' placeholder='Subtitulo' value="{{ center_description_short }}"></p>
+        <h1 class="display-4 fw-normal ghost-highlight">
+          <input style="width: 100%; text-align: center;" required name='name' id='nameSelect' type='text' placeholder='Nombre (obligatorio)' value="{{ center_name }}">
+        </h1>
+        <p class="lead fw-normal ghost-highlight">
+          <input style="width: 100%; text-align: center;" name='description_short' id='descriptionSelect' type='text' placeholder='Breve descripción' value="{{ center_description_short }}">
+        </p>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">
+          Guardar cambios
+        </button>
+        <a href="/manage/main-images/" class="btn btn-primary" style="margin-top: 50%; width: 100%">
+          Cambiar estas imágenes
+        </a>
       </div>
     </div>
-</form>
+    <div class='m-3 p-1'>
+      <div class="row">
+        <div style="min-width: 500px; width: 73%; padding: 20px;">
+          <h4 style="margin-bottom: 0;">Sobre {{ center_name }}</h4><small style="margin-top:0; margin-bottom: 16px;">Usuario de HorsRancher desde {{ center_registration }}</small>
+          <p>
+            <textarea name="description_long" class="autoResize" style="width: 100%; resize: none;" placeholder="Puedes describir la ubicación de tu centro, o explicar tu historia. Escribe lo que quieras.">{{ center_description_long }}</textarea>
+          </p>
+          <button class="btn btn-primary" style="width: 100%" type="submit">Guardar cambios</button>
+          <div style="height: 40px;"></div>
+          <h4>Niveles que ofrece {{ center_name }}</h4>
+          Aquí aparecen tus <a href="/manage/levels/">niveles</a>
+          <h4 style="padding-top: 30px;">Profesores en {{ center_name }}</h4>
+          Aquí aparecen tus <a href="/manage/instructors/">profesores</a>
+          <h4 style="padding-top: 30px">Caballos en {{ center_name }}</h4>
+          Aquí aparecen tus <a href="/manage/horses/">caballos</a>
+        </div>
+        <div style="width: 23%; min-width: 300px; padding: 20px;">
+        <h4 id="contact-optns" style="padding-top: 30px">Conecta con {{ center_name }}</h4>
+        {% for account in center_social %}
+        <ul class='list-inline'>
+          <li class='list-inline-item'>
+            <a href='{{ account['url'] }}' class='connect-item' style='text-decoration: none'><img alt='{{ account['logo'] }} logo' class='social-media-small-icon' src="/static/assets/social/{{ account['logo'] }}/" alt="{{ account['logo'] }}"></a>
+          </li>
+          <li class='list-inline-item'>
+            <a href='{{ account['url'] }}' class='connect-item' style='text-decoration: none'>
+            <h6>{{ account['display'] }}</h6></a>
+          </li>
+        </ul>
+        {% endfor %}
+        <a href="/manage/socials/" class="btn btn-outline-primary">
+          Editar redes y formas de contacto
+        </a>
+        <h4 style="margin-top: 30px;">Opciones de Horario</h4>
+        <p>Horario de apertura: De {{ center_timetable['center_opening'] | timeformat }} a {{ center_timetable['center_closing'] | timeformat }}</p>
+        <p>Primera clase: {{ center_timetable['center_starts_classes'] | timeformat }}</p>
+        <p>Última clase: {{ center_timetable['center_ends_classes'] | timeformat }}</p>
+        <p>Clases cada {{ center_timetable['classes_every'] }} minutos</p>
+        <p>Duración de cada clase: {{ center_timetable['classes_length'] }} minutos</p>
+        <p>Alumnos por cada clase: {{ center_timetable['class_size'] }}</p>
+        <a href="/manage/timetable/" class="btn btn-outline-primary">
+          Editar opciones de horarios
+        </a>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
+    <div id="savedToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="me-auto">Tus cambios se han guardado</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extscript %}
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('saved') === '1') {
+          var toastElement = document.getElementById('savedToast');
+          var toast = new bootstrap.Toast(toastElement, { delay: 5000 });
+          toast.show();
+          history.replaceState(null, null, "/manage/info/")
+      }
+  });
+</script>
+
 {% endblock %}
