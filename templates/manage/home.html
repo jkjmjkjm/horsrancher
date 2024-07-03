@@ -22,7 +22,7 @@
     </h2>
     Desde aquí puede ver y editar sus profesores, caballos, reservas, imágenes y detalles.
     <div class="optns" style="display: flex; flex-direction: row; flex-wrap: wrap; margin-top: 10px;">
-        <a href="/manage/instructors/">    
+        <a href="/manage/instructors/" id="instructors">    
             <div class="card" style="width: 22rem;">
                 <div class="card-body">
                     <h4 class="card-title">
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </a>
-        <a href="/manage/horses/">
+        <a href="/manage/horses/" id="horses">
             <div class="card" style="width: 22rem;">
                 <div class="card-body">
                     <h4 class="card-title">
@@ -46,7 +46,7 @@
                 </div>
             </div>
         </a>
-        <a href="/manage/levels/">
+        <a href="/manage/levels/" id="levels">
             <div class="card" style="width: 22rem;">
                 <div class="card-body">
                     <h4 class="card-title">
@@ -58,7 +58,7 @@
                 </div>
             </div>
         </a>
-        <a href="/manage/reservations/">
+        <a href="/manage/reservations/" id="reservations">
             <div class="card" style="width: 22rem;">
                 <div class="card-body">
                     <h4 class="card-title">
@@ -70,7 +70,7 @@
                 </div>
             </div>
         </a>
-        <a href="/manage/images/">
+        <a href="/manage/images/" id="images">
             <div class="card" style="width: 22rem;">
                 <div class="card-body">
                     <h4 class="card-title">
@@ -82,7 +82,7 @@
                 </div>
             </div>
         </a>
-        <a href="/manage/info/">
+        <a href="/manage/info/" id="info">
             <div class="card" style="width: 22rem;">
                 <div class="card-body">
                     <h4 class="card-title">
@@ -96,4 +96,58 @@
         </a>
     </div>
 </div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
+    <div id="newToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="me-auto">Tu centro se ha creado con éxito</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button id="instructor_popover" type="button" class="btn btn-secondary popovering"
+        style="position: absolute; z-index: -2;"
+        data-bs-toggle="popover" data-bs-placement="right"
+        data-bs-custom-class="custom-popover"
+        data-bs-title="Custom popover"
+        data-bs-content="This popover is themed via CSS variables.">
+    </button>
+  </div>
+  <div hidden id="tourCover" style="z-index: 4; position: absolute; bottom: 0px; top: 0px; left: 0px; right: 0px; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.344);"></div>
+
+{% endblock %}
+
+{% block extscript %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('new') === '1') {
+            var toastElement = document.getElementById('newToast');
+            var toast = new bootstrap.Toast(toastElement, { delay: 5000 });
+            toast.show();
+            history.replaceState(null, null, "/manage/")
+            document.getElementById("tourCover").hidden = false;
+            document.getElementById("instructors").style.zIndex = 5;
+            document.getElementById('popoverbutton').click();
+        }
+        new bootstrap.Popover(document.querySelector('[data-bs-toggle="popover"]'));
+    });
+    function updateelements() {
+      const target = document.getElementById('instructors');
+      const follower = document.getElementById('popoverbutton');
+      const targetRect = target.getBoundingClientRect();
+
+      follower.style.width = `${targetRect.width}px`;
+      follower.style.height = `${targetRect.height}px`;
+      follower.style.top = `${targetRect.top + window.scrollY}px`;
+      follower.style.left = `${targetRect.left + window.scrollX}px`;
+    }
+    updateelements();
+    window.addEventListener('resize', updateelements);
+    window.addEventListener('scroll', updateelements);
+
+</script>
+
 {% endblock %}

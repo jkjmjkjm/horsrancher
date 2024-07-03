@@ -1,1 +1,40 @@
-<!-- TODO -->
+{% extends 'manage.html' %}
+
+{% block title %}Creado con éxito{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+<div style="height: 55px;"></div>
+<div class="container">
+    <h1>
+        Se ha creado tu centro con éxito
+    </h1>
+    <p>
+        Ya está tu centro registrado con éxito en HorsRancher. Puedes ver la página de tu centro <a href="/center/{{ center_id }}">aquí</a>.
+    </p>
+    <h6>¿Qué hago ahora?</h6>
+    <ul>
+        <li>
+            Añadir tus niveles, tus caballos y tus profesores. En la siguiente página podrás ver dónde hacer todo.
+        </li>
+        <li>
+            Añadir todas tus formas de contacto, como teléfono, redes sociales, tu página web o tu correo electrónico.
+        </li>
+        <li>
+            Enviar tu enlace de HorsRancher a todos tus clientes habituales, y publicarlo en tus redes y web.
+        </li>
+        <li>
+            Esperar las reservas y verlas todas categorizadas por fecha, nivel, caballo o profesor
+        </li>
+    </ul>
+    <h6>¿A qué esperas?</h6>
+    <a href="/manage/?new=1" class="btn btn-lg btn-primary">Continuar a tu panel de control</a>
+</div>
+{% endblock %}
+
+{% block extscript %}
+
+{% endblock %}

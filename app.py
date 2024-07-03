@@ -274,7 +274,6 @@ def signout():
     helpers.accounts.sign_out()
     return redirect(request.args.get("next", "/"))
 
-
 @app.route('/profile/')
 @helpers.accounts.login_required
 def profilepage():
@@ -328,7 +327,6 @@ def new_center_s3():
         return "ERROR: Terms need to be accepted", 400
     return helpers.template_gen('manage/new/timetable.html', center_name=request.form.get("center_name"), center_description_short=request.form.get("center_description_short"))
 
-
 @app.route('/manage/new/S4/', methods=['POST'])
 @helpers.accounts.can_create_center
 def new_center_s4():
@@ -369,13 +367,13 @@ def new_center_s5():
     os.mkdir(f"static/center-assets/{new_id}/")
     os.mkdir(f"static/center-assets/{new_id}/horses/")
     os.mkdir(f"static/center-assets/{new_id}/instructors/")
-    logoFile.save(os.path.join(f"static/center-assets/{new_id}/", bannerfilename))
-    bannerFile.save(os.path.join(f"static/center-assets/{new_id}/", logofilename))
-    return redirect('/manage/created/')
+    logoFile.save(os.path.join(f"static/center-assets/{new_id}/", logofilename))
+    bannerFile.save(os.path.join(f"static/center-assets/{new_id}/", bannerfilename))
+    return redirect(f'/manage/created/?id={new_id}')
 
 @app.route('/manage/created/')
 def new_center_success():
-    return redirect('/manage/')
+    return helpers.template_gen("manage/new/done.html", center_id = request.args.get('id'))
 
 @app.route('/manage/')
 def manage_home():
@@ -757,14 +755,11 @@ def manage_main_images():
 def about_center():
     return helpers.template_gen("manage/about.html")
 
-
-
 def errorhandler(e):
     if request.path.startswith('/manage/'):
         return helpers.template_gen('manage/error.html', err_code=f"HTTP {e.code}"), e.code
     else:
         return helpers.template_gen('app/error.html', err_code=f"HTTP {e.code}"), e.code
-
 
 for code in default_exceptions:
     app.errorhandler(code)(errorhandler)

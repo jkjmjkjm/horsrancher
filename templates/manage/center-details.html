@@ -81,7 +81,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
       </div>
     </div>
-</div>
+  </div>
+
+
 {% endblock %}
 
 {% block extscript %}
@@ -94,7 +96,7 @@
           var toastElement = document.getElementById('savedToast');
           var toast = new bootstrap.Toast(toastElement, { delay: 5000 });
           toast.show();
-          history.replaceState(null, null, "/manage/info/")
+          history.replaceState(null, null, "/manage/info/");
       }
   });
 </script>
