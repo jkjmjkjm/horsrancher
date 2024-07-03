@@ -13,7 +13,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def template_gen(template_name, *args, **kwargs):
-    return render_template(template_name, *args, **kwargs, signed_in=helpers.accounts.signed_in(), full_path=request.path);
+    return render_template(template_name, *args, **kwargs, signed_in=helpers.accounts.signed_in(), current_email = helpers.accounts.current_email(), full_path=request.path);
 
 def minstohhmm(mins):
     hours = mins // 60

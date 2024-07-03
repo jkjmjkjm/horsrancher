@@ -241,26 +241,48 @@ def confirmPage(centreID):
 @app.route('/signin/', methods=['GET','POST'])
 def signin():
     if request.method == 'GET':
+        if session.get("user_id") != None:
+            return redirect(request.args.get('next', "/"))
         return helpers.template_gen('app/signin.html', next=request.args.get('next', '/'))
     else:
+        if session.get("user_id") != None:
+            return redirect(request.form.get('next'))
         returned, error = helpers.accounts.sign_in(request.form.get("email"), request.form.get("pass"))
         if returned != 0:
-            return helpers.template_gen('manage/error.html', err_code=error)
+            return helpers.template_gen('app/error.html', err_code=error)
         return redirect(request.form.get('next'))
 
 @app.route('/signup/', methods=['GET','POST'])
 def signup():
     if request.method == 'GET':
+        if session.get("user_id") != None:
+            return redirect(request.args.get('next', '/'))
         return helpers.template_gen('app/signup.html', next=request.args.get('next', '/'))
     else:
         if session.get("user_id") != None:
             return redirect(request.form.get('next'))
-        if request.form.get("pass") == request.form.get("passconfirm"):
-            return helpers.template_gen('manage/error.html', err_code="Las contraseñas no coinciden")
+        if not request.form.get("pass") == request.form.get("passconfirm"):
+            return helpers.template_gen('app/error.html', err_code="Las contraseñas no coinciden")
         returned, error = helpers.accounts.sign_up(request.form.get("email"), request.form.get("pass"))
         if returned != 0:
-            return helpers.template_gen('manage/error.html', err_code=error)
-        return redirect(request.form.get('next'))
+            return helpers.template_gen('app/error.html', err_code=error)
+        return redirect(request.form.get('next', "/"))
+
+@app.route('/signout/')
+def signout():
+    helpers.accounts.sign_out()
+    return redirect(request.args.get("next", "/"))
+
+
+@app.route('/profile/')
+@helpers.accounts.login_required
+def profilepage():
+    return("cute profile page here")
+
+@app.route('/account-settings/')
+@helpers.accounts.login_required
+def accountsettings():
+    return("change password and email here!")
 
 @app.route('/cal_gen')
 def calGen():
@@ -284,7 +306,18 @@ def processReservationHTML():
 @app.route('/manage/')
 def manage_home():
     if session.get('center_id_auth') == None:
-        session['center_id_auth'] = 2
+        if session.get('user_id') == None:
+            to = request.args.get('to')
+            if not to == None:
+                to = to.replace(' ','+')
+                to = to.replace('%20', '+')
+            else:
+                to = "/manage/"
+            return redirect("/signin/?f=1&next="+to)
+        errorC, extraI = helpers.accounts.link_center()
+        if errorC == 1:
+            return helpers.template_gen('manage/error.html', err_code = extraI)
+        session['center_id_auth'] = extraI
         to = request.args.get('to')
         if not to == None:
             to = to.replace(' ','+')

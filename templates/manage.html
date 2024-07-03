@@ -22,7 +22,32 @@
                 </a></li>
             </ul>
             <ul class="nav">
-                <li class='nav-item'>Account here</li> 
+                {% if signed_in %}
+                <li class='nav-item'>
+                    <a class="nav-link px-2 link-dark dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ current_email }}</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="/profile/">
+                                Mi perfil
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/account-settings/">
+                                Ajustes de la Cuenta
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/signout/?next={{ full_path }}">
+                                Cerrar Sesión
+                            </a>
+                        </li>
+                    </ul>
+                </li> 
+                {% else %}
+                <li class='nav-item'>
+                    <a href="/signin/?next={{ full_path }}" class="nav-link link-dark px-2">Iniciar Sesión</a>
+                </li> 
+                {% endif %}
             </ul>
         </div>
         </nav>
