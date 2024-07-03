@@ -58,7 +58,12 @@
                 </div>
                 <div class='mb-3'>
                     <label for="email" class="form-label">Tu correo electronico</label>
-                    <input required type="email" class="form-control" id="email" name='email'>
+                    <input required type="email" class="form-control" id="email" name='email' {% if signed_in %} value="{{ current_email }}" disabled aria-describedby="emailLockHelp">
+                    <div id="emailLockHelp" class="form-text">
+                        Este es el correo vinculado a tu cuenta. Si desea reservar con otro correo, cierre sesión en la esquina superior derecha.
+                    </div>
+                    {% else %}>{% endif %}
+
                 </div>
                 <div class='mb-3'>
                     <label for="phone" class="form-label">Tu teléfono de contacto</label>

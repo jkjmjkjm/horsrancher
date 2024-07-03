@@ -8,12 +8,18 @@ import helpers.reservation_processing
 from flask import request, session, render_template
 from flask_session import Session
 ALLOWED_EXTENSIONS = {'jpg', 'png', 'jpeg', 'gif', 'bmp', 'tif', 'tiff'}
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def template_gen(template_name, *args, **kwargs):
-    return render_template(template_name, *args, **kwargs, signed_in=helpers.accounts.signed_in(), current_email = helpers.accounts.current_email(), full_path=request.path);
+    if template_name.startswith("manage/"):
+        return render_template(template_name, *args, **kwargs, signed_in=helpers.accounts.signed_in(), current_email = helpers.accounts.current_email(),
+                               full_path=request.path, center_role="admin", center_name="TODO");
+    else:
+        return render_template(template_name, *args, **kwargs, signed_in=helpers.accounts.signed_in(), current_email = helpers.accounts.current_email(),
+                               full_path=request.path);
 
 def minstohhmm(mins):
     hours = mins // 60

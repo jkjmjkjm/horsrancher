@@ -22,6 +22,16 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def can_create_center(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/signin/?f=1&next="+request.path)
+        if not link_center()[1] == "No center linked to user":
+            return redirect("/manage/")
+        return f(*args, **kwargs)
+    return decorated_function
+
 def sign_in(email, password):
     row = helpers.database.execute_without_freezing("SELECT * FROM user WHERE email = ?", email)
     if len(row) != 1:

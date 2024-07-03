@@ -303,6 +303,16 @@ def processReservationHTML():
     else:
         return outcome, 400
 
+@app.route('/manage/new/')
+@helpers.accounts.can_create_center
+def new_center_redirect():
+    return redirect('/manage/new/confirm/')
+
+@app.route('/manage/new/confirm/')
+@helpers.accounts.can_create_center
+def new_center():
+    return helpers.template_gen('manage/new/confirm.html')
+
 @app.route('/manage/')
 def manage_home():
     if session.get('center_id_auth') == None:
@@ -316,6 +326,8 @@ def manage_home():
             return redirect("/signin/?f=1&next="+to)
         errorC, extraI = helpers.accounts.link_center()
         if errorC == 1:
+            if extraI == "No center linked to user":
+                return redirect('/manage/new/')
             return helpers.template_gen('manage/error.html', err_code = extraI)
         session['center_id_auth'] = extraI
         to = request.args.get('to')

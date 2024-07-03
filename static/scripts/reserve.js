@@ -143,7 +143,7 @@ function clickedDate(day, month, year) {
     if(document.getElementById(day+'-'+month+'-'+year+'-cell') != null) {
         document.getElementById(day+'-'+month+'-'+year+'-cell').style.backgroundColor = '#a8c0ff';
     }
-    httpGetAsync('/getDayAvailabilityInfo?d='+day+'&m='+month+'&y='+year+'&center='+document.getElementById('center-id').innerHTML, function(theRequest) {
+    httpGetAsync('/getDayAvailabilityInfo?d='+day+'&m='+month+'&y='+year+'&center='+document.getElementById('center-id').innerText, function(theRequest) {
         document.getElementById('step2-block').innerHTML = 'Selecciona una fecha y una hora para continuar';
         document.getElementById('step3-block').innerHTML = 'Selecciona un nivel para continuar';
         let responded = JSON.parse(theRequest.responseText);
@@ -176,7 +176,7 @@ function clickedDate(day, month, year) {
         Sday = day;
         Smonth = month;
         Syear = year;
-        history.replaceState('date','date','/reserve/'+document.getElementById('center-id').innerHTML+'/?y='+Syear+'&m='+Smonth+'&d='+Sday);
+        history.replaceState('date','date','/reserve/'+document.getElementById('center-id').innerText+'/?y='+Syear+'&m='+Smonth+'&d='+Sday);
         if (curr_url.searchParams.get('hour') != null && curr_url.searchParams.get('mins') != null && pass_step < 2) {
             pass_step = 2;
             document.getElementById(curr_url.searchParams.get('hour')+'-'+parseInt(curr_url.searchParams.get('mins'))+'-button').click();
@@ -221,7 +221,7 @@ function clickedDangerTime(hours, mins) {
 }
 
 function afterTime() {
-    history.replaceState('selectedTime','selectedTime', '/reserve/'+document.getElementById('center-id').innerHTML+'/?y='+Syear+'&m='+Smonth+'&d='+Sday+'&hour='+Shours + '&mins=' + ("00" + Smins).slice (-2));
+    history.replaceState('selectedTime','selectedTime', '/reserve/'+document.getElementById('center-id').innerText+'/?y='+Syear+'&m='+Smonth+'&d='+Sday+'&hour='+Shours + '&mins=' + ("00" + Smins).slice (-2));
     showLoadingScreen();
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
@@ -258,7 +258,7 @@ HTTP ` + xmlHttp.status);
         'y':Syear,
         'hour':Shours,
         'mins':Smins,
-        'center':document.getElementById('center-id').innerHTML
+        'center':document.getElementById('center-id').innerText
     }));
 }
 
@@ -341,7 +341,7 @@ function clickedLevel(level_id) {
         if (xmlHttp.readyState == 4) {
             if (xmlHttp.status == 200) {
                 document.getElementById('step3-block').innerHTML = xmlHttp.responseText;
-                history.replaceState('selectedTime','selectedTime', '/reserve/'+document.getElementById('center-id').innerHTML+'/?y='+Syear+'&m='+Smonth+'&d='+Sday+'&hour='+Shours + '&mins=' + ("00" + Smins).slice (-2) + '&level='+ level_id);
+                history.replaceState('selectedTime','selectedTime', '/reserve/'+document.getElementById('center-id').innerText+'/?y='+Syear+'&m='+Smonth+'&d='+Sday+'&hour='+Shours + '&mins=' + ("00" + Smins).slice (-2) + '&level='+ level_id);
                 selected_level = level_id;
                 hideLoadingScreen();
                 specialised_scroll_to('step3-header');
@@ -384,7 +384,7 @@ HTTP ` + xmlHttp.status);
         'y':Syear,
         'hour':Shours,
         'mins':Smins,
-        'center':document.getElementById('center-id').innerHTML,
+        'center':document.getElementById('center-id').innerText,
         'level':level_id
     }));
 }
@@ -417,7 +417,7 @@ function afterInstructorHorse() {
             curr_value.style.backgroundColor = '#FFFFFF';
         }
     });
-    history.replaceState('ins_hor_c', 'Instructor Horse Clicked', '/reserve/'+document.getElementById('center-id').innerHTML+'/?y='+Syear+'&m='+Smonth+'&d='+Sday+'&hour='+Shours + '&mins=' + ("00" + Smins).slice (-2) + '&level='+ selected_level+'&instructor='+selected_instructor+'&horse='+selected_horse);
+    history.replaceState('ins_hor_c', 'Instructor Horse Clicked', '/reserve/'+document.getElementById('center-id').innerText+'/?y='+Syear+'&m='+Smonth+'&d='+Sday+'&hour='+Shours + '&mins=' + ("00" + Smins).slice (-2) + '&level='+ selected_level+'&instructor='+selected_instructor+'&horse='+selected_horse);
     if (selected_horse != 'N' && selected_instructor != 'N') {
         document.getElementById('finish_button').disabled = false;
     }
@@ -425,5 +425,5 @@ function afterInstructorHorse() {
 }
 
 function finish_button() {
-    window.location.pathname = '/reserve/confirm/'+document.getElementById('center-id').innerHTML+'/'
+    window.location.pathname = '/reserve/confirm/'+document.getElementById('center-id').innerText+'/'
 }

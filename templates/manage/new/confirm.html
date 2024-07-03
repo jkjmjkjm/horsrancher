@@ -1,0 +1,55 @@
+{% extends 'manage.html' %}
+{% block title %}
+    Cuenta no vinculada
+{% endblock %}
+{% block content %}
+<div style="height: 55px;">
+</div>
+
+<div class="container">
+    <h1>
+        Parece que no hay ningún centro vinculado a tu cuenta.
+    </h1>
+    <sub style="font-size: larger;">
+        Has intentado acceder a una página de gestión de centros. ¿No necesitas el registro como centro? <a href="/">Vuelve a la página principal</a>
+    </sub>
+    <div style="height: 60px;"></div>
+    <h3>¿Te gustaría registrar un centro nuevo en HorsRancher?</h3>
+    <p>
+        Debes cumplir unos requisitos para poder registrarte en HorsRancher
+    </p>
+    <ul>
+        <li>
+            Encontrarse en el territorio nacional (España)
+        </li>
+        <li>
+            Tener una licencia válida para instruir y enseñar equitación
+        </li>
+        <li>
+            Usted debe poder firmar contratos en nombre de la empresa del centro
+        </li>
+    </ul>
+    <p>
+        HorsRancher no ayuda en temas judiciales, administrativos o fiscales, ni se responsabiliza de ningún uso inadecuado de tanto centros como clientes de
+        sus herramientas.
+    </p>
+    <sub>
+        <strong>Al continuar en el registro de su centro,</strong> debe aceptar los <strong><a href="/legal/terms/">términos y condiciones</a></strong>
+        y la <strong><a href="/legal/privacy/">política de privacidad y cookies.</a></strong>
+        Certifica que tiene autorización a entrar en este contrato por parte de la empresa que regula su centro, si se trata de una.
+        Tus datos se podrían almacenar fuera de la Unión Europea. Más detalles en la política de privacidad.
+    </sub>
+    <div style="height: 60px;"></div>
+    <div class="form-check">
+        <input required class="form-check-input" type="checkbox" value="" id="termsAcceptance">
+        <label class="form-check-label" for="termsAcceptance">
+          Estoy de acuerdo con lo mencionado arriba. Acepto los términos y condiciones, y la politica de privacidad, y certifico
+          que tengo la autorización de todas las personas y organizaciones necesarias para someter mi centro a los términos de uso.
+    </label>
+    <div style="height: 60px;"></div>
+    <button type="button" class="btn btn-lg btn-primary">
+        Aceptar y continuar
+    </button>
+
+</div>
+{% endblock %}
