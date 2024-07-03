@@ -1,0 +1,87 @@
+{% extends 'manage.html' %}
+
+{% block title %}Detalles de su nuevo centro{% endblock %}
+
+{% block head %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('loading').hidden = true;
+            document.getElementById('mainContainer').hidden = false;
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+<div style="height: 55px;">
+</div>
+
+<div class="container" id="loading">
+    <h2>Cargando...</h2>
+    <p>
+        Si tiene problemas con la carga de la página, verifique que tiene JavaScipt encendido y recargue la página
+    </p>
+</div>
+<div style="height: 55px;"></div>
+
+<div class="container" id="mainContainer">
+    <h1>Horario de su centro</h1>
+    <sub style="font-size: larger;">
+        Aquí necesitamos unos detalles en relación al horario de tu centro para poder gestionar las reservas.
+    </sub>
+    <div style="height: 25px;"></div>
+    <form action="/manage/new/S4" method="POST">
+        <div class="mb-3">
+            <label for="openingTime" class="form-label">Hora de apertura</label>
+            <input required type="time" class="form-control" id="openingTime" name="openingTime" aria-describedby="openingTimeHelp">
+            <div id="openingTimeHelp" class="form-text">La hora a la que se puede empezar a entrar en sus instalaciones.</div>
+        </div>
+        <div class="mb-3">
+            <label for="closingTime" class="form-label">Hora de cierre</label>
+            <input required type="time" class="form-control" id="closingTime" name="closingTime" aria-describedby="closingTimeHelp">
+            <div id="closingTimeHelp" class="form-text">La hora a la que se deja de poder entrar en sus instalaciones.</div>
+        </div>
+        <div class="mb-3">
+            <label for="classStartTime" class="form-label">Primera clase</label>
+            <input required type="time" class="form-control" id="classStartTime" name="classStartTime" aria-describedby="classStartTimeHelp">
+            <div id="classStartTimeHelp" class="form-text">La hora a la que comienza su primera clase del dia.</div>
+        </div>
+        <div class="mb-3">
+            <label for="classEndTime" class="form-label">Última clase</label>
+            <input required type="time" class="form-control" id="classEndTime" name="classEndTime" aria-describedby="classEndTimeHelp">
+            <div id="classEndTimeHelp" class="form-text">La hora a la que comienza su última clase del dia.</div>
+        </div>
+        <div class="mb-3">
+            <label for="classesEvery" class="form-label">Frecuencia de clases</label>
+            <div class="input-group">
+                <input required min="1" step="1" type="number" class="form-control" id="classesEvery" name="classesEvery" aria-describedby="minAddon1">
+                <span id="minAddon1" class="input-group-text">minutos</span>
+            </div>
+            <div id="classesEveryHelp" class="form-text">Cada cuantos minutos hay una clase en su centro.</div>
+        </div>
+        <div class="mb-3">
+            <label for="classDuration" class="form-label">Duración de clases</label>
+            <div class="input-group">
+                <input required min="1" step="1" type="number" class="form-control" id="classDuration" name="classDuration" aria-describedby="minAddon2">
+                <span id="minAddon2" class="input-group-text">minutos</span>
+            </div>
+            <div id="classDurationHelp" class="form-text">Cada cuantos minutos hay una clase en su centro.</div>
+        </div>
+        <div class="mb-3">
+            <label for="class" class="form-label">Alumnos por clase</label>
+            <div class="input-group">
+                <input required min="1" step="1" type="number" class="form-control" id="classSize" name="classSize" aria-describedby="minAddon1">
+            </div>
+            <div id="classSizeHelp" class="form-text">Cuantos alumnos pueden registrarse a la vez con cada profesor y cada clase.</div>
+        </div>
+        <input name="center_name" hidden value="{{ center_name }}">
+        <input name="center_description_short" hidden value="{{ center_description_short }}">
+        <input type="checkbox" hidden checked name="termsAcceptance" value="accepted">
+        <p>En las siguientes pantallas te pediremos dos archivos: un logo y una imágen de portada. Asegurate de tenerlos a mano.</p>
+        <button type="submit" class="btn btn-lg btn-primary">
+            Continuar
+        </button>
+        <div style="height: 60px;"></div>
+    </form>
+</div>
+
+{% endblock %}

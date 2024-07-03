@@ -32,15 +32,20 @@
     <form action="/manage/new/S3" method="POST">
         <div class="mb-3">
             <label for="center_name" class="form-label">Nombre del Centro</label>
-            <input type="text" placeholder="p.ej. Centro Ecuestre La Cañada Verde" class="form-control" id="center_name" name="center_name" aria-describedby="center_nameHelp">
+            <input required type="text" placeholder="p.ej. Centro Ecuestre La Cañada Verde" class="form-control" id="center_name" name="center_name" aria-describedby="center_nameHelp">
             <div id="center_nameHelp" class="form-text">El nombre de tu centro. Idealmente, debe ser un nombre único a tu centro.</div>
         </div>
         <div class="mb-3">
             <label for="center_description_short" class="form-label">Descripción corta</label>
-            <input type="text" placeholder="p.ej. ¡El mejor centro de la zona!" class="form-control" id="center_description_short" name="center_description_short" aria-describedby="center_description_shortHelp">
+            <input required ype="text" placeholder="p.ej. ¡El mejor centro de la zona!" class="form-control" id="center_description_short" name="center_description_short" aria-describedby="center_description_shortHelp">
             <div id="center_description_shortHelp" class="form-text">Puede ser un lema, una dirección, una aclaración, etc.</div>
         </div>
-        <p>En las siguientes pantallas te pediremos dos archivos: un logo y una imágen de portada. Asegurate de tenerlos a mano.</p>
+        <input type="checkbox" hidden checked name="termsAcceptance" value="accepted">
+        
+        <div style="height: 20px;"></div>
+        <button type="submit" class="btn btn-lg btn-primary">
+            Continuar
+        </button>
     </form>
 </div>
 

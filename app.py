@@ -144,11 +144,12 @@ def getDayTimeAvailabilityInfo(day, month, year, hour, mins, center):
         for level in levels:
             ress = helpers.database.execute_without_freezing('SELECT * FROM reservation WHERE level_id = ? AND start_time = ? AND day = ? AND month = ? AND year = ?', level['ID'], time, day, month, year)
             instruct = helpers.database.execute_without_freezing('SELECT * FROM instructor WHERE levelID = ?', level['ID'])
+            horses = helpers.database.execute_without_freezing("SELECT * FROM horse WHERE levelID = ?", level['ID'])
             response.append({
                 'level':level['ID'],
                 'levelName':level['levelName'],
                 'cost':level['EUR_hour'],
-                'available':(infor['class_size'] * len(instruct))-len(ress)
+                'available':min((infor['class_size'] * len(instruct)), (len(horses))) - len(ress)
             })
         return response
     
@@ -319,6 +320,39 @@ def new_center_s2():
     if request.form.get("termsAcceptance") != "accepted":
         return "ERROR: Terms need to be accepted", 400
     return helpers.template_gen('manage/new/general.html')
+
+@app.route('/manage/new/S3/', methods=['POST'])
+@helpers.accounts.can_create_center
+def new_center_s3():
+    if request.form.get("termsAcceptance") != "accepted":
+        return "ERROR: Terms need to be accepted", 400
+    return helpers.template_gen('manage/new/timetable.html', center_name=request.form.get("center_name"), center_description_short=request.form.get("center_description_short"))
+
+
+@app.route('/manage/new/S4/', methods=['POST'])
+@helpers.accounts.can_create_center
+def new_center_s4():
+    if request.form.get("termsAcceptance") != "accepted":
+        return "ERROR: Terms need to be accepted", 400
+    return helpers.template_gen('manage/new/images.html', center_name=request.form.get("center_name"),
+                                center_description_short=request.form.get("center_description_short"), openingTime = request.form.get("openingTime"),
+                                closingTime = request.form.get("closingTime"), classStartTime = request.form.get("classStartTime"),
+                                classEndTime = request.form.get("classEndTime"), classesEvery = request.form.get("classesEvery"),
+                                classDuration = request.form.get("classDuration"), classSize = request.form.get("classSize"))
+
+@app.route('/manage/new/S5', methods=['POST'])
+@helpers.accounts.can_create_center
+def new_center_s5():
+    print(request.form)
+    if request.form.get("termsAcceptance") != "accepted":
+        return "ERROR: Terms need to be accepted", 400
+    if 'logo' not in request.files:
+        return helpers.template_gen("app/error.html", err_code = "No hemos encontrado los dos archivos")
+    logoFile = request.files['logo']
+    bannerFile = request.files['banner']
+    # TODO process files and save in filesystem + database
+
+
 
 @app.route('/manage/')
 def manage_home():
@@ -628,15 +662,11 @@ def new_image():
     if request.method == 'GET':
         return helpers.template_gen('manage/image-new.html')
     else:
-         # check if the post request has the file part
-        print(request.files)
         if 'file' not in request.files:
-            return 'No file part'
+            return helpers.template_gen("app/error.html", err_code = "Ningún archivo seleccionado")
         file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
         if file.filename == '':
-            return 'No selected file'
+            return helpers.template_gen("app/error.html", err_code = "Ningún archivo seleccionado")
         if file and helpers.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             if request.form.get('type') == 'main': image_url = 'static/center-assets/'+str(session['center_id_auth'])+'/'
@@ -708,9 +738,9 @@ def about_center():
 
 def errorhandler(e):
     if request.path.startswith('/manage/'):
-        return helpers.template_gen('manage/error.html', err_code=e.code), e.code
+        return helpers.template_gen('manage/error.html', err_code=f"HTTP {e.code}"), e.code
     else:
-        return helpers.template_gen('app/error.html', err_code=e.code), e.code
+        return helpers.template_gen('app/error.html', err_code=f"HTTP {e.code}"), e.code
 
 
 for code in default_exceptions:
