@@ -340,19 +340,42 @@ def new_center_s4():
                                 classEndTime = request.form.get("classEndTime"), classesEvery = request.form.get("classesEvery"),
                                 classDuration = request.form.get("classDuration"), classSize = request.form.get("classSize"))
 
-@app.route('/manage/new/S5', methods=['POST'])
+@app.route('/manage/new/S5/', methods=['POST'])
 @helpers.accounts.can_create_center
 def new_center_s5():
-    print(request.form)
     if request.form.get("termsAcceptance") != "accepted":
         return "ERROR: Terms need to be accepted", 400
-    if 'logo' not in request.files:
+    if 'logo' not in request.files or 'banner' not in request.files:
         return helpers.template_gen("app/error.html", err_code = "No hemos encontrado los dos archivos")
     logoFile = request.files['logo']
     bannerFile = request.files['banner']
-    # TODO process files and save in filesystem + database
+    if logoFile.filename == '' or bannerFile.filename == '':
+        return helpers.template_gen("app/error.html", err_code = "No hemos encontrado los dos archivos")
+    if not (logoFile and helpers.allowed_file(logoFile.filename) and bannerFile and helpers.allowed_file(bannerFile.filename)):
+        return helpers.template_gen("app/error.html", err_code = "No se permiten ese tipo de archivos")
+    if None in [request.form.get("openingTime"), request.form.get("closingTime"), request.form.get("classStartTime"), request.form.get("classEndTime"),
+                request.form.get("classesEvery"), request.form.get("classDuration"), request.form.get("classSize"), request.form.get("center_description_short"),
+                request.form.get("center_name")]:
+        return helpers.template_gen("app/error.html", err_code = "Nos falta información, asegurate de que has rellenado todos los campos.")
+    new_id = helpers.database.execute_without_freezing("INSERT INTO center (displayName, bannerLoc, logoLoc, short_description, accountID, date_created) VALUES (?,?,?,?,?,?)",
+                                                       request.form.get("center_name"), bannerFile.filename, logoFile.filename, request.form.get("center_description_short"),
+                                                       session['user_id'], datetime.datetime.now().strftime('%d/%m/%Y'))
+    helpers.database.execute_without_freezing("""INSERT INTO center_offering (center_id, center_opening, center_closing, center_starts_classes, center_ends_classes,
+                                              classes_every, classes_length, class_size) VALUES (?, ?, ?, ?, ?, ?, ?, ? )""", new_id, helpers.hhmmtomins(request.form.get("openingTime")),
+                                              helpers.hhmmtomins(request.form.get("closingTime")), helpers.hhmmtomins(request.form.get("classStartTime")), helpers.hhmmtomins(request.form.get("classEndTime")),
+                                              int(request.form.get("classesEvery")), int(request.form.get("classDuration")), int(request.form.get("classSize")))
+    logofilename = secure_filename(logoFile.filename)
+    bannerfilename = secure_filename(bannerFile.filename)
+    os.mkdir(f"static/center-assets/{new_id}/")
+    os.mkdir(f"static/center-assets/{new_id}/horses/")
+    os.mkdir(f"static/center-assets/{new_id}/instructors/")
+    logoFile.save(os.path.join(f"static/center-assets/{new_id}/", bannerfilename))
+    bannerFile.save(os.path.join(f"static/center-assets/{new_id}/", logofilename))
+    return redirect('/manage/created/')
 
-
+@app.route('/manage/created/')
+def new_center_success():
+    return redirect('/manage/')
 
 @app.route('/manage/')
 def manage_home():
