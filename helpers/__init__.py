@@ -16,10 +16,10 @@ def allowed_file(filename):
 def template_gen(template_name, *args, **kwargs):
     if template_name.startswith("manage/"):
         return render_template(template_name, *args, **kwargs, signed_in=helpers.accounts.signed_in(), current_email = helpers.accounts.current_email(),
-                               full_path=request.path, center_role="admin", center_name="TODO");
+                               full_path=request.path, center_role_ui="admin", center_name_ui=helpers.accounts.affiliated_center_name())
     else:
-        return render_template(template_name, *args, **kwargs, signed_in=helpers.accounts.signed_in(), current_email = helpers.accounts.current_email(),
-                               full_path=request.path);
+        return render_template(template_name, *args, **kwargs, signed_in = helpers.accounts.signed_in(), current_email = helpers.accounts.current_email(),
+                               full_path=request.path)
 
 def minstohhmm(mins):
     hours = mins // 60

@@ -1,0 +1,47 @@
+{% extends 'manage.html' %}
+
+{% block title %}Detalles de su nuevo centro{% endblock %}
+
+{% block head %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('loading').hidden = true;
+            document.getElementById('mainContainer').hidden = false;
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+<div style="height: 55px;">
+</div>
+
+<div class="container" id="loading">
+    <h2>Cargando...</h2>
+    <p>
+        Si tiene problemas con la carga de la página, verifique que tiene JavaScipt encendido y recargue la página
+    </p>
+</div>
+<div style="height: 55px;"></div>
+
+<div class="container" id="mainContainer">
+    <h1>Detalles generales de tu centro</h1>
+    <sub style="font-size: larger;">
+        Aquí necesitamos unos detalles generales de tu centro para poder mostrarselo a tus clientes.
+    </sub>
+    <div style="height: 25px;"></div>
+    <form action="/manage/new/S3" method="POST">
+        <div class="mb-3">
+            <label for="center_name" class="form-label">Nombre del Centro</label>
+            <input type="text" placeholder="p.ej. Centro Ecuestre La Cañada Verde" class="form-control" id="center_name" name="center_name" aria-describedby="center_nameHelp">
+            <div id="center_nameHelp" class="form-text">El nombre de tu centro. Idealmente, debe ser un nombre único a tu centro.</div>
+        </div>
+        <div class="mb-3">
+            <label for="center_description_short" class="form-label">Descripción corta</label>
+            <input type="text" placeholder="p.ej. ¡El mejor centro de la zona!" class="form-control" id="center_description_short" name="center_description_short" aria-describedby="center_description_shortHelp">
+            <div id="center_description_shortHelp" class="form-text">Puede ser un lema, una dirección, una aclaración, etc.</div>
+        </div>
+        <p>En las siguientes pantallas te pediremos dos archivos: un logo y una imágen de portada. Asegurate de tenerlos a mano.</p>
+    </form>
+</div>
+
+{% endblock %}

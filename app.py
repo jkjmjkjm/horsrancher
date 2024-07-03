@@ -313,6 +313,13 @@ def new_center_redirect():
 def new_center():
     return helpers.template_gen('manage/new/confirm.html')
 
+@app.route('/manage/new/S2/', methods=['POST'])
+@helpers.accounts.can_create_center
+def new_center_s2():
+    if request.form.get("termsAcceptance") != "accepted":
+        return "ERROR: Terms need to be accepted", 400
+    return helpers.template_gen('manage/new/general.html')
+
 @app.route('/manage/')
 def manage_home():
     if session.get('center_id_auth') == None:

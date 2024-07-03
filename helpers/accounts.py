@@ -44,6 +44,15 @@ def sign_in(email, password):
     else:
         return 1, "Contraseña incorrecta"
 
+def affiliated_center_name():
+    if session.get("center_id_auth") == None:
+        return "Sin centro vinculado"
+    else:
+        try:
+            return helpers.database.execute_without_freezing("SELECT displayName FROM center WHERE ID = ?", session.get("center_id_auth"))[0]['displayName']
+        except Exception:
+            return "Error al buscar su centro"
+
 def sign_up(email, password):
     row = helpers.database.execute_without_freezing("SELECT * FROM user WHERE email = ?", email)
     if len(row) > 0:
