@@ -79,7 +79,7 @@
                 <input hidden value='{{ request_args['instructor'] }}' name='instructor'>
                 <input hidden value='{{ request_args['level'] }}' name='level'>
                 <input hidden value='{{ center_id }}' name='center'>
-                <button type='submit' style='width: 100%' class='btn btn-lg btn-primary'>Finalizar Reserva</button>
+                <button onclick="document.getElementById('email').disabled = false;" type='submit' style='width: 100%' class='btn btn-lg btn-primary'>Finalizar Reserva</button>
             </form>
         </div>
         <div class='card' style='width: 20%; text-align: center; padding-top: 120px;'>

@@ -303,6 +303,25 @@ def processReservationHTML():
     else:
         return outcome, 400
 
+@app.route('/options/')
+def showOptionsLogin():
+    if session.get("auth_options_mail") == None:
+        return helpers.template_gen('app/options/enter.html')
+    else:
+        return helpers.template_gen('app/options/homepage.html', oEmail = session.get('auth_options_mail'))
+
+@app.route('/options/auth/', methods=['POST'])
+def processOptionsAuth():
+    if helpers.accounts.current_email() == request.form.get("email"):
+        session["auth_options_mail"] = request.form.get("email")
+        return redirect("/options/")
+    count = helpers.database.execute_without_freezing('SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?', request.form.get("code"), request.form.get("email"))[0]["COUNT(*)"]
+    if count != 0:
+        session["auth_options_mail"] = request.form.get("email")
+        return redirect("/options/")
+    else:
+        return helpers.template_gen("app/error.html", err_code = "No se ha podido encontrar tu reserva")
+
 @app.route('/manage/new/')
 @helpers.accounts.can_create_center
 def new_center_redirect():

@@ -1,0 +1,61 @@
+{% extends 'app.html' %}
+
+{% block title %}Cambia tu reserva{% endblock %}
+
+{% block head %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById('loading').hidden = true;
+        document.getElementById('mainContainer').hidden = false;
+    })
+</script>
+{% endblock %}
+
+{% block content %}
+<div style="height: 55px;">
+</div>
+
+<div class="container" id="loading">
+    <h2>Cargando...</h2>
+    <p>
+        Si tiene problemas con la carga de la página, verifique que tiene JavaScipt encendido y recargue la página
+    </p>
+</div>
+
+<div class="container" id="mainContainer">
+    <h1>
+        Opciones de tu reserva
+    </h1>
+    <h6>
+        Necesitarás introducir tu correo electrónico{% if signed_in %} (si no desea gestionar una reserva de {{ current_email }}, cierre
+        sesión con el botón de la esquina superior derecha){% else %} y el código de tu reserva.{% endif %}
+    </h6>
+    <div style="height: 75px;"></div>
+    <form action="/options/auth/" method="POST">
+        <div class="mb-3">
+            <label for="email" class="form-label">Dirección de Correo Electrónico</label>
+            <input type="email" {% if signed_in %} value="{{ current_email }}" disabled {% endif %} placeholder="correo@correo.com"
+            class="form-control" id="email" name="email" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">
+                Debe ser el mismo correo que proporcionó a la hora de tramitar la reserva.{% if signed_in %}
+                Si desea gestionar una reserva no realizada con {{ current_email }}, cierre
+                sesión con el botón de la esquina superior derecha.{% endif %}
+            </div>
+        </div>
+        {% if signed_in %}
+        <div class="mb-3"></div>
+        {% else %}
+        <div class="mb-3">
+            <label for="code" class="form-label">Código de Reserva</label>
+            <input type="text" placeholder="8A65R4KU"
+            class="form-control" id="code" name="code" aria-describedby="codeHelp">
+            <div id="codeHelp" class="form-text">
+                Se le proporcionó por correo electrónico y tras finalizar la reserva.
+            </div>
+        </div>
+        {% endif %}
+        <button onclick="document.getElementById('email').disabled = false;" type="submit" class="btn btn-lg btn-primary">Continuar</button>
+    </form>
+</div>
+
+{% endblock %}
