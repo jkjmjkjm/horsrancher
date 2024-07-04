@@ -10,9 +10,63 @@
         Tus reservas
     </h1>
     <h4>
-        Se muestran todas las reservas de {{ oEmail }}
+        Se muestran todas las reservas de {{ oEmail }}. Selecciona la que quieres gestionar.
     </h4>
-    TODO listhere
+    <table class="table table-hover">
+        <thead>
+            <th>
+                Código
+            </th>
+            <th>
+                Fecha y hora de comienzo
+            </th>
+            <th>
+                Duración
+            </th>
+            <th>
+                Centro
+            </th>
+            <th>
+                Nivel
+            </th>
+            <th>
+                Profesor
+            </th>
+            <th>
+                Caballo
+            </th>
+        </thead>
+        <tbody>
+            {% for reservation in oReservations %}
+            <tr onclick="window.location.href='/options/{{ reservation['reservation_code'] }}/';">
+                <td>
+                    <a href="/options/{{ reservation['reservation_code'] }}/">{{ reservation['reservation_code'] }}</a></td>
+                <td>
+                    <p>
+                        {{ reservation['day'] }}/{{ reservation['month'] }}/{{ reservation['year'] }}
+                    </p>
+                    <p>
+                        {{ (reservation['start_time']) | timeformat }}
+                    </p>
+                </td>
+                <td>
+                    {{ reservation['length'] }} minutos
+                <td>
+                    {{ reservation['center'] }}
+                </td>
+                <td>
+                    {{ reservation['level']  }}
+                </td>
+                <td>
+                    {{ reservation['instructor'] }}
+                </td>
+                <td>
+                    {{ reservation['horse'] }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 

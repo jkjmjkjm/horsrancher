@@ -30,11 +30,10 @@
         Necesitarás introducir tu correo electrónico{% if signed_in %} (si no desea gestionar una reserva de {{ current_email }}, cierre
         sesión con el botón de la esquina superior derecha){% else %} y el código de tu reserva.{% endif %}
     </h6>
-    <div style="height: 75px;"></div>
     <form action="/options/auth/" method="POST">
         <div class="mb-3">
             <label for="email" class="form-label">Dirección de Correo Electrónico</label>
-            <input type="email" {% if signed_in %} value="{{ current_email }}" disabled {% endif %} placeholder="correo@correo.com"
+            <input required type="email" {% if signed_in %} value="{{ current_email }}" disabled {% endif %} placeholder="correo@correo.com"
             class="form-control" id="email" name="email" aria-describedby="emailHelp">
             <div id="emailHelp" class="form-text">
                 Debe ser el mismo correo que proporcionó a la hora de tramitar la reserva.{% if signed_in %}
@@ -42,12 +41,10 @@
                 sesión con el botón de la esquina superior derecha.{% endif %}
             </div>
         </div>
-        {% if signed_in %}
-        <div class="mb-3"></div>
-        {% else %}
+        {% if not signed_in %}
         <div class="mb-3">
             <label for="code" class="form-label">Código de Reserva</label>
-            <input type="text" placeholder="8A65R4KU"
+            <input required type="text" placeholder="8A65R4KU"
             class="form-control" id="code" name="code" aria-describedby="codeHelp">
             <div id="codeHelp" class="form-text">
                 Se le proporcionó por correo electrónico y tras finalizar la reserva.

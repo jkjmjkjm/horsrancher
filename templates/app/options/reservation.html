@@ -1,0 +1,40 @@
+{% extends 'app.html' %}
+
+{% block title %}Reserva {{ reservation['reservation_code'] }}{% endblock %}
+
+{% block content %}
+<div style="height: 55px;"></div>
+
+<div class="container">
+    <div class="alert alert-primary" role="alert">
+        <h4 class="alert-heading" style='width: 100%; text-align: center; padding: 8px;'>Información de tu reserva</h4>
+        <div class='row'>
+              <div style="width: 25%">
+                  <img style='width: 100%;' src="/static/center-assets/{{ center_id }}/{{ main_photo }}"></img>
+              </div>
+              <div style='width: 43%'>
+                  <h4>Tu reserva en</h4>
+                  <h2>{{ reservation['center'] }}</h2>
+                  <h5>{{ reservation['center_short'] }}</h5>
+                  <p>{{ reservation['center_long'] }}</p>
+              </div>
+              <div style='width: 30%'>
+                  <h4>Tus opciones seleccionadas</h4>
+                  {% for item in meta_booking %}
+                      <div class='alert alert-primary' style='width: 100%; padding: 5px;'>
+                          <ul class='list-inline' style='margin-bottom:0;'>
+                            <li class='list-inline-item'>
+                              <div class='profile-pic {% if item['circle'] %}profile-pic-circle{% endif %}' style='background-image: url({{ item['image'] }})'></div>
+                            </li>
+                            <li class='list-inline-item'>
+                              <h7>{{ item['top'] }}</h7>
+                              <h5>{{ item['big'] }}</h5>
+                            </li>
+                          </ul>
+                      </div>
+                  {% endfor %}
+              </div>
+            </li>
+        </div>
+  </div>
+</div>
