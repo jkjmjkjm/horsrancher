@@ -64,6 +64,7 @@ def sign_up(email, password):
 def sign_out():
     session["user_id"] = None
     session["center_id_auth"] = None
+    session["auth_options_mail"] = None
 
 def link_center():
     if session.get("user_id") == None:

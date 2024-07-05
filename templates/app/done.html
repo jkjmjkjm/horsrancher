@@ -1,1 +1,17 @@
-TODO Hooray it's processed
+{% extends 'app.html' %}
+
+{% block title %}Reserva finalizada con éxito{% endblock %}
+
+{% block content %}
+
+<div style="height: 55px;"></div>
+
+<div class="container">
+    <h1>Tu reserva se ha procesado con éxito</h1>
+    <h3>Tu código de reserva es {{ res_code }}</h3>
+    <h6>
+        <a href="javascript:window.print();">Imprimir esta página</a>
+    </h6>
+</div>
+
+{% endblock %}

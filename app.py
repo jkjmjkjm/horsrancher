@@ -302,6 +302,10 @@ def processReservationHTML():
     else:
         return outcome, 400
 
+@app.route('/app/done/')
+def celebrationPage():
+    return helpers.template_gen("app/done.html", res_code = request.form.get("code"))
+
 @app.route('/options/')
 def showOptionsLogin():
     if session.get("auth_options_mail") == None:
@@ -316,7 +320,6 @@ def showOptionsLogin():
                                                                   JOIN horse ON horse.ID = reservation.horse_id
                                                                   JOIN instructor ON instructor.ID = reservation.instructor_id
                                                                   WHERE reservation.email = ?""", session.get('auth_options_mail'))
-        print(reservations)
         return helpers.template_gen('app/options/homepage.html', oEmail = session.get('auth_options_mail'), oReservations = reservations)
 
 @app.route('/options/auth/', methods=['POST'])
@@ -331,39 +334,58 @@ def processOptionsAuth():
     else:
         return helpers.template_gen("app/error.html", err_code = "No se ha podido encontrar tu reserva")
 
-@app.route('/options/<reservation_code>')
+@app.route('/options/<reservation_code>/')
 def individualReservationOptions(reservation_code):
-    if helpers.database.execute_without_freezing("SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "...")) != 1:
+    if helpers.database.execute_without_freezing("SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "..."))[0]['COUNT(*)'] != 1:
         return redirect('/options/')
-    #TODO pull data from db
+    reservation = helpers.database.execute_without_freezing("""SELECT reservation.*, horse.Name as horse, level.levelName as level,
+                      level.EUR_hour as price, instructor.Name as instructor,  center.ID as center_id,
+                      center.short_description as center_short, center.long_description as center_long,
+                      center.displayName as center, center_offering.classes_length as length,
+                      horse.pictureURL as horsepic, instructor.pictureURL as instructorpic,
+                      center.bannerLoc as banner, center.logoLoc as logo
+                      FROM reservation JOIN horse ON horse.ID = reservation.horse_id
+                      JOIN level ON level.ID = reservation.level_id
+                      JOIN instructor ON instructor.ID = reservation.instructor_id
+                      JOIN center ON center.ID = reservation.center_id
+                      JOIN center_offering ON center.ID = center_offering.center_id
+                      WHERE reservation.reservation_code = ?""", reservation_code)[0]
+    centreID = reservation['center_id']
     meta_booking = [{
         'top':'Fecha',
-        'big':request.args.get('d') +'/'+ request.args.get('m') +'/'+request.args.get('y'),
+        'big':f"{reservation['day']}/{reservation['month']}/{reservation['year']}",
         'image':'/static/assets/etc/calendar.png/'
     },
     {
         'top':'Hora',
-        'big':request.args.get('hour') +':'+ request.args.get('mins'),
+        'big':helpers.minstohhmm(reservation['start_time']),
         'image':'/static/assets/etc/clock.png/'
     },
     {
         'top':'Nivel',
-        'big':helpers.database.execute_without_freezing('SELECT levelName FROM level WHERE ID = ?', request.args.get('level'))[0]['levelName'],
+        'big':reservation['level'],
         'image':'/static/assets/etc/level.png/'
     },
     {
         'top':'Instructor',
-        'big':helpers.database.execute_without_freezing('SELECT Name FROM instructor WHERE ID = ?', request.args.get('instructor'))[0]['Name'],
-        'image':'/static/center-assets/'+str(centreID)+'/instructors/'+helpers.database.execute_without_freezing('SELECT pictureURL FROM instructor WHERE ID = ?', request.args.get('instructor'))[0]['pictureURL'],
+        'big':reservation['instructor'],
+        'image':'/static/center-assets/'+str(centreID)+'/instructors/'+reservation['instructorpic'],
         'circle':True
     },
     {
         'top':'Caballo',
-        'big':helpers.database.execute_without_freezing('SELECT Name FROM horse WHERE ID = ?', request.args.get('horse'))[0]['Name'],
-        'image':'/static/center-assets/'+str(centreID)+'/horses/'+helpers.database.execute_without_freezing('SELECT pictureURL FROM horse WHERE ID = ?', request.args.get('horse'))[0]['pictureURL'],
+        'big':reservation['horse'],
+        'image':'/static/center-assets/'+str(centreID)+'/horses/'+reservation['horsepic'],
         'circle':True
     }]
-    return helpers.template_gen('app/options/reservation.html') #TODO add data here
+    return helpers.template_gen('app/options/reservation.html', meta_booking = meta_booking, center = reservation['center'],
+                                center_short = reservation['center_short'], res_code = reservation['reservation_code'],
+                                main_photo = reservation['banner'], logo = reservation['logo'], center_id = centreID)
+
+@app.route('/options/deauth/', methods=['GET', 'POST'])
+def options_deauth():
+    session['auth_options_mail'] = None
+    return redirect('/options/')
 
 @app.route('/manage/new/')
 @helpers.accounts.can_create_center
