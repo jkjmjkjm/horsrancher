@@ -12,6 +12,8 @@
 /* global cal_month */
 /* global cal_year */
 /* global pass_step */
+/* global replacing */
+/* global replacee */
 
 function specialised_scroll_to(elem_id) {
 }
@@ -61,79 +63,34 @@ function onLoad() {
     cal_month = parseInt(document.getElementById('start_month').innerHTML);
     cal_year = parseInt(document.getElementById('start_year').innerHTML);
     
+    replacing = false;
+    replacee = "";
+
     curr_url = new URL(window.location.href);
-    
-    /* if (curr_url.searchParams.get('navigated') != null && curr_url.searchParams.get('navigated') > 0) {
-        Sday = parseInt(curr_url.searchParams.get('d'));
-        Smonth = parseInt(curr_url.searchParams.get('m'));
-        Syear = parseInt(curr_url.searchParams.get('y'));
-        Shours = parseInt(curr_url.searchParams.get('hour'));
-        Smins = parseInt(curr_url.searchParams.get('mins'))
-        if (curr_url.searchParams.get('navigated') == null || curr_url.searchParams.get('y') == null || curr_url.searchParams.get('m') == null || curr_url.searchParams.get('d') == null || curr_url.searchParams.get('hour') == null || curr_url.searchParams.get('mins') == null) {
-            alert(`Something's gone wrong. Please, check your internet connection and reload to try again. If the problem persists, please report it to HorsRancher
-    
-Algo ha ido mal. Por favor, revisa tu conexión a internet y recarga la página para volver a intentarlo. Si el problema persiste, por favor informa a HorsRancher
-    
-Error:
-E01: URL incomplete or malformed`);
-            document.getElementById('oops').hidden = false;
-            document.getElementById('err_code').innerHTML = "Error code/Código de error: E01: URL incomplete or malformed";
-            return 0;
-        }
-        showLoadingScreen();
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState == 4) {
-                if (xmlHttp.status == 200) {
-                    document.getElementById('step2-block').innerHTML = xmlHttp.responseText;
-                   NO document.getElementById('bottominfo').innerHTML = 'Selecciona un nivel, profesor y caballo para continuar';
-                   NO document.getElementById('continuebutton').innerHTML = 'Continuar a finalizar reserva';
-                    document.getElementById('continuebutton').disabled = true;
-                    hideLoadingScreen();
-                    history.replaceState('2ndscreen', '2 Screen','/reserve/'+document.getElementById('center-id').innerHTML+'/'+Syear+'/'+Smonth+'/'+Sday+'/'+Shours+'/'+("00" + Smins).slice (-2)+'/select-level/');
-                }
-                else {
-                    alert(`Something's gone wrong. Please, check your internet connection and reload to try again. If the problem persists, please report it to HorsRancher
-    
-Algo ha ido mal. Por favor, revisa tu conexión a internet y recarga la página para volver a intentarlo. Si el problema persiste, por favor informa a HorsRancher
-    
-Error code/Código de error:
-HTTP ` + xmlHttp.status);
-                    document.getElementById('oops').hidden = false;
-                    document.getElementById('err_code').innerHTML = "Error code/Código de error: HTTP "  + xmlHttp.status;
-                }
-            }
-        };
-        xmlHttp.open("POST", '/getGeneratedTemplateResStep2', true); // true for asynchronous 
-        xmlHttp.setRequestHeader("Content-Type", "application/json");
-        xmlHttp.send(JSON.stringify({
-            'd':Sday,
-            'm':Smonth,
-            'y':Syear,
-            'hour':Shours,
-            'mins':Smins,
-            'center':document.getElementById('center-id').innerHTML
-        }));
+
+    if (curr_url.searchParams.get('replace') != null) {
+        document.getElementById("role").innerText = "Cambia tu reserva "+curr_url.searchParams.get('replace')+" en ";
+        replacing = true;
+        replacee = curr_url.searchParams.get('replace')
     }
-    else { */
+
+    if (curr_url.searchParams.get('y') != null && curr_url.searchParams.get('m') != null && curr_url.searchParams.get('d') != null) {
+        pass_step = 1;
+        cal_month = curr_url.searchParams.get('m');
+        cal_year = curr_url.searchParams.get('y');
+        httpGetAsync('/cal_gen?year='+cal_year+'&month='+cal_month, function(theRequest) {
+            document.getElementById('cal').innerHTML = theRequest.responseText;
+            clickedDate(curr_url.searchParams.get('d'), curr_url.searchParams.get('m'), curr_url.searchParams.get('y'));
+        });
         
-        if (curr_url.searchParams.get('y') != null && curr_url.searchParams.get('m') != null && curr_url.searchParams.get('d') != null) {
-            pass_step = 1;
-            cal_month = curr_url.searchParams.get('m');
-            cal_year = curr_url.searchParams.get('y');
-            httpGetAsync('/cal_gen?year='+cal_year+'&month='+cal_month, function(theRequest) {
-                document.getElementById('cal').innerHTML = theRequest.responseText;
-                clickedDate(curr_url.searchParams.get('d'), curr_url.searchParams.get('m'), curr_url.searchParams.get('y'));
-            });
-            
-        }
-        else {
-            httpGetAsync('/cal_gen?year='+cal_year+'&month='+cal_month, function(theRequest) {
-                document.getElementById('cal').innerHTML = theRequest.responseText;
-            });
-            hideLoadingScreen();
-        }
-    //}
+    }
+    else {
+        httpGetAsync('/cal_gen?year='+cal_year+'&month='+cal_month, function(theRequest) {
+            document.getElementById('cal').innerHTML = theRequest.responseText;
+        });
+        hideLoadingScreen();
+    }
+    
 }
 
 function clickedDate(day, month, year) {
@@ -425,5 +382,8 @@ function afterInstructorHorse() {
 }
 
 function finish_button() {
+    if (replacing) {
+        history.replaceState('replacee', 'Add replacee', '/reserve/'+document.getElementById('center-id').innerText+'/?y='+Syear+'&m='+Smonth+'&d='+Sday+'&hour='+Shours + '&mins=' + ("00" + Smins).slice (-2) + '&level='+ selected_level+'&instructor='+selected_instructor+'&horse='+selected_horse+"&replace="+replacee);
+    }
     window.location.pathname = '/reserve/confirm/'+document.getElementById('center-id').innerText+'/'
 }

@@ -15,7 +15,7 @@ from flask import session
 available_res_codes = ['2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
 
-def process_reservation(centerID, levelID, instructorID, horseID, day, month, year, hour, mins, contact_info):
+def process_reservation(centerID, levelID, instructorID, horseID, day, month, year, hour, mins, contact_info, code):
     #1. Is valid date?
     try:
         datetime.datetime(int(year), int(month), int(day))
@@ -54,22 +54,28 @@ def process_reservation(centerID, levelID, instructorID, horseID, day, month, ye
         instructor = instructor[0]
     #6. Freeze database
     db.execute('BEGIN TRANSACTION')
+    if not code == "New":
+        res_code = code
+        if len(db.execute("SELECT * FROM reservation WHERE reservation_code = ? AND email = ?", code, session.get("auth_options_mail"))) != 1:
+            return "Could not edit reservation", False
+        db.execute("DELETE FROM reservation WHERE reservation_code = ? AND email = ?", code, session.get("auth_options_mail"))
     #7. Is instructor available?
     if not db.execute("SELECT COUNT(*) FROM reservation WHERE instructor_id = ? AND day = ? AND month = ? AND year = ? AND start_time = ?", instructorID, int(day), int(month), int(year), form_time)[0]['COUNT(*)'] < center_offering['class_size']:
-        db.execute('COMMIT')
+        db.execute('ROLLBACK')
         return 'Unavailable instructor', False
     #8. Is horse available?
     if not db.execute("SELECT COUNT(*) FROM reservation WHERE horse_id = ? AND day = ? AND month = ? AND year = ? AND start_time = ?", horseID, int(day), int(month), int(year), form_time)[0]['COUNT(*)'] < 1:
-        db.execute('COMMIT')
+        db.execute('ROLLBACK')
         return 'Unavailable horse', False
     #8,5. Generate and check reservation code
-    res_code = ''
-    while True:
+    if code == "New":
         res_code = ''
-        for i in range(8):
-            res_code = res_code + available_res_codes[randint(0, len(available_res_codes)-1)]
-        if not len(db.execute('SELECT * FROM reservation WHERE reservation_code = ?', res_code)) > 0:
-            break
+        while True:
+            res_code = ''
+            for i in range(8):
+                res_code = res_code + available_res_codes[randint(0, len(available_res_codes)-1)]
+            if not len(db.execute('SELECT * FROM reservation WHERE reservation_code = ?', res_code)) > 0:
+                break
     #9. Add to database
     db.execute('INSERT INTO reservation(center_id, level_id, horse_id, instructor_id, start_time, length, day, month, year, reservation_code, email, name, phone) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)', 
     centerID, levelID, horseID, instructorID, form_time, center_offering['classes_length'], int(day), int(month), int(year), res_code, contact_info['email'], contact_info['name'], contact_info['phone'])

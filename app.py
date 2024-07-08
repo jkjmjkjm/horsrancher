@@ -16,6 +16,7 @@ import urllib
 
 import helpers.accounts
 import helpers.database
+import helpers.reservation_processing
 import helpers.social
 
 #Preparation
@@ -235,8 +236,14 @@ def confirmPage(centreID):
     
     cost_eur=helpers.database.execute_without_freezing("SELECT EUR_hour FROM level WHERE ID = ?", request.args.get('level'))[0]['EUR_hour']
     
-    return helpers.template_gen('app/confirm.html', center_name=center_info['displayName'], center_id=centreID, center_logo=center_info['logoLoc'], center_description_short=center_info['short_description'],
-    main_photo=center_info['bannerLoc'], center_description_long=center_info['long_description'], time=class_length, meta_booking=meta_booking, request_args=request.args, cost_eur=cost_eur)
+    replacing = request.args.get('replace') != None
+    replacee = request.args.get('replace')
+
+    return helpers.template_gen('app/confirm.html', center_name=center_info['displayName'], center_id=centreID,
+                                center_logo=center_info['logoLoc'], center_description_short=center_info['short_description'],
+                                main_photo=center_info['bannerLoc'], center_description_long=center_info['long_description'],
+                                time=class_length, meta_booking=meta_booking, request_args=request.args, cost_eur=cost_eur,
+                                replacing = replacing, replacee = replacee)
 
 @app.route('/signin/', methods=['GET','POST'])
 def signin():
@@ -295,9 +302,19 @@ def processReservationHTML():
     contact_info, good_contact = helpers.social.customercontactinfo(request.form.get('phone', 'N'), request.form.get('name', None), request.form.get('email', None))
     if good_contact == False:
         return contact_info
-    outcome, done = helpers.reservation_processing.process_reservation(request.form.get('center', 0), request.form.get('level', 0), request.form.get('instructor', 0), request.form.get('horse', 0),
-    request.form.get('d', 0), request.form.get('m', 0), request.form.get('y', 0), request.form.get('hour', 0), request.form.get('mins', 0), contact_info)
+    if bool(request.form.get("replacing", False)):
+        outcome, done = helpers.reservation_processing.process_reservation(request.form.get('center', 0), request.form.get('level', 0), request.form.get('instructor', 0),
+                                                                           request.form.get('horse', 0),  request.form.get('d', 0), request.form.get('m', 0),
+                                                                           request.form.get('y', 0), request.form.get('hour', 0), request.form.get('mins', 0), contact_info,
+                                                                           request.form.get("replacee"))
+    else:
+        outcome, done = helpers.reservation_processing.process_reservation(request.form.get('center', 0), request.form.get('level', 0), request.form.get('instructor', 0),
+                                                                           request.form.get('horse', 0),  request.form.get('d', 0), request.form.get('m', 0),
+                                                                           request.form.get('y', 0), request.form.get('hour', 0), request.form.get('mins', 0), contact_info,
+                                                                           "New")
     if done:
+        if bool(request.form.get("replacing", False)):
+            return redirect("/options/")
         return redirect("/app/done/?code="+outcome)
     else:
         return outcome, 400
@@ -394,23 +411,31 @@ def optionsDelete(reservation_code):
 def options_hi(reservation_code):
     if helpers.database.execute_without_freezing("SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "..."))[0]['COUNT(*)'] != 1:
         return redirect('/options/')
-    details = helpers.database.execute_without_freezing("""SELECT level_id center_id, start_time, day, month, year, email, name, phone
+    details = helpers.database.execute_without_freezing("""SELECT level_id center_id, start_time, day, month, year
                                                          FROM reservation WHERE reservation_code = ?""", reservation_code)
-    return "TODO"
+    return redirect(f"/reserve/{details['center_id']}/?y={details['year']}&m={details['month']}&d={details['day']}&hour={int(details['start_time']) // 60}&mins={int(details['start_time']) % 60}&level={details['level_id']}&replace={ reservation_code }")
 
 @app.route("/options/modify/level/<reservation_code>/")
 def options_level(reservation_code):
     if helpers.database.execute_without_freezing("SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "..."))[0]['COUNT(*)'] != 1:
         return redirect('/options/')
-    details = helpers.database.execute_without_freezing("SELECT center_id, start_time, day, month, year, email, name, phone FROM reservation WHERE reservation_code = ?", reservation_code)
-    return "TODO"
+    details = helpers.database.execute_without_freezing("SELECT center_id, start_time, day, month, year FROM reservation WHERE reservation_code = ?", reservation_code)[0]
+    return redirect(f"/reserve/{details['center_id']}/?y={details['year']}&m={details['month']}&d={details['day']}&hour={int(details['start_time']) // 60}&mins={int(details['start_time']) % 60}&replace={ reservation_code }")
 
 @app.route("/options/modify/datetime/<reservation_code>/")
 def options_datetime(reservation_code):
     if helpers.database.execute_without_freezing("SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "..."))[0]['COUNT(*)'] != 1:
         return redirect('/options/')
     details = helpers.database.execute_without_freezing("SELECT center_id, email, name, phone FROM reservation WHERE reservation_code = ?")
-    return "TODO"
+    return redirect(f"/reserve/{details['center_id']}/?y={details['year']}&m={details['month']}&d={details['day']}&replace={ reservation_code }")
+
+@app.route("/options/modify/contact/<reservation_code>/")
+def options_contact(reservation_code):
+    if helpers.database.execute_without_freezing("SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "..."))[0]['COUNT(*)'] != 1:
+        return redirect('/options/')
+    details = helpers.database.execute_without_freezing("SELECT * FROM reservation WHERE reservation_code = ?")
+    return redirect(f"/reserve/confirm/{details['center_id']}/?y={details['year']}&m={details['month']}&d={details['day']}&hour={int(details['start_time'])//60}&mins={int(details['start_time'])%60}&level={details['level_id']}&instructor={details['instructor_id']}&horse={details['horse_id']}&replace={ reservation_code }")
+
 
 @app.route('/options/deauth/', methods=['GET', 'POST'])
 def options_deauth():
