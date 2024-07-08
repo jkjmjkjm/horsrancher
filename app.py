@@ -382,6 +382,36 @@ def individualReservationOptions(reservation_code):
                                 center_short = reservation['center_short'], res_code = reservation['reservation_code'],
                                 main_photo = reservation['banner'], logo = reservation['logo'], center_id = centreID)
 
+@app.route('/options/delete/<reservation_code>/', methods=["POST"])
+def optionsDelete(reservation_code):
+    if helpers.database.execute_without_freezing("SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "..."))[0]['COUNT(*)'] != 1:
+        return redirect('/options/')
+    else:
+        helpers.database.execute_without_freezing("DELETE FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "..."))
+        return redirect('/options/')
+
+@app.route("/options/modify/hi/<reservation_code>/")
+def options_hi(reservation_code):
+    if helpers.database.execute_without_freezing("SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "..."))[0]['COUNT(*)'] != 1:
+        return redirect('/options/')
+    details = helpers.database.execute_without_freezing("""SELECT level_id center_id, start_time, day, month, year, email, name, phone
+                                                         FROM reservation WHERE reservation_code = ?""", reservation_code)
+    return "TODO"
+
+@app.route("/options/modify/level/<reservation_code>/")
+def options_level(reservation_code):
+    if helpers.database.execute_without_freezing("SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "..."))[0]['COUNT(*)'] != 1:
+        return redirect('/options/')
+    details = helpers.database.execute_without_freezing("SELECT center_id, start_time, day, month, year, email, name, phone FROM reservation WHERE reservation_code = ?", reservation_code)
+    return "TODO"
+
+@app.route("/options/modify/datetime/<reservation_code>/")
+def options_datetime(reservation_code):
+    if helpers.database.execute_without_freezing("SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "..."))[0]['COUNT(*)'] != 1:
+        return redirect('/options/')
+    details = helpers.database.execute_without_freezing("SELECT center_id, email, name, phone FROM reservation WHERE reservation_code = ?")
+    return "TODO"
+
 @app.route('/options/deauth/', methods=['GET', 'POST'])
 def options_deauth():
     session['auth_options_mail'] = None

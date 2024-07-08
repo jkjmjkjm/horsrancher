@@ -2,6 +2,10 @@
 
 {% block title %}Reserva {{ res_code }}{% endblock %}
 
+{% block head %}
+<script src="/static/scripts/options/ind.js/"></script>
+{% endblock %}
+
 {% block content %}
 <div style="height: 55px;"></div>
 
@@ -34,6 +38,69 @@
           </ul>
         </div>
         {% endfor %}
+      </div>
+    </div>
+  </div>
+  <h4 style="width: 100%; text-align: center; padding: 8px;">
+    Modifica tu reserva
+  </h4>
+  <div class="row">
+    <button data-bs-toggle="modal" data-bs-target="#cancelModal" style="width: 45%;" class="btn btn-outline-danger">
+      Cancelar y eliminar reserva
+    </button>
+    <button data-bs-toggle="modal" data-bs-target="#modifyModal" style="width: 45%;" class="btn btn-outline-primary">
+      Modificar profesor o caballo
+    </button>
+  </div>
+  <div style="height: 20px;"></div>
+  <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="cancelModalLabel">Cancelar e eliminar reserva</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Se eliminaran todos los datos de tu reserva inmediatamente y se liberará el plazo correspondiente. Esta acción no se puede deshacer. ¿Desea continuar?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver atrás</button>
+          <form action="/options/delete/{{ res_code }}/" method="POST">
+            <button type="submit" class="btn btn-danger">Cancelar y eliminar mi reserva</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modifyModalLabel">Modificar detalles de tu reserva</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <select id="modifyType">
+            <option selected disabled>
+              ¿Qué aspecto desea modificar?
+            </option>
+            <option value="/options/modify/hi/{{ res_code }}/">
+              Caballo/Profesor
+            </option>
+            <option value="/options/modify/level/{{ res_code }}/">
+              Nivel
+            </option>
+            <option value="/options/modify/datetime/{{ res_code }}/">
+              Fecha y hora
+            </option>
+            <option value="/options/modify/contact/{{ res_code }}/">
+              Mi información de contacto
+            </option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver atrás</button>
+        </div>
       </div>
     </div>
   </div>

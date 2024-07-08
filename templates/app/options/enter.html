@@ -33,7 +33,7 @@
     <form action="/options/auth/" method="POST">
         <div class="mb-3">
             <label for="email" class="form-label">Dirección de Correo Electrónico</label>
-            <input required type="email" {% if signed_in %} value="{{ current_email }}" disabled {% endif %} placeholder="correo@correo.com"
+            <input autofocus required type="email" {% if signed_in %} value="{{ current_email }}" disabled {% endif %} placeholder="correo@correo.com"
             class="form-control" id="email" name="email" aria-describedby="emailHelp">
             <div id="emailHelp" class="form-text">
                 Debe ser el mismo correo que proporcionó a la hora de tramitar la reserva.{% if signed_in %}
@@ -52,7 +52,7 @@
             </div>
         </div>
         {% endif %}
-        <button onclick="document.getElementById('email').disabled = false;" type="submit" class="btn btn-lg btn-primary">Continuar</button>
+        <button {% if signed_in %} autofocus {% endif %} onclick="document.getElementById('email').disabled = false;" type="submit" class="btn btn-lg btn-primary">Continuar</button>
     </form>
 </div>
 
