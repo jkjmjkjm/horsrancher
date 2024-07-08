@@ -411,8 +411,8 @@ def optionsDelete(reservation_code):
 def options_hi(reservation_code):
     if helpers.database.execute_without_freezing("SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "..."))[0]['COUNT(*)'] != 1:
         return redirect('/options/')
-    details = helpers.database.execute_without_freezing("""SELECT level_id center_id, start_time, day, month, year
-                                                         FROM reservation WHERE reservation_code = ?""", reservation_code)
+    details = helpers.database.execute_without_freezing("""SELECT level_id, center_id, start_time, day, month, year
+                                                         FROM reservation WHERE reservation_code = ?""", reservation_code)[0]
     return redirect(f"/reserve/{details['center_id']}/?y={details['year']}&m={details['month']}&d={details['day']}&hour={int(details['start_time']) // 60}&mins={int(details['start_time']) % 60}&level={details['level_id']}&replace={ reservation_code }")
 
 @app.route("/options/modify/level/<reservation_code>/")
@@ -426,14 +426,14 @@ def options_level(reservation_code):
 def options_datetime(reservation_code):
     if helpers.database.execute_without_freezing("SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "..."))[0]['COUNT(*)'] != 1:
         return redirect('/options/')
-    details = helpers.database.execute_without_freezing("SELECT center_id, email, name, phone FROM reservation WHERE reservation_code = ?")
-    return redirect(f"/reserve/{details['center_id']}/?y={details['year']}&m={details['month']}&d={details['day']}&replace={ reservation_code }")
+    details = helpers.database.execute_without_freezing("SELECT center_id, level_id, horse_id, instructor_id, day, month, year FROM reservation WHERE reservation_code = ?", reservation_code)[0]
+    return redirect(f"/reserve/{details['center_id']}/?y={details['year']}&m={details['month']}&d={details['day']}&replace={ reservation_code }&level={details['level_id']}&instructor={details['instructor_id']}&horse={details['horse_id']}&replace={ reservation_code }")
 
 @app.route("/options/modify/contact/<reservation_code>/")
 def options_contact(reservation_code):
     if helpers.database.execute_without_freezing("SELECT COUNT(*) FROM reservation WHERE reservation_code = ? AND email = ?", reservation_code, session.get("auth_options_mail", "..."))[0]['COUNT(*)'] != 1:
         return redirect('/options/')
-    details = helpers.database.execute_without_freezing("SELECT * FROM reservation WHERE reservation_code = ?")
+    details = helpers.database.execute_without_freezing("SELECT * FROM reservation WHERE reservation_code = ?")[0]
     return redirect(f"/reserve/confirm/{details['center_id']}/?y={details['year']}&m={details['month']}&d={details['day']}&hour={int(details['start_time'])//60}&mins={int(details['start_time'])%60}&level={details['level_id']}&instructor={details['instructor_id']}&horse={details['horse_id']}&replace={ reservation_code }")
 
 
